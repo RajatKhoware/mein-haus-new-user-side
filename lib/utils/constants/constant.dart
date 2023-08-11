@@ -1,5 +1,6 @@
 // Urls
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 final String baseUrl = "https://meinhaus.ca/api";
 final String googleAddresUrl =
@@ -32,3 +33,17 @@ final List<BoxShadow> buttonShadow = [
     blurRadius: 10,
   ),
 ];
+
+final cachedNetworkPlaceHolder = Center(
+  child: LoadingAnimationWidget.inkDrop(
+    color: Colors.blue,
+    size: 10,
+  ),
+);
+
+final cachedNetworkErrorWidget = Center(
+  child: Icon(
+    Icons.image_not_supported_sharp,
+    color: Colors.red[900],
+  ),
+);

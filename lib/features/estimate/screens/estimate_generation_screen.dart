@@ -64,22 +64,32 @@ class _EstimateGenerationScreenState extends State<EstimateGenerationScreen> {
 
   Future _createEstimateHandler() async {
     final estimateNotifer = context.read<EstimateNotifier>();
-    final userProvider = context.read<AuthNotifier>().user.savedAddress;
+    final userProvider = context.read<AuthNotifier>().user;
+    final userAddress = userProvider.savedAddress!;
+    final isPhoneVerified = userProvider.phoneVerified!;
     final addressProvider = context.read<AddressNotifier>();
     final image = await Utils.collectImages(estimateNotifer.images);
     final data = {
       'title': nameController.text,
       'description': descController.text,
       'time': selectedOption.toString(),
-      'user_address_id': userProvider![addressProvider.index].id,
+      'user_address_id': userAddress[addressProvider.index].id,
       'images[]': image,
     };
-    if (_estimateFormKey.currentState!
-        .validate()) if (estimateNotifer.images.length != 0) {
+    if (_estimateFormKey.currentState!.validate()) if (isPhoneVerified) {
       await estimateNotifer.createEstimate(context: context, data: data);
     } else {
-      showSnakeBar(context, "Please Select Img first");
+      showSnakeBar(
+        context,
+        "Before making estimate request please verify you phone number",
+      );
     }
+    // if (_estimateFormKey.currentState!
+    //     .validate()) if (estimateNotifer.images.length != 0) {
+    //   await estimateNotifer.createEstimate(context: context, data: data);
+    // } else {
+    //   showSnakeBar(context, "Please Select Img first");
+    // }
   }
 
   @override
@@ -231,7 +241,6 @@ class _GenerateEstimateDropdownState extends State<GenerateEstimateDropdown> {
   ];
   @override
   Widget build(BuildContext context) {
-    final h = context.screenHeight;
     final w = context.screenWidth;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

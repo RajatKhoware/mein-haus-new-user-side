@@ -1,9 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:new_user_side/res/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
@@ -38,7 +34,7 @@ class DownloadPdfCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: w / 1.8,
+                        width: w / 1.1,
                         child: MyTextPoppines(
                           text: workName,
                           fontSize: w / 28,
@@ -55,7 +51,7 @@ class DownloadPdfCard extends StatelessWidget {
                     ],
                   )
                 : SizedBox(
-                    width: w / 1.8,
+                    width: w / 1.1,
                     child: MyTextPoppines(
                       text: workName,
                       fontSize: w / 26,
@@ -63,27 +59,27 @@ class DownloadPdfCard extends StatelessWidget {
                     ),
                   ),
           ),
-          Row(
-            children: [
-              Text(
-                "Download as PDF",
-                style: GoogleFonts.poppins(
-                  fontSize: w / 34,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.normal,
-                  color: AppColors.yellow,
-                  decoration: TextDecoration.underline,
-                  decorationThickness: 2.0,
-                  // height: 2,
-                ),
-              ),
-              Icon(
-                Icons.file_download_outlined,
-                color: AppColors.yellow,
-                size: 24.sp,
-              ),
-            ],
-          )
+          // Row(
+          //   children: [
+          //     Text(
+          //       "Download as PDF",
+          //       style: GoogleFonts.poppins(
+          //         fontSize: w / 34,
+          //         fontWeight: FontWeight.w600,
+          //         fontStyle: FontStyle.normal,
+          //         color: AppColors.yellow,
+          //         decoration: TextDecoration.underline,
+          //         decorationThickness: 2.0,
+          //         // height: 2,
+          //       ),
+          //     ),
+          //     Icon(
+          //       Icons.file_download_outlined,
+          //       color: AppColors.yellow,
+          //       size: 24.sp,
+          //     ),
+          //   ],
+          // )
         ],
       ),
     );

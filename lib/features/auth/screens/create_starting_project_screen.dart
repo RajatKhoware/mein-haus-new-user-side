@@ -13,6 +13,7 @@ import 'package:new_user_side/utils/extensions/show_picked_images.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/notifiers/estimate_notifier.dart';
+import '../../../res/common/my_snake_bar.dart';
 import '../../../utils/extensions/validator.dart';
 import '../../../utils/utils.dart';
 import '../../address/widget/address_list_tile.dart';
@@ -316,7 +317,14 @@ class _CreateStartingProjectState extends State<CreateStartingProject> {
           text: "Submit",
           onTap: () {
             if (_estimateFormKey.currentState!.validate()) {
-              authNotifer.isToggle ? createStartingProject() : print("working");
+              authNotifer.isToggle
+                  ? createStartingProject()
+                  : showSnakeBarr(
+                      context,
+                      "Please Accept T&C",
+                      SnackBarState.Warning,
+                    );
+              ;
               ;
             }
           },

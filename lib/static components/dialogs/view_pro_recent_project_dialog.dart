@@ -23,6 +23,7 @@ class ProRecentProjectDialog extends StatelessWidget {
     final notifier = context.watch<EstimateNotifier>();
     final proRecentProject =
         notifier.proDetails.prodata!.proRecentProjects![index];
+
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0.0,

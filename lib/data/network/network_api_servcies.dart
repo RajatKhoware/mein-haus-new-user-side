@@ -240,23 +240,23 @@ class NetworkApiServices {
     dynamic responseJson =
         response.statusCode != 500 ? jsonDecode(response.body) : null;
     switch (response.statusCode) {
-      case 200:
+      case 200 :
         return responseJson;
       case 201:
         return responseJson;
       case 400:
         throw FetchDataException(
-            " ${responseJson['response_message']}");
+            " ${responseJson['response_message']} ${response.statusCode}");
       case 401:
         if (allowUnauthorizedResponse!) {
           return responseJson;
         } else {
           throw UnauthorizedException(
-              " ${responseJson['response_message']}");
+              " ${responseJson['response_message']} ${response.statusCode}");
         }
       case 404:
         throw FetchDataException(
-            " ${responseJson['response_message']}");
+            " ${responseJson['response_message']} ${response.statusCode}");
       case 500:
         throw InternalSeverException("");
       default:

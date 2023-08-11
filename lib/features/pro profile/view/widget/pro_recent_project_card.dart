@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:new_user_side/res/common/my_text.dart';
 import 'package:new_user_side/static%20components/dialogs/view_pro_recent_project_dialog.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
+import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
@@ -33,14 +34,7 @@ class ProRecentProjectsCardWidget extends StatelessWidget {
           width: 1.0,
           color: AppColors.black.withOpacity(0.2),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(20, 0, 0, 0),
-            offset: const Offset(0, 0),
-            blurRadius: width / 30,
-            spreadRadius: 2,
-          ),
-        ],
+        boxShadow: boxShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +55,7 @@ class ProRecentProjectsCardWidget extends StatelessWidget {
               crossAxisCount: 2,
               childAspectRatio: 1 / 0.78,
               crossAxisSpacing: width / 40,
-              mainAxisSpacing: height / 20,
+              mainAxisSpacing: height / 39,
             ),
             itemBuilder: (context, index) {
               return _buildRecentProjectCard(

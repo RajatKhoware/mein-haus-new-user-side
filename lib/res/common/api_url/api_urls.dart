@@ -1,6 +1,6 @@
 class ApiUrls {
-  //static String baseUrl = "https://meinhaus.ca/api/";
-  static String baseUrl = "https://meinhaus.ca/meinhaus/api/";
+  static String baseUrl = "https://meinhaus.ca/api/";
+  //static String baseUrl = "https://meinhaus.ca/meinhaus/api/";
 
   static Uri setUrls(String uri) {
     return Uri.parse(baseUrl + uri);
@@ -56,7 +56,8 @@ class ApiUrls {
   // Saved notes
   static Uri savedNoteForMe = setUrls("add-project-notes-for-me");
   static Uri savedNoteForMeAndPro = setUrls("add-project-notes-for-me-pro");
-  static String getSavedNotes = "${baseUrl}get-saved-notes?estimate_service_id=";
+  static String getSavedNotes =
+      "${baseUrl}get-saved-notes?estimate_service_id=";
 
   // Our servies
   static Uri ourServices = setUrls("get-services");
@@ -74,7 +75,8 @@ class ApiUrls {
   static String createIntent = baseUrl + "book-project?booking_id=";
 
   // Pusher-Chat
-  static Uri broadcastAuth = Uri.parse("https://meinhaus.ca/meinhaus/broadcasting/auth");
+  static Uri broadcastAuth =
+      Uri.parse("https://meinhaus.ca/meinhaus/broadcasting/auth");
   static Uri allConversation = setUrls("all-conversations");
   static Uri loadMessages = setUrls("load-messages");
   static Uri loadMoreMessages = setUrls("load-more");
@@ -83,5 +85,4 @@ class ApiUrls {
 
   // Notification
   static Uri notification = setUrls("read-notifications");
-
 }

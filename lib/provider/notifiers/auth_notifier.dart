@@ -97,39 +97,44 @@ class AuthNotifier extends ChangeNotifier {
   Future login(MapSS data, BuildContext context) async {
     setLoadingState(true, true);
     repository.login(data).then((response) async {
-  if(response['response_message'] == "Invalid email or password"){
-      showSnakeBarr(context, "Invalid Email or Password", SnackBarState.Error,);
-       setLoadingState(false, true);
-  }
-      User user = UserModel.fromJson(response).user!;
-      setUser(user);
-      await prefs.setToken(user.token!);
-      if (user.phoneVerified!) {
-        ("User Logged in Successfully ✨").log("Login Notifier");
+      if (response['response_code'] == "401") {
         showSnakeBarr(
-            context, 
-            response['response_message'], 
-            SnackBarState.Success,
-            );
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          HomeScreen.routeName,
-          (route) => false,
+          context,
+          "Invalid Email or Password",
+          SnackBarState.Error,
         );
+        setLoadingState(false, true);
       } else {
-        showSnakeBarr(
+        User user = UserModel.fromJson(response).user!;
+        setUser(user);
+        await prefs.setToken(user.token!);
+        if (user.phoneVerified!) {
+          ("User Logged in Successfully ✨").log("Login Notifier");
+          showSnakeBarr(
             context,
-             "Please verify you details first", 
+            response['response_message'],
+            SnackBarState.Success,
+          );
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeScreen.routeName,
+            (route) => false,
+          );
+        } else {
+          showSnakeBarr(
+            context,
+            "Please verify you details first",
             SnackBarState.Warning,
-            );
-        Navigator.of(context).pushScreen(
-          OtpValidateScreen(
-            userId: user.userId!,
-            contactNo: user.contact!,
-            isSkippAble: true,
-          ),
-        );
+          );
+          Navigator.of(context).pushScreen(
+            OtpValidateScreen(
+              userId: user.userId!,
+              contactNo: user.contact!,
+              isSkippAble: true,
+            ),
+          );
+        }
+        setLoadingState(false, true);
       }
-      setLoadingState(false, true);
     }).onError((error, stackTrace) {
       showSnakeBarr(context, "$error", SnackBarState.Error);
       ("Erorr in Login notifier --> $error").log("Auth-Login Notifier");
@@ -223,8 +228,8 @@ class AuthNotifier extends ChangeNotifier {
     required MapSS body,
     required BuildContext context,
   }) async {
-    repository.resendOtp(body).then((value) {
-      showSnakeBarr(context, value['response_message'], SnackBarState.Success);
+    repository.resendOtp(body).then((response) {
+      showSnakeBarr(context, response['response_message'], SnackBarState.Success);
     }).onError((error, stackTrace) {
       showSnakeBarr(context, "$error", SnackBarState.Error);
       ("$error  $stackTrace").log(" Resend OTP  notifier");

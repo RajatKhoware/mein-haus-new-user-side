@@ -106,12 +106,15 @@ class EstimateNotifier extends ChangeNotifier {
       setLoadingState(false, true);
       ('Estimate Succesfully Created ✅').log("Estimate Creation");
       setImagesInList([]);
+      Navigator.of(context).pushScreen(HomeScreen());
       // Get.to(() => HomeScreen());
       showSnakeBarr(
-          context,
-          "Your estimate has been created successfully. we will contact you shortly",
-          SnackBarState.Success);
+        context,
+        "Your estimate has been created successfully. We will contact you shortly",
+        SnackBarState.Success,
+      );
     }).onError((error, stackTrace) {
+      setImagesInList([]);
       setLoadingState(false, true);
       showSnakeBarr(context, "$error", SnackBarState.Error);
       ("${error} $stackTrace").log("Create Estimate notifier");

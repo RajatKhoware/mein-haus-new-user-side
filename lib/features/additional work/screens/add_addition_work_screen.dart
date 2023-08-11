@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:io';
-
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:new_user_side/features/auth/screens/user_details.dart';
 import 'package:new_user_side/provider/notifiers/additional_work_notifier.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
@@ -12,11 +10,11 @@ import 'package:new_user_side/res/common/my_text.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/get_images.dart';
 import 'package:new_user_side/utils/extensions/validator.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
+
 import '../../../res/common/my_app_bar.dart';
-import '../../../res/common/my_snake_bar.dart';
 import '../../../utils/constants/app_colors.dart';
+import '../../../utils/extensions/show_picked_images.dart';
 import '../../../utils/utils.dart';
 import '../../estimate/widget/download_pdf_card_widget.dart';
 
@@ -62,17 +60,13 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
       'description': descriptionController.text,
       'images[]': image,
     };
-    if (notifier.images.length != 0) {
-      if (_additionalWorkFormKey.currentState!.validate()) {
-        await notifier.requestAdditonalWork(
-          context: context,
-          body: body,
-        );
-      }
+    if (_additionalWorkFormKey.currentState!.validate()) {
+      await notifier.requestAdditonalWork(
+        context: context,
+        body: body,
+      );
       titleController.clear();
       descriptionController.clear();
-    } else {
-      showSnakeBar(context, "Atleast one images requried to make request");
     }
   }
 
@@ -149,10 +143,15 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
                           ],
                         ),
                       ),
+                      // Picking and Showing images
                       10.vs,
-                      SelectFileButton(onTap: () => getImages()),
+                      if (notifier.images.length == 0)
+                        SelectFileButton(
+                          onTap: () => notifier.getImages(context),
+                        ),
                       20.vs,
-                      _ShowPickedImages(),
+                      if (notifier.images.length != 0)
+                        ShowPickedImages<AdditionalWorkNotifier>(),
                       10.vs,
                       const Divider(thickness: 1.5),
                       10.vs,
@@ -233,7 +232,6 @@ class SelectFileButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-
     return Container(
       width: height > 800 ? 140.w : 120.w,
       decoration: BoxDecoration(
@@ -265,66 +263,5 @@ class SelectFileButton extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class _ShowPickedImages extends StatelessWidget {
-  const _ShowPickedImages({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final notifier = context.watch<AdditionalWorkNotifier>();
-    final image = notifier.images;
-    return image.isNotEmpty
-        ? DottedBorder(
-            dashPattern: const [4, 6],
-            strokeCap: StrokeCap.round,
-            borderType: BorderType.RRect,
-            radius: Radius.circular(12.r),
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-            color: AppColors.black.withOpacity(0.5),
-            child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 6.w),
-              child: SizedBox(
-                height: 90.h,
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: image.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 6.w),
-                            child: Stack(
-                              children: [
-                                Image.file(File(image[index].path).absolute),
-                                Positioned(
-                                  left: 0,
-                                  child: InkWell(
-                                    onTap: () {
-                                      notifier
-                                          .removeImageFromList(image[index]);
-                                    },
-                                    child: Icon(
-                                      Icons.highlight_remove,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    20.hs,
-                  ],
-                ),
-              ),
-            ),
-          )
-        : SizedBox();
   }
 }

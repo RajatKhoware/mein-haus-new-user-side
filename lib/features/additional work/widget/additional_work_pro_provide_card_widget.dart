@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/provider/notifiers/additional_work_notifier.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
+import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 import '../../../res/common/my_text.dart';
@@ -26,22 +27,15 @@ class _AdditionalWorkProProvideCardWidgetState
   Widget build(BuildContext context) {
     final notifier = context.watch<AdditionalWorkNotifier>();
     final work = notifier.additionalWork.additionalWork![widget.index];
-    final bool isWaitingCard = work.status == "0" && work.amount != null;
-    final bool isApprovedCard = work.status == "1";
-    final bool isPending = work.status == "0" && work.amount == null;
+    final bool isWaitingCard = work.status == 0 && work.amount != null;
+    final bool isApprovedCard = work.status == 1;
+    final bool isPending = work.status == 0 && work.amount == null;
     final isImgNull = work.images != null;
-    // print(isImgNull);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(14.r),
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(12, 0, 0, 0),
-            offset: const Offset(0, 0),
-            blurRadius: 10.r,
-            spreadRadius: 2.r,
-          ),
-        ],
+        boxShadow: boxShadow,
         color: AppColors.white,
       ),
       padding: EdgeInsets.symmetric(vertical: 15.h),
@@ -52,7 +46,7 @@ class _AdditionalWorkProProvideCardWidgetState
           Padding(
             padding: EdgeInsets.only(left: 14.w),
             child: MyTextPoppines(
-              text: work.title.toString(),
+              text: work.title ?? "",
               fontWeight: FontWeight.w600,
               fontSize: 14.sp,
             ),
@@ -72,22 +66,22 @@ class _AdditionalWorkProProvideCardWidgetState
                           itemCount: work.images!.length,
                           itemBuilder: (context, index) {
                             return Container(
-                                width: 110.w,
-                                height: 100.h,
-                                margin: EdgeInsets.symmetric(horizontal: 4.w),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14.r),
-                                ),
-                                child: Image.network(
-                                  work.images![index].thumbnailUrl!,
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return Image.asset(
-                                      "assets/images/room/room_4.png",
-                                    );
-                                  },
-                                ));
+                              width: 110.w,
+                              height: 100.h,
+                              margin: EdgeInsets.symmetric(horizontal: 4.w),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14.r),
+                              ),
+                              child: Image.network(
+                                work.images![index].thumbnailUrl!,
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace? stackTrace) {
+                                  return Image.asset(
+                                    "assets/images/room/room_4.png",
+                                  );
+                                },
+                              ),
+                            );
                           },
                         ),
                       )
@@ -101,7 +95,7 @@ class _AdditionalWorkProProvideCardWidgetState
                 ),
                 10.vs,
                 MyTextPoppines(
-                  text: work.description.toString(),
+                  text: work.description ?? "",
                   fontSize: 10.sp,
                   maxLines: 6,
                   height: 1.4,

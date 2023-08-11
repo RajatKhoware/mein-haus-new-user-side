@@ -1,13 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:new_user_side/features/chat/widgets/preview_chat_images.dart';
 import 'package:new_user_side/features/chat/widgets/sent_message.dart';
 import 'package:new_user_side/res/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
-
-import '../../../utils/download_files/download_file.dart';
 
 class RecivedMessage extends StatelessWidget {
   final String sendText;

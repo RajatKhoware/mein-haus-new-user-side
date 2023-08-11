@@ -8,6 +8,7 @@ import 'package:new_user_side/utils/extensions/extensions.dart';
 import '../../features/additional work/screens/additional_work_from_pro_screen.dart';
 import '../../res/common/my_snake_bar.dart';
 import '../../static components/dialogs/additional_work_added_dialog.dart';
+import '../../utils/extensions/get_images.dart';
 
 class AdditionalWorkNotifier extends ChangeNotifier {
   AdditionalWorkRepo repo = AdditionalWorkRepo();
@@ -42,6 +43,10 @@ class AdditionalWorkNotifier extends ChangeNotifier {
   void removeImageFromList(XFile pickedFile) {
     _images.remove(pickedFile);
     notifyListeners();
+  }
+
+   Future getImages(BuildContext context) async {
+    await GetImages().pickImages<AdditionalWorkNotifier>(context: context);
   }
 
   //methods

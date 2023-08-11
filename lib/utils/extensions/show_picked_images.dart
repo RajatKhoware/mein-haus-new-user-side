@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:new_user_side/provider/notifiers/additional_work_notifier.dart';
 import 'package:new_user_side/provider/notifiers/customer_support_notifier.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/provider/notifiers/saved_notes_notifier.dart';
@@ -52,6 +53,7 @@ class ShowPickedImages<T> extends StatelessWidget {
             if (notifer is UploadImgNotifier) _ShowImg(notifer),
             if (notifer is SavedNotesNotifier) _ShowImg(notifer),
             if (notifer is EstimateNotifier) _ShowImg(notifer),
+            if (notifer is AdditionalWorkNotifier) _ShowImg(notifer),
           ],
         ),
       ),
