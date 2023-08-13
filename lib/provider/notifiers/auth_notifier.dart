@@ -260,29 +260,6 @@ class AuthNotifier extends ChangeNotifier {
     });
   }
 
-  //? Submit User Details (OMIT)
-  Future submitUserDetails({
-    required BuildContext context,
-    required MapSS body,
-  }) async {
-    if (isToggle) {
-      setLoadingState(true, true);
-      await repository.userDetails(body).then((response) {
-        setLoadingState(false, true);
-        final user = UserModel.fromJson(response).user!;
-        print(user.token);
-        UserPrefrences().setToken(user.token.toString());
-        setUser(user);
-        Navigator.pushNamed(context, HomeScreen.routeName);
-      }).onError((error, stackTrace) {
-        showSnakeBarr(context, "$error", SnackBarState.Error);
-        ("$error  $stackTrace").log(" Verify email notifier");
-        setLoadingState(false, true);
-      });
-    } else
-      showSnakeBarr(context, "Please Accept T&C..", SnackBarState.Warning);
-  }
-
   // Google Authentication
   Future googleAuth(BuildContext context) async {
     setGoogleLoadingState(true, true);

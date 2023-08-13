@@ -84,7 +84,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       "longitude": long,
       "latitude": lat,
     };
-    await notifier.submitUserDetails(context: context, body: data);
+  //  await notifier.submitUserDetails(context: context, body: data);
   }
 
   @override
