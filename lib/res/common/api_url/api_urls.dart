@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart' show immutable;
+
 extension SetUrls on String {
   Uri setUrl() => Uri.parse(this + "https://meinhaus.ca/api/");
 }
 
-class ApiUrls {
+@immutable
+abstract class ApiUrls {
   static String baseUrl = "https://meinhaus.ca/api/";
   //static String baseUrl = "https://meinhaus.ca/meinhaus/api/";
 

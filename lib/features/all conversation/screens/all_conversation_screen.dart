@@ -13,6 +13,8 @@ import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/utils.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/notifiers/estimate_notifier.dart';
+
 class AllConversationScreen extends StatefulWidget {
   static const String routeName = '/chatList';
   const AllConversationScreen({super.key});
@@ -101,6 +103,7 @@ class ChatCardWidget extends StatelessWidget {
           isChatWithPro: true,
           sendUserId: toUserId!,
           conversations: conversations,
+          estimateId: conv.estimateServiceId.toString(),
         ),
       );
     }

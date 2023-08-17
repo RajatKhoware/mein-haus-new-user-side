@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             borderRadius: _isExpanded
                 ? BorderRadius.circular(width / 12)
-                : BorderRadius.circular(width / 30),
+                : BorderRadius.circular(width / 3),
             color: AppColors.black,
           ),
           child: Row(

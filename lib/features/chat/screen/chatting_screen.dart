@@ -20,7 +20,6 @@ import '../../../data/network/network_api_servcies.dart';
 import '../../../provider/notifiers/auth_notifier.dart';
 import '../../../provider/notifiers/estimate_notifier.dart';
 import '../../../provider/notifiers/support_notifier.dart';
-import '../../../utils/utils.dart';
 import '../widgets/chat_no_message_yet.dart';
 import '../widgets/chat_project_details_block.dart';
 import '../widgets/pro_chat_appbar.dart';
@@ -33,10 +32,11 @@ class ChattingScreen extends StatefulWidget {
     Key? key,
     required this.isChatWithPro,
     this.sendUserId,
-    this.conversations,
+    this.conversations, required this.estimateId,
   }) : super(key: key);
   final bool isChatWithPro;
   final int? sendUserId;
+  final String estimateId;
   final Conversations? conversations;
 
   @override
@@ -84,8 +84,14 @@ class _ChattingScreenState extends State<ChattingScreen> {
     final notifier = context.read<ChatNotifier>();
     final ticketId = context.read<SupportNotifier>().ticketId;
     MapSS body = widget.isChatWithPro
-        ? {"to_user_id": widget.sendUserId.toString()}
-        : {"ticket_id": ticketId};
+        ? {
+            "to_user_id": widget.sendUserId.toString(),
+            "estimate_service_id": widget.estimateId,
+          }
+        : {
+            "ticket_id": ticketId,
+            "estimate_service_id": widget.estimateId,
+          };
     await notifier.loadMessages(context: context, body: body);
   }
 
@@ -178,29 +184,20 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                     itemBuilder: (context, index) {
                                       final messages = notifier.myMessaage;
                                       final message = messages.messages![index];
-                                      final messageState = message.isSeen;
-                                      final messageType = message.type;
-                                      final createdAt = message.createdAt;
-                                      final messageTime =
-                                          Utils.convertToRailwayTime(
-                                              "$createdAt");
                                       if (widget.isChatWithPro
-                                          ? message.senderId.toString() ==
+                                          ? message.senderId ==
                                               widget.sendUserId
-                                          : message.senderId.toString() !=
-                                              userNotifier.userId.toString()) {
+                                          : message.senderId !=
+                                              userNotifier.userId) {
                                         return RecivedMessage(
-                                          sendText: message.message!,
-                                          timeOfText: messageTime,
-                                          messageType: messageType,
+                                          message: message,
+                                          senderImg: widget
+                                              .conversations!.profilePicture!,
                                         );
                                       } else {
                                         return SendMessage(
+                                          message: message,
                                           isConvoEnd: false,
-                                          sendText: message.message!,
-                                          timeOfText: messageTime,
-                                          messageState: messageState,
-                                          messageType: messageType,
                                         );
                                       }
                                     },

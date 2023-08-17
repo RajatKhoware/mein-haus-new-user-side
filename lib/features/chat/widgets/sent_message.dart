@@ -1,35 +1,31 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:new_user_side/data/models/message_model.dart';
 import 'package:new_user_side/res/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../../../utils/download_files/download_file.dart';
+import '../../../utils/utils.dart';
 import 'preview_chat_images.dart';
 
 // SEND MESSAGES
 class SendMessage extends StatelessWidget {
-  final String sendText;
-  final String timeOfText;
   final bool? isConvoEnd;
-  final bool? isSeen;
-  final int? messageState;
-  final String? messageType;
+  final Messages message;
   const SendMessage({
     Key? key,
-    required this.sendText,
-    required this.timeOfText,
     this.isConvoEnd = false,
-    this.isSeen = false,
-    this.messageState = 1,
-    this.messageType,
+    required this.message,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final h = context.screenHeight;
     final w = context.screenWidth;
+     final createdAt = message.createdAt.toString();
+    final messageTime = Utils.convertToRailwayTime(createdAt);
     return Container(
       margin: EdgeInsets.only(
         left: w / 4,
@@ -52,7 +48,7 @@ class SendMessage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          if (sendText.contains("Reason for denying"))
+          if (message.message!.contains("Reason for denying"))
             SizedBox(
               width: w / 1.9,
               child: Column(
@@ -67,7 +63,7 @@ class SendMessage extends StatelessWidget {
                   ),
                   SizedBox(height: h / 200),
                   MyTextPoppines(
-                    text: sendText,
+                    text: message.message!,
                     fontSize: w / 32,
                     fontWeight: FontWeight.w500,
                     color: isConvoEnd! ? AppColors.black : AppColors.white,
@@ -79,12 +75,12 @@ class SendMessage extends StatelessWidget {
           else
             ChatHelper.showMessage(
               context: context,
-              messageType: messageType ?? "text",
-              message: sendText,
+              messageType: message.type ?? "text",
+              message: message.message ?? "",
               messageColor: isConvoEnd! ? AppColors.black : AppColors.white,
             ),
           MyTextPoppines(
-            text: timeOfText,
+            text: messageTime,
             fontSize: w / 32,
             fontWeight: FontWeight.w500,
             color: isConvoEnd!
@@ -93,9 +89,9 @@ class SendMessage extends StatelessWidget {
             maxLines: 20,
           ),
           Icon(
-            ChatHelper.setIcon(messageState!),
+            ChatHelper.setIcon(message.isSeen?? 0),
             size: w / 25,
-            color: ChatHelper.setIconColor(messageState!),
+            color: ChatHelper.setIconColor(message.isSeen ??0),
           )
         ],
       ),

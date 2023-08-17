@@ -56,10 +56,11 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
         ChattingScreen(
           isChatWithPro: true,
           sendUserId: proNotifier!.proId,
+          estimateId: projectNotifer!.projectId.toString(),
           conversations: Conversations(
             profilePicture: proNotifier.proProfileUrl,
             toUserName: proNotifier.proName,
-            projectName: projectNotifer!.projectName,
+            projectName: projectNotifer.projectName,
             estimateBookingId: projectNotifer.estimateNo,
             projectStartedOn: projectNotifer.projectStartDate,
           ),
@@ -82,7 +83,10 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
                     onTap: () {
                       isSupportActive
                           ? Navigator.of(context).pushScreen(
-                              ChattingScreen(isChatWithPro: false),
+                              ChattingScreen(
+                                isChatWithPro: false,
+                                estimateId: project.id.toString(),
+                              ),
                             )
                           : Navigator.of(context).pushNamed(
                               SendQueryScreen.routeName,

@@ -4,29 +4,35 @@ import 'package:new_user_side/res/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
+import '../../../data/models/message_model.dart';
+import '../../../utils/utils.dart';
+
 class RecivedMessage extends StatelessWidget {
-  final String sendText;
-  final String timeOfText;
-  final String? messageType;
+  final String senderImg;
+  final Messages message;
   const RecivedMessage({
     Key? key,
-    required this.sendText,
-    required this.timeOfText,
-    this.messageType,
+    required this.senderImg,
+    required this.message,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final h = context.screenHeight;
     final w = context.screenWidth;
+    final createdAt = message.createdAt.toString();
+    final messageTime = Utils.convertToRailwayTime(createdAt);
     return Row(
       children: [
         SizedBox(width: w / 38),
         // Sender Img
-        Image.asset(
-          "assets/icons/support_2.png",
-          height: h / 30,
-          width: w / 15,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            senderImg,
+            height: h / 30,
+            width: w / 15,
+          ),
         ),
         SizedBox(width: w / 80),
         // Message
@@ -52,14 +58,14 @@ class RecivedMessage extends StatelessWidget {
             children: [
               ChatHelper.showMessage(
                 context: context,
-                messageType: messageType ?? "text",
-                message: sendText,
+                messageType: message.type ?? "text",
+                message: message.message!,
                 messageColor: AppColors.black,
               ),
               // mType(messageType!, context),
               SizedBox(width: w / 60),
               MyTextPoppines(
-                text: timeOfText,
+                text: messageTime,
                 fontSize: w / 32,
                 fontWeight: FontWeight.w500,
                 color: AppColors.black.withOpacity(0.6),

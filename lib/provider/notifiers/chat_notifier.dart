@@ -244,7 +244,11 @@ class ChatNotifier extends ChangeNotifier {
       "paginateVar": _pageNo.toString(),
     };
     if (_message.messageCount != _message.messages!.length) {
+      // print(_message.conversationId);
+      // print(_message.messageCount);
+      // print(_message.messages!.length);
       await repo.loadMoreMessages(body).then((response) {
+      //  print(response);
         final data = MessageModel.fromJson(response);
         _message.messages!.insertAll(0, data.messages!);
         setPageNo();
@@ -257,6 +261,7 @@ class ChatNotifier extends ChangeNotifier {
         ("Erorr in Load More Message --> $error").log("Pro-Chat Notifier");
       });
     } else {
+      setLoadMoreLoading(false, true);
       showSnakeBarr(context, "No more messages to load", SnackBarState.Info);
     }
   }
