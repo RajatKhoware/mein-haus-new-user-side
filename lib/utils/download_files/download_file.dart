@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:open_file/open_file.dart';

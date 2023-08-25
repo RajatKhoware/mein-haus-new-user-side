@@ -8,15 +8,15 @@ import 'package:provider/provider.dart';
 import 'package:new_user_side/data/network/network_api_servcies.dart';
 import 'package:new_user_side/local%20db/user_prefrences.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/utils.dart';
 
 import '../../../provider/notifiers/address_notifier.dart';
-import '../../../res/common/my_snake_bar.dart';
+import '../../../resources/common/my_snake_bar.dart';
 import '../../address/widget/address_list_tile.dart';
 import '../widgets/user_details_toggle_button.dart';
 

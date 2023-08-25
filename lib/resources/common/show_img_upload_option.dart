@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:new_user_side/data/network/network_api_servcies.dart';
 import 'package:new_user_side/provider/notifiers/upload_image_notifier.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/show_picked_images.dart';
 import 'package:provider/provider.dart';

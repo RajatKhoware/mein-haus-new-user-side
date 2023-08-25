@@ -167,6 +167,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => SendQueryScreen(),
       );
+    case AllConversationScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => AllConversationScreen(),
+      );
     default:
       return MaterialPageRoute(
         settings: routeSettings,

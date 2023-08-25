@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_user_side/resources/common/cached_network_img_error_widget.dart';
 
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/constants/constant.dart';
@@ -46,7 +47,8 @@ class ProjectImgCardWidget extends StatelessWidget {
           ? CachedNetworkImage(
               imageUrl: imgPath,
               placeholder: (context, url) => cachedNetworkPlaceHolder,
-              errorWidget: (context, url, error) => cachedNetworkErrorWidget,
+              errorWidget: (context, url, error) =>
+                  CachedNetworkImgErrorWidget(iconSize: 30, textSize: 50),
             )
           : Image.asset(
               imgPath,

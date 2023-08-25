@@ -8,8 +8,8 @@ import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/common/my_app_bar.dart';
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_app_bar.dart';
+import '../../../resources/common/my_text.dart';
 import '../../estimate/widget/download_pdf_card_widget.dart';
 import '../widget/additional_work_pro_provide_card_widget.dart';
 

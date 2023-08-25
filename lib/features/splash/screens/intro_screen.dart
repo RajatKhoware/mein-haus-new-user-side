@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/features/home/screens/home_screen.dart';
 import 'package:new_user_side/features/splash/screens/splash_screen.dart';
 import 'package:provider/provider.dart';

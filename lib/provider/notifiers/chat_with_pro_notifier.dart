@@ -3,7 +3,8 @@ import 'package:new_user_side/data/models/conversation_list_model.dart';
 import 'package:new_user_side/repository/chat_respository.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
-import '../../res/common/my_snake_bar.dart';
+import '../../error_screens.dart';
+import '../../resources/common/my_snake_bar.dart';
 
 class ChatWithProNotifier extends ChangeNotifier {
   ChatRepository repo = ChatRepository();
@@ -35,14 +36,13 @@ class ChatWithProNotifier extends ChangeNotifier {
   Future allConversation(BuildContext context) async {
     setLoadingState(true, true);
     await repo.allConversation().then((response) {
-     
       final data = ConversationsListModal.fromJson(response);
       setAllConversationList(data);
       setLoadingState(false, true);
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, error.toString(), SnackBarState.Error);
-      ("Erorr in getting All Conversation --> $error $stackTrace")
-          .log("Pro-Chat Notifier");
+      showSnakeBarr(context, "$error", SnackBarState.Error);
+      ("$error $stackTrace").log("Pro-Chat Notifier");
+      Navigator.of(context).pushScreen(ShowError(error: error.toString()));
       setLoadingState(false, true);
     });
   }

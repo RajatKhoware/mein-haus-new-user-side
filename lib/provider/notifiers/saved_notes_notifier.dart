@@ -3,7 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:new_user_side/data/models/saved_notes_model.dart';
 import 'package:new_user_side/repository/saved_notes_repository.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
-import '../../res/common/my_snake_bar.dart';
+import '../../error_screens.dart';
+import '../../resources/common/my_snake_bar.dart';
 import '../../utils/extensions/get_images.dart';
 
 class SavedNotesNotifier extends ChangeNotifier {
@@ -59,6 +60,16 @@ class SavedNotesNotifier extends ChangeNotifier {
     await getImages.pickImages<SavedNotesNotifier>(context: context);
   }
 
+  void onErrorHandler(
+    BuildContext context,
+    Object? error,
+    StackTrace stackTrace,
+  ) {
+    showSnakeBarr(context, "$error", SnackBarState.Error);
+    ("$error $stackTrace").log("Saved Notes notifier");
+    Navigator.of(context).pushScreen(ShowError(error: error.toString()));
+  }
+
   // Save note for me
   Future savedNoteForMe({
     required BuildContext context,
@@ -73,7 +84,7 @@ class SavedNotesNotifier extends ChangeNotifier {
       showSnakeBar(context, "Saved Notes For me ✅");
     }).onError((error, stackTrace) {
       setLoadingForMe(false, true);
-      ("${error} $stackTrace").log("Saved note notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -91,7 +102,7 @@ class SavedNotesNotifier extends ChangeNotifier {
       showSnakeBar(context, "Saved Notes For me and pro ✅");
     }).onError((error, stackTrace) {
       setLoadingForMeAndPro(false, true);
-      ("${error} $stackTrace").log("Saved note notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -108,7 +119,7 @@ class SavedNotesNotifier extends ChangeNotifier {
       ('Get Saved Notes ✅').log();
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      ("${error} $stackTrace").log("Saved note notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 }

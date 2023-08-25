@@ -2,7 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 import '../../../provider/notifiers/estimate_notifier.dart';

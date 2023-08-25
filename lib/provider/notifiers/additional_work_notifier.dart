@@ -5,8 +5,9 @@ import 'package:new_user_side/data/network/network_api_servcies.dart';
 import 'package:new_user_side/repository/additional_work_repository.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
+import '../../error_screens.dart';
 import '../../features/additional work/screens/additional_work_from_pro_screen.dart';
-import '../../res/common/my_snake_bar.dart';
+import '../../resources/common/my_snake_bar.dart';
 import '../../static components/dialogs/additional_work_added_dialog.dart';
 import '../../utils/extensions/get_images.dart';
 
@@ -45,8 +46,18 @@ class AdditionalWorkNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-   Future getImages(BuildContext context) async {
+  Future getImages(BuildContext context) async {
     await GetImages().pickImages<AdditionalWorkNotifier>(context: context);
+  }
+
+  void onErrorHandler(
+    BuildContext context,
+    Object? error,
+    StackTrace stackTrace,
+  ) {
+    showSnakeBarr(context, "$error", SnackBarState.Error);
+    ("$error $stackTrace").log("Additional Work notifier");
+    Navigator.of(context).pushScreen(ShowError(error: error.toString()));
   }
 
   //methods
@@ -65,8 +76,7 @@ class AdditionalWorkNotifier extends ChangeNotifier {
         },
       );
     }).onError((error, stackTrace) {
-      showSnakeBar(context, error.toString());
-      ("${error} $stackTrace").log("Additional work notifier");
+      onErrorHandler(context, error, stackTrace);
     });
     setLoadingState(false, true);
   }
@@ -87,8 +97,7 @@ class AdditionalWorkNotifier extends ChangeNotifier {
       );
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      showSnakeBar(context, error.toString());
-      ("${error} $stackTrace").log("Additional work notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -106,8 +115,7 @@ class AdditionalWorkNotifier extends ChangeNotifier {
       showSnakeBar(context, 'Addtional Work Approved ✅');
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      showSnakeBar(context, error.toString());
-      ("${error} $stackTrace").log("Additional work notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -125,32 +133,7 @@ class AdditionalWorkNotifier extends ChangeNotifier {
       showSnakeBar(context, 'Addtional Work Rejected ❌');
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      showSnakeBar(context, error.toString());
-      ("${error} $stackTrace").log("Additional work notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
-
-  // Future approve({
-  //   required BuildContext context,
-  //   required String id,
-  // }) async {
-  //   setLoadingState(true, true);
-  //   services.approve(
-  //     context: context,
-  //     body: {"additional_work_id": id},
-  //   );
-  //   setLoadingState(false, true);
-  // }
-
-  // Future reject({
-  //   required BuildContext context,
-  //   required String id,
-  // }) async {
-  //   setLoadingState(true, true);
-  //   services.reject(
-  //     context: context,
-  //     body: {"additional_work_id": id},
-  //   );
-  //   setLoadingState(false, true);
-  // }
 }

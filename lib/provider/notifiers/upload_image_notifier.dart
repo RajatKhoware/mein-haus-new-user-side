@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:new_user_side/error_screens.dart';
 import 'package:new_user_side/features/home/screens/home_screen.dart';
 import 'package:new_user_side/repository/upload_img_repo.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
-import '../../res/common/my_snake_bar.dart';
+import '../../resources/common/my_snake_bar.dart';
 import '../../utils/extensions/get_images.dart';
 
 class UploadImgNotifier extends ChangeNotifier {
@@ -56,6 +57,7 @@ class UploadImgNotifier extends ChangeNotifier {
       setLoadingState(false, true);
       showSnakeBarr(context, "$error", SnackBarState.Error);
       ("${error} $stackTrace").log("Saved note notifier");
+      Navigator.of(context).pushScreen(ShowError(error: error.toString()));
     });
   }
 }

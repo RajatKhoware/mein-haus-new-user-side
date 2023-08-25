@@ -6,7 +6,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:new_user_side/firebase_options.dart';
 import 'package:new_user_side/data/push_notification_services.dart';
-import 'package:new_user_side/res/routing/router.dart';
+import 'package:new_user_side/resources/routing/router.dart';
 import 'package:new_user_side/features/splash/screens/intro_screen.dart';
 import 'package:provider/provider.dart';
 

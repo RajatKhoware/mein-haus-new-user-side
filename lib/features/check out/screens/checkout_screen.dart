@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/provider/notifiers/check_out_notifier.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';

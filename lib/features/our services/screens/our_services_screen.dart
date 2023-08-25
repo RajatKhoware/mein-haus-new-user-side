@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/notifiers/our_services_notifier.dart';
-import '../../../res/common/buttons/my_bottom_bar_button.dart';
+import '../../../resources/common/buttons/my_bottom_bar_button.dart';
 
 class OurServiceScreen extends StatelessWidget {
   static const String routeName = '/our-services';

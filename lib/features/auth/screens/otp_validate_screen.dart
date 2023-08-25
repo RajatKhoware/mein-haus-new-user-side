@@ -10,7 +10,7 @@ import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 

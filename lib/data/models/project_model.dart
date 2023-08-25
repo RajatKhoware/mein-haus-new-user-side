@@ -141,7 +141,7 @@ class ProfessionalWorkHistory {
 class WorkDetails {
   String? startTime;
   String? endTime;
-  String? totalTimeInMinutes;
+  int? totalTimeInMinutes;
 
   WorkDetails({this.startTime, this.endTime, this.totalTimeInMinutes});
 

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:new_user_side/features/auth/screens/user_details.dart';
-import 'package:new_user_side/res/common/buttons/my_bottom_bar_button.dart';
+import 'package:new_user_side/resources/common/buttons/my_bottom_bar_button.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/get_images.dart';
@@ -18,9 +18,9 @@ import 'package:provider/provider.dart';
 import '../../../provider/notifiers/address_notifier.dart';
 import '../../../provider/notifiers/auth_notifier.dart';
 import '../../../provider/notifiers/estimate_notifier.dart';
-import '../../../res/common/my_app_bar.dart';
-import '../../../res/common/my_snake_bar.dart';
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_app_bar.dart';
+import '../../../resources/common/my_snake_bar.dart';
+import '../../../resources/common/my_text.dart';
 
 import '../../../utils/utils.dart';
 import '../widget/saved_adresses_widget.dart';
@@ -76,36 +76,34 @@ class _EstimateGenerationScreenState extends State<EstimateGenerationScreen> {
       'user_address_id': userAddress[addressProvider.index].id,
       'images[]': image,
     };
-    if (_estimateFormKey.currentState!.validate()) if (isPhoneVerified) {
-      await estimateNotifer.createEstimate(context: context, data: data);
-    } else {
-      showSnakeBar(
-        context,
-        "Before making estimate request please verify you phone number",
-      );
+    if (_estimateFormKey.currentState!.validate()) {
+      if (isPhoneVerified) {
+        await estimateNotifer.createEstimate(context: context, data: data);
+      } else {
+        showSnakeBar(
+          context,
+          "Before making estimate request Please verify you phone number",
+        );
+      }
     }
-    // if (_estimateFormKey.currentState!
-    //     .validate()) if (estimateNotifer.images.length != 0) {
-    //   await estimateNotifer.createEstimate(context: context, data: data);
-    // } else {
-    //   showSnakeBar(context, "Please Select Img first");
-    // }
   }
 
   @override
   Widget build(BuildContext context) {
     final estimateNotifer = context.watch<EstimateNotifier>();
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
     return ModalProgressHUD(
       inAsyncCall: estimateNotifer.loading,
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: MyAppBar(
-            text:
-                widget.isNewEstimate! ? "New Estimate" : "Estimate Generation"),
+          text: widget.isNewEstimate! ? "New Estimate" : "Estimate Generation",
+        ),
         body: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          physics: BouncingScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: width / 20),
             child: Form(
               key: _estimateFormKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -166,7 +164,7 @@ class _EstimateGenerationScreenState extends State<EstimateGenerationScreen> {
                                       ? Image.asset(
                                           "assets/icons/imgs.png",
                                           fit: BoxFit.fitWidth,
-                                          width: 230.w,
+                                          width: 260.w,
                                         )
                                       : Expanded(
                                           child: ListView.builder(
@@ -245,13 +243,6 @@ class _GenerateEstimateDropdownState extends State<GenerateEstimateDropdown> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // MyTextPoppines(
-        //   text: "When would you like to have this tasks to be done? ",
-        //   fontWeight: FontWeight.w600,
-        //   fontSize: w / 30,
-        //   maxLines: 1,
-        // ),
-        // SizedBox(height: h / 90),
         Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(horizontal: w / 28),

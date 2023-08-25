@@ -8,7 +8,7 @@ import 'package:new_user_side/provider/notifiers/customer_support_notifier.dart'
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/provider/notifiers/saved_notes_notifier.dart';
 import 'package:new_user_side/provider/notifiers/upload_image_notifier.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';

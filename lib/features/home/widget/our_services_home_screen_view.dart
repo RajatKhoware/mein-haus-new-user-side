@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_user_side/features/our%20services/screens/our_service_card.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/notifiers/our_services_notifier.dart';

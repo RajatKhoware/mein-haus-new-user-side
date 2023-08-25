@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:new_user_side/features/auth/screens/user_details.dart';
 import 'package:new_user_side/features/project%20notes/view/screens/project_notes_screen.dart';
 import 'package:new_user_side/provider/notifiers/saved_notes_notifier.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/get_images.dart';
@@ -196,7 +196,9 @@ class _ProjectNotesDialogState extends State<ProjectNotesDialog> {
                     ],
                   ),
                 ),
-                notifer.images.isNotEmpty ? ShowPickedImages<SavedNotesNotifier>() : SizedBox(),
+                notifer.images.isNotEmpty
+                    ? ShowPickedImages<SavedNotesNotifier>()
+                    : SizedBox(),
                 const Divider(thickness: 1.5),
                 10.vs,
                 Row(

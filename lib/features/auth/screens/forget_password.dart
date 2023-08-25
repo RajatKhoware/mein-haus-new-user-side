@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:new_user_side/data/network/network_api_servcies.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/extensions/validator.dart';
 import '../widgets/auth_textfield.dart';

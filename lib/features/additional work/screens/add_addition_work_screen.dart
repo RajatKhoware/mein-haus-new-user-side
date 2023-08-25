@@ -5,14 +5,14 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:new_user_side/features/auth/screens/user_details.dart';
 import 'package:new_user_side/provider/notifiers/additional_work_notifier.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/get_images.dart';
 import 'package:new_user_side/utils/extensions/validator.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/common/my_app_bar.dart';
+import '../../../resources/common/my_app_bar.dart';
 import '../../../utils/constants/app_colors.dart';
 import '../../../utils/extensions/show_picked_images.dart';
 import '../../../utils/utils.dart';

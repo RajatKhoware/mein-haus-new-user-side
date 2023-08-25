@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 
 
 

@@ -12,9 +12,10 @@ import 'package:new_user_side/repository/auth_repository.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../../data/network/network_api_servcies.dart';
+import '../../error_screens.dart';
 import '../../features/auth/screens/otp_validate_screen.dart';
 import '../../features/home/screens/home_screen.dart';
-import '../../res/common/my_snake_bar.dart';
+import '../../resources/common/my_snake_bar.dart';
 
 class AuthNotifier extends ChangeNotifier {
   AuthRepositorys repository = AuthRepositorys();
@@ -80,6 +81,16 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onErrorHandler(
+    BuildContext context,
+    Object? error,
+    StackTrace stackTrace,
+  ) {
+    showSnakeBarr(context, "$error", SnackBarState.Error);
+    ("$error $stackTrace").log("Auth notifier");
+    Navigator.of(context).pushScreen(ShowError(error: error.toString()));
+  }
+
 // Auth
   Future authentication(BuildContext context) async {
     await repository.auth().then((response) {
@@ -89,7 +100,7 @@ class AuthNotifier extends ChangeNotifier {
       setUser(user);
       Navigator.pushNamed(context, HomeScreen.routeName);
     }).onError((error, stackTrace) {
-      ("$error").log("Auth notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -110,11 +121,6 @@ class AuthNotifier extends ChangeNotifier {
         await prefs.setToken(user.token!);
         if (user.phoneVerified!) {
           ("User Logged in Successfully ✨").log("Login Notifier");
-          showSnakeBarr(
-            context,
-            response['response_message'],
-            SnackBarState.Success,
-          );
           Navigator.of(context).pushNamedAndRemoveUntil(
             HomeScreen.routeName,
             (route) => false,
@@ -136,8 +142,7 @@ class AuthNotifier extends ChangeNotifier {
         setLoadingState(false, true);
       }
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("Erorr in Login notifier --> $error").log("Auth-Login Notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -158,8 +163,7 @@ class AuthNotifier extends ChangeNotifier {
         ),
       );
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log(" SignUp notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -182,8 +186,7 @@ class AuthNotifier extends ChangeNotifier {
       showSnakeBarr(
           context, response['response_message'], SnackBarState.Success);
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log(" Verify phone notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -195,8 +198,7 @@ class AuthNotifier extends ChangeNotifier {
       setLoadingState(false, true);
       showSnakeBarr(context, "Verification link sent", SnackBarState.Success);
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Verify email notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -217,8 +219,7 @@ class AuthNotifier extends ChangeNotifier {
         },
       );
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Send OTP Mobile notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -229,10 +230,10 @@ class AuthNotifier extends ChangeNotifier {
     required BuildContext context,
   }) async {
     repository.resendOtp(body).then((response) {
-      showSnakeBarr(context, response['response_message'], SnackBarState.Success);
+      showSnakeBarr(
+          context, response['response_message'], SnackBarState.Success);
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log(" Resend OTP  notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -254,8 +255,7 @@ class AuthNotifier extends ChangeNotifier {
       );
       setLoadingState(false, true);
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log(" Add PhoneNo notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -304,8 +304,7 @@ class AuthNotifier extends ChangeNotifier {
       }
     }).onError((error, stackTrace) {
       setGoogleLoadingState(false, true);
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Google Auth notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -322,8 +321,7 @@ class AuthNotifier extends ChangeNotifier {
         ForgetPasswordOtpValidateScreen(email: body['email']!),
       );
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Forget password notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -341,8 +339,7 @@ class AuthNotifier extends ChangeNotifier {
         CreateNewPasswordScreen(passwordToken: response['token']),
       );
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Verify forgetpassword OTP notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }
@@ -357,8 +354,7 @@ class AuthNotifier extends ChangeNotifier {
       showSnakeBarr(context, "OTP Sent Again!", SnackBarState.Success);
       setGoogleLoadingState(false, true);
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Resend forgetpassword OTP notifier");
+      onErrorHandler(context, error, stackTrace);
       setGoogleLoadingState(false, true);
     });
   }
@@ -378,8 +374,7 @@ class AuthNotifier extends ChangeNotifier {
       setLoadingState(false, true);
       Navigator.of(context).pushScreen(SignInScreen());
     }).onError((error, stackTrace) {
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("$error  $stackTrace").log("Create-new-password notifier");
+      onErrorHandler(context, error, stackTrace);
       setLoadingState(false, true);
     });
   }

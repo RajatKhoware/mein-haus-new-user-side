@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_user_side/provider/notifiers/support_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
-import 'package:new_user_side/res/common/my_snake_bar.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/my_snake_bar.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/validator.dart';
 import 'package:provider/provider.dart';

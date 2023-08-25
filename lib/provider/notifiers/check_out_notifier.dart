@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_user_side/repository/check_out_repo.dart';
+import 'package:new_user_side/resources/common/my_snake_bar.dart';
+import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/utils.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../data/payment_services.dart';
@@ -40,9 +42,13 @@ class CheckOutNotifier extends ChangeNotifier {
     if (res == true) {
       setLoadingState(true);
       await repository.checkOut(data).then((response) {
-        print(response);
+        // Navigator.of(context).pushScreen(HomeScreen());
         Get.to(() => HomeScreen());
-        Utils.snackBar("CheckOut Done .", response['response_message']);
+        showSnakeBarr(
+          context,
+          response['response_message'],
+          SnackBarState.Success,
+        );
         setLoadingState(false);
       }).onError((error, stackTrace) {
         print("Error in Check out notifier :: $error\n $stackTrace");

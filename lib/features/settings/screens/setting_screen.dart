@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/features/add%20card/screens/add_new_card_screen.dart';
 import 'package:new_user_side/features/home/screens/home_screen.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/static%20components/dialogs/customer_support_dialog.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/common/my_snake_bar.dart';
+import '../../../resources/common/my_snake_bar.dart';
 import '../../edit profile/screens/edit_password_scree.dart';
 
 class SettingScreen extends StatelessWidget {

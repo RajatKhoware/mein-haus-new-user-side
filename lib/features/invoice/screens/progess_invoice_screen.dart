@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/features/check%20out/screens/checkout_screen.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
@@ -274,11 +274,12 @@ class _ShowTableView extends StatelessWidget {
 
   TableRow _buildRow(Services service, Data invoice) => TableRow(
         children: [
-          buildCell(service.serviceName.toString(), isBold: true),
-          buildCell(service.description.toString()),
-          buildCell("\$${invoice.invoiceSummary!.totalAmountPaid}"),
-          buildCell("\$${invoice.totalAmount}"),
-          buildCell("\$${service.amountToPay}"),
+          buildCell(service.serviceName ?? "", isBold: true),
+          buildCell(service.description ?? ""),
+          buildCell(
+              "\$${invoice.invoiceSummary!.totalAmountPaid!.split(".")[0]}"),
+          buildCell("\$${invoice.totalAmount!.split(".")[0]}"),
+          buildCell("\$${service.amountToPay!.split(".")[0]}"),
         ],
       );
 
@@ -290,6 +291,7 @@ class _ShowTableView extends StatelessWidget {
         fontSize: 10,
         fontWeight: isBold ? FontWeight.w700 : FontWeight.w500,
         textAlign: TextAlign.start,
+        maxLines: 100,
       ),
     );
   }

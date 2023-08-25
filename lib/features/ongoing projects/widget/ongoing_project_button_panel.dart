@@ -14,9 +14,10 @@ import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 import '../../additional work/screens/add_addition_work_screen.dart';
 import '../../additional work/widget/icon_button_with_text.dart';
+import '../../invoice/screens/progess_invoice_screen.dart';
 
 class OngoingJobsButtonsPanel extends StatelessWidget {
   final Projects project;
@@ -45,6 +46,7 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
         context: context,
         bookingId: bookingId!,
       );
+      Navigator.of(context).pushScreen(ProgressInvoiceScreen());
     }
 
     // Navigate to chatting screen

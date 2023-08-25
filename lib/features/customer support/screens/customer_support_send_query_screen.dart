@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:new_user_side/provider/notifiers/customer_support_notifier.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_bottom_bar_button.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_snake_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/buttons/my_bottom_bar_button.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_snake_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/extensions/validator.dart';

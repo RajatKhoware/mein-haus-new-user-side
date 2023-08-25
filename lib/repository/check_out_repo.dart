@@ -1,7 +1,7 @@
 import 'package:new_user_side/utils/enum.dart';
 
 import '../data/network/network_api_servcies.dart';
-import '../res/common/api_url/api_urls.dart';
+import '../resources/common/api_url/api_urls.dart';
 
 class CheckOutRepository {
   NetworkApiServices service = NetworkApiServices();

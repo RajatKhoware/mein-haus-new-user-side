@@ -5,7 +5,7 @@ import 'package:new_user_side/features/check%20out/widget/single_credit_card_wid
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 import '../../../provider/notifiers/check_out_notifier.dart';
 
 class SelectCeditCardWidget extends StatelessWidget {

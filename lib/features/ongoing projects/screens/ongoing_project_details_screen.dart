@@ -10,8 +10,8 @@ import 'package:new_user_side/features/pro%20profile/view/widget/pro_profile_wid
 import 'package:new_user_side/features/review/widgets/show_review_card.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/provider/notifiers/support_notifier.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 

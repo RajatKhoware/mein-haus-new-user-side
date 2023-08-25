@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_user_side/local%20db/user_prefrences.dart';
-import 'package:new_user_side/res/common/my_snake_bar.dart';
+import 'package:new_user_side/resources/common/my_snake_bar.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
-import '../res/common/api_url/api_urls.dart';
+import '../resources/common/api_url/api_urls.dart';
  
 class MakePayment {
   Map<String, dynamic>? paymentIntent;

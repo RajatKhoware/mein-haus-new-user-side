@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/features/auth/screens/signin_screen.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/features/splash/screens/first_splash_screen.dart';
 import 'package:new_user_side/features/splash/screens/second_splash-screen.dart';
 import 'package:new_user_side/features/splash/screens/third_splash.dart';

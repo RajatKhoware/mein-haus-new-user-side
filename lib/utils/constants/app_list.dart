@@ -7,7 +7,7 @@ import 'package:new_user_side/features/ongoing%20projects/screens/completed_proj
 import 'package:new_user_side/features/settings/screens/setting_screen.dart';
 
 import '../../../features/home/screens/home_screen.dart';
-
+import '../../features/all conversation/screens/all_conversation_screen.dart';
 
 // Drawer
 List drawerList = [
@@ -42,8 +42,13 @@ List drawerList = [
     CompletedProjectsScreen.routeName,
   ],
   [
+    Icons.message,
+    "Messages",
+    AllConversationScreen.routeName,
+  ],
+  [
     Icons.contact_support_outlined,
-    "Customer Support",
+    "Support",
     HomeScreen.routeName,
   ],
 ];

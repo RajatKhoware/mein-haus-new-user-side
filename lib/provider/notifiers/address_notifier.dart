@@ -5,7 +5,8 @@ import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../data/models/UserModel.dart';
-import '../../res/common/my_snake_bar.dart';
+import '../../error_screens.dart';
+import '../../resources/common/my_snake_bar.dart';
 import '../../utils/extensions/auto_complete_address.dart';
 import 'auth_notifier.dart';
 
@@ -58,7 +59,17 @@ class AddressNotifier extends ChangeNotifier {
     return _addressList;
   }
 
-  Future addAddress({
+  void onErrorHandler(
+    BuildContext context,
+    Object? error,
+    StackTrace stackTrace,
+  ) {
+    showSnakeBarr(context, "$error", SnackBarState.Error);
+    ("$error $stackTrace").log("Address notifier");
+    Navigator.of(context).pushScreen(ShowError(error: error.toString()));
+  }
+
+  Future<void> addAddress({
     required BuildContext context,
     required MapSS body,
   }) async {
@@ -78,8 +89,7 @@ class AddressNotifier extends ChangeNotifier {
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("${error} $stackTrace").log("Add Address notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -100,8 +110,7 @@ class AddressNotifier extends ChangeNotifier {
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("${error} $stackTrace").log("Update Address notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 
@@ -122,8 +131,7 @@ class AddressNotifier extends ChangeNotifier {
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      showSnakeBarr(context, "$error", SnackBarState.Error);
-      ("${error} $stackTrace").log("Update Address notifier");
+      onErrorHandler(context, error, stackTrace);
     });
   }
 }

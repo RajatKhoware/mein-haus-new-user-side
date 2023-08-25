@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../../features/edit profile/screens/edit_profile_screen.dart';
 import '../../provider/notifiers/auth_notifier.dart';
 import '../../utils/constants/app_list.dart';
-import '../dialogs/customer_support_dialog.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -229,8 +228,9 @@ class _ItemList extends StatelessWidget {
       padding: EdgeInsets.only(left: w / 20),
       child: SizedBox(
         width: w / 1.5,
-        height: h / 2.2,
+        height: h / 2.0,
         child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: drawerList.length,
           itemBuilder: (context, index) {
@@ -247,11 +247,11 @@ class _ItemList extends StatelessWidget {
                 },
                 child: Row(
                   children: [
-                    Icon(drawerList[index][0], size: w / 20),
+                    Icon(drawerList[index][0], size: w / 18),
                     SizedBox(width: w / 35),
                     MyTextPoppines(
                       text: drawerList[index][1],
-                      fontSize: w / 28,
+                      fontSize: w / 26,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
                     )

@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/models/UserModel.dart';
 import '../features/auth/screens/signin_screen.dart';
 import '../provider/notifiers/auth_notifier.dart';
-import '../res/common/my_snake_bar.dart';
+import '../resources/common/my_snake_bar.dart';
 
 class UserPrefrences {
   static String? _authToken;

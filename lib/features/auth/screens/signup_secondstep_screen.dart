@@ -7,8 +7,8 @@ import 'package:new_user_side/data/network/network_api_servcies.dart';
 import 'package:new_user_side/features/auth/screens/signin_screen.dart';
 import 'package:new_user_side/features/auth/widgets/auth_banner_widget.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 

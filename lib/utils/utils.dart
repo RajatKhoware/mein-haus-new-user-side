@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'constants/app_colors.dart';
 
@@ -17,17 +16,6 @@ class Utils {
   ) {
     current.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
-  }
-
-  // snack bar with getX
-  static snackBar(String title, String message) {
-    Get.snackbar(
-      title,
-      message,
-      colorText: AppColors.white,
-      backgroundColor: AppColors.buttonBlue,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-    );
   }
 
 // This Function collect List of all the images selected by user and convert them into multipart files

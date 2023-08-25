@@ -4,7 +4,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/data/models/generated_estimate_model.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/cached_network_img_error_widget.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 
 class FullScreenImageView extends StatefulWidget {
@@ -64,9 +65,15 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
             placeholder: (context, url) => Center(
               child: CircularProgressIndicator(),
             ),
-            errorWidget: (context, url, error) => Icon(
-              Icons.error,
-              color: Colors.red,
+            errorWidget: (context, url, error) => Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 80),
+                child: CachedNetworkImgErrorWidget(
+                  iconSize: 20,
+                  textSize: 30,
+                  textColor: AppColors.white,
+                ),
+              ),
             ),
           );
         },

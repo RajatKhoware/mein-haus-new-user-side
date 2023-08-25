@@ -7,7 +7,7 @@ import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/notifiers/estimate_notifier.dart';
-import '../../res/common/my_text.dart';
+import '../../resources/common/my_text.dart';
 import '../../utils/constants/app_colors.dart';
 
 class ProRecentProjectDialog extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/provider/notifiers/address_notifier.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 import '../../estimate/widget/address_card.dart';
 
 class CheckOutBillingAddressCardWidget extends StatelessWidget {

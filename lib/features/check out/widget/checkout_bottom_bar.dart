@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/provider/notifiers/check_out_notifier.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 
 class CheckOutBottomBar extends StatefulWidget {
   final String totalAmount;

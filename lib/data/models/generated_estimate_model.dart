@@ -212,6 +212,9 @@ class UploadedImgs {
     data['thumbnail_url'] = this.thumbnailUrl;
     return data;
   }
+
+  @override
+  String toString() => "Image Url $imageUrl || Thumbnail Url $thumbnailUrl";
 }
 
 class ProjectBilling {

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:new_user_side/data/network/network_api_servcies.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';

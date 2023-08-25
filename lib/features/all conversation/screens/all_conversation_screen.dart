@@ -4,16 +4,13 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:new_user_side/data/models/conversation_list_model.dart';
 import 'package:new_user_side/features/chat/screen/chatting_screen.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
-import 'package:new_user_side/provider/notifiers/chat_notifier.dart';
 import 'package:new_user_side/provider/notifiers/chat_with_pro_notifier.dart';
-import 'package:new_user_side/res/common/my_app_bar.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_app_bar.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/utils.dart';
 import 'package:provider/provider.dart';
-
-import '../../../provider/notifiers/estimate_notifier.dart';
 
 class AllConversationScreen extends StatefulWidget {
   static const String routeName = '/chatList';
@@ -24,34 +21,24 @@ class AllConversationScreen extends StatefulWidget {
 }
 
 class _AllConversationScreenState extends State<AllConversationScreen> {
-  late ChatNotifier notifier;
   @override
   void initState() {
     super.initState();
-    setupPusherChannel();
+    getAllConversation();
   }
 
-  @override
-  void didChangeDependencies() {
-    notifier = context.read<ChatNotifier>();
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    notifier.unsubscribe();
-  }
-
-  Future setupPusherChannel() async {
-    final notifier = context.read<ChatNotifier>();
-    await notifier.setupPusher(context);
+  // AllConversation
+  Future<void> getAllConversation() async {
+    final notifier = context.read<ChatWithProNotifier>();
+    await notifier.allConversation(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final notifier = context.watch<ChatWithProNotifier>();
     final conversationList = notifier.conversationsList;
+    final conversations = conversationList.conversations;
+
     return ModalProgressHUD(
       inAsyncCall: notifier.loading,
       child: Scaffold(
@@ -60,10 +47,10 @@ class _AllConversationScreenState extends State<AllConversationScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: conversationList.conversations!.length,
+                itemCount: conversations!.length,
                 itemBuilder: (context, index) {
                   return ChatCardWidget(
-                    conversations: conversationList.conversations![index],
+                    conversations: conversations[index],
                   );
                 },
               ),
@@ -102,7 +89,7 @@ class ChatCardWidget extends StatelessWidget {
         ChattingScreen(
           isChatWithPro: true,
           sendUserId: toUserId!,
-          conversations: conversations,
+          conversations: conv,
           estimateId: conv.estimateServiceId.toString(),
         ),
       );

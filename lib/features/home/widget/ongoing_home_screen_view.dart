@@ -4,13 +4,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:new_user_side/data/models/ongoing_project_model.dart';
 import 'package:new_user_side/features/home/widget/project_img_card_widget.dart';
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/notifiers/estimate_notifier.dart';
+import '../../../static components/empty states/no_est_view_home_screen.dart';
 import '../../ongoing projects/screens/all_ongoing_projects_screen.dart';
 import '../../ongoing projects/screens/multiple_project_services_screen.dart';
 import '../../ongoing projects/screens/ongoing_project_details_screen.dart';
@@ -53,26 +54,34 @@ class OngoingCardHomeScreenView extends StatelessWidget {
         ),
         SizedBox(height: height / 80),
         ongoingProjects != null
-            ? ongoingProjects.length != 0
-                ? SizedBox(
-                    height: height / 2.90,
-                    child: ListView.builder(
-                      shrinkWrap: false,
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: project!.length,
-                      itemBuilder: (context, index) {
-                        final bool isMultipleProjects =
-                            ongoingProjects[index].services!.length > 1;
-                        return OngoingWorkCard(
-                          isMultiProjects: isMultipleProjects,
-                          index: index,
-                        );
-                      },
-                    ),
-                  )
-                : MyTextPoppines(text: "No Ongoing Projects")
+            ? Visibility(
+                visible: ongoingProjects.length != 0,
+                child: SizedBox(
+                  height: height / 2.90,
+                  child: ListView.builder(
+                    shrinkWrap: false,
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: project!.length,
+                    itemBuilder: (context, index) {
+                      final bool isMultipleProjects =
+                          ongoingProjects[index].services!.length > 1;
+                      return OngoingWorkCard(
+                        isMultiProjects: isMultipleProjects,
+                        index: index,
+                      );
+                    },
+                  ),
+                ),
+              )
             : effect(context),
+        Visibility(
+          visible: ongoingProjects != null && ongoingProjects.length == 0,
+          child: NoEstViewHomeScreenWidget(
+            text:
+                "You Don’t have any Ongoing project as of now. Add new project with EST generation",
+          ),
+        ),
       ],
     );
   }
@@ -106,7 +115,8 @@ class OngoingWorkCard extends StatelessWidget {
     final notifier = context.read<EstimateNotifier>();
     final projects = notifier.ongoingProjects.projects!;
     final project = projects[index];
-    final isImgNull = project.projectImages!.length == 0;
+    final isImgNull =
+        project.projectImages != null && project.projectImages!.isNotEmpty;
     final projectId = project.services![0].projectId.toString();
     final proId = project.services![0].proId.toString();
 

@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import '../../data/models/message_model.dart';
 import '../../data/models/raised_query_model.dart';
 import '../../local db/user_prefrences.dart';
-import '../../res/common/my_snake_bar.dart';
+import '../../resources/common/my_snake_bar.dart';
 
 class SupportNotifier extends ChangeNotifier {
   PusherService _pusherService = PusherService.instance;

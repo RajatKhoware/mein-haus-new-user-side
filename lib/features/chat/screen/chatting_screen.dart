@@ -11,6 +11,7 @@ import 'package:new_user_side/features/chat/widgets/customer_end_conversation_bo
 import 'package:new_user_side/features/chat/widgets/support_chat_appbar.dart';
 import 'package:new_user_side/features/customer%20support/widget/show_flagged_query.dart';
 import 'package:new_user_side/provider/notifiers/chat_notifier.dart';
+import 'package:new_user_side/provider/notifiers/chat_with_pro_notifier.dart';
 import 'package:new_user_side/static%20components/dialogs/customer_close_ticket_dialog.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
@@ -32,7 +33,8 @@ class ChattingScreen extends StatefulWidget {
     Key? key,
     required this.isChatWithPro,
     this.sendUserId,
-    this.conversations, required this.estimateId,
+    this.conversations,
+    required this.estimateId,
   }) : super(key: key);
   final bool isChatWithPro;
   final int? sendUserId;
@@ -50,6 +52,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
     super.initState();
     loadMessages();
     showQueryCloseDailog();
+    updateConversationList();
   }
 
   @override
@@ -112,6 +115,12 @@ class _ChattingScreenState extends State<ChattingScreen> {
         },
       );
     }
+  }
+
+  // Update the all conversation list
+  Future<void> updateConversationList() async {
+    final proChatNotifier = context.read<ChatWithProNotifier>();
+    await proChatNotifier.allConversation(context);
   }
 
   @override

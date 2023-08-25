@@ -5,8 +5,9 @@ import 'package:new_user_side/features/edit%20profile/controller/services/edit_p
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../error_screens.dart';
 import '../../../../repository/profile_repository.dart';
-import '../../../../res/common/my_snake_bar.dart';
+import '../../../../resources/common/my_snake_bar.dart';
 import '../../../../provider/notifiers/auth_notifier.dart';
 
 class EditProfileNotifier extends ChangeNotifier {
@@ -63,12 +64,13 @@ class EditProfileNotifier extends ChangeNotifier {
       setLoadingState(false, true);
       showSnakeBar(context, "Password Updated ✅");
       ("Password Updated ✅").log();
-     
+
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
       showSnakeBar(context, error.toString());
       ("${error} $stackTrace").log("Change Password notifier");
+      Navigator.of(context).pushScreen(ShowError(error: error.toString()));
     });
   }
 }

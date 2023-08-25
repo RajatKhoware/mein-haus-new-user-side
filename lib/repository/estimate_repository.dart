@@ -1,7 +1,7 @@
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../data/network/network_api_servcies.dart';
-import '../res/common/api_url/api_urls.dart';
+import '../resources/common/api_url/api_urls.dart';
 import '../utils/enum.dart';
 
 class EstimateRepository {

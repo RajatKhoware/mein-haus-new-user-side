@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:new_user_side/features/review/widgets/write_review_dialog.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/notifiers/estimate_notifier.dart';
-import '../../../res/common/buttons/my_buttons.dart';
+import '../../../resources/common/buttons/my_buttons.dart';
 
 // ShowNoReview(),
 class ShowReviewCard extends StatelessWidget {

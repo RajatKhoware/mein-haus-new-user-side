@@ -7,16 +7,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'package:new_user_side/provider/notifiers/saved_notes_notifier.dart';
-import 'package:new_user_side/res/common/my_text.dart';
+import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
+
+import '../../../../data/models/saved_notes_model.dart';
 
 class PreviewProjectNotes extends StatefulWidget {
   const PreviewProjectNotes({
     Key? key,
-    required this.index,
+    required this.note,
   }) : super(key: key);
-  final int index;
+  final Notes note;
 
   @override
   State<PreviewProjectNotes> createState() => _PreviewProjectNotesState();
@@ -27,8 +29,7 @@ int currentIndex = 0;
 class _PreviewProjectNotesState extends State<PreviewProjectNotes> {
   @override
   Widget build(BuildContext context) {
-    final notifer = context.read<SavedNotesNotifier>().savedNotes;
-    final note = notifer.notes![widget.index];
+    final note = widget.note;
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
 
@@ -76,7 +77,8 @@ class _PreviewProjectNotesState extends State<PreviewProjectNotes> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30.r),
                     color: AppColors.whiteF5F5F5,
-                    image: note.images == null
+                    border: Border.all(color: AppColors.golden),
+                    image: note.images!.length == 0
                         ? DecorationImage(
                             image:
                                 AssetImage("assets/images/image_not_found.png"),
@@ -116,7 +118,7 @@ class _PreviewProjectNotesState extends State<PreviewProjectNotes> {
                   padding:
                       EdgeInsets.symmetric(horizontal: 15.w, vertical: 5.h),
                   child: MyTextPoppines(
-                    text: note.note.toString(),
+                    text: note.note ?? "",
                     fontSize: height / 80,
                     fontWeight: FontWeight.w600,
                     maxLines: 5,

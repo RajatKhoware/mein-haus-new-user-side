@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:new_user_side/res/common/buttons/my_buttons.dart';
+import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
-import '../../res/common/my_text.dart';
+import '../../resources/common/my_text.dart';
 import '../../utils/constants/app_colors.dart';
 import '../../utils/sizer.dart';
 

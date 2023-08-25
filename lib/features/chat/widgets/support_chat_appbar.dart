@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 import '../../../utils/constants/app_colors.dart';
 
 class SupportChatAppbar extends StatelessWidget {

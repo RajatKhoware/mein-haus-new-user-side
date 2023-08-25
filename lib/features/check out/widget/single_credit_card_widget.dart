@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
-import '../../../res/common/my_text.dart';
+import '../../../resources/common/my_text.dart';
 
 class SingleCreditCardWidget extends StatelessWidget {
   final bool isSelected;

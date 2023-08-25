@@ -39,15 +39,20 @@ class Notes {
   bool? type;
   List<ProjectImages>? images;
 
-  Notes({this.id, this.note, this.type, this.images});
+  Notes({
+    this.id,
+    this.note,
+    this.type,
+    this.images,
+  });
 
   Notes.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     note = json['note'];
     type = json['type'];
-    if (json['project_images'] != null) {
+    if (json['images'] != null) {
       images = <ProjectImages>[];
-      json['project_images'].forEach((v) {
+      json['images'].forEach((v) {
         images!.add(new ProjectImages.fromJson(v));
       });
     }
@@ -59,7 +64,7 @@ class Notes {
     data['note'] = this.note;
     data['type'] = this.type;
     if (this.images != null) {
-      data['project_images'] = this.images!.map((v) => v.toJson()).toList();
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
     }
     return data;
   }

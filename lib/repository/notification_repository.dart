@@ -1,5 +1,5 @@
 import 'package:new_user_side/data/network/network_api_servcies.dart';
-import 'package:new_user_side/res/common/api_url/api_urls.dart';
+import 'package:new_user_side/resources/common/api_url/api_urls.dart';
 
 import '../utils/enum.dart';
 
