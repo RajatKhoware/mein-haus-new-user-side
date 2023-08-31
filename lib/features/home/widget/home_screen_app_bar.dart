@@ -23,7 +23,7 @@ class HomeScreenAppBar extends StatelessWidget {
     int totalUnreadMessages = 0;
 
     // AllConversation
-    void navigateToConversationList() {
+    void navigateToConversationScreen() {
       Navigator.of(context).pushNamed(AllConversationScreen.routeName);
     }
 
@@ -70,7 +70,7 @@ class HomeScreenAppBar extends StatelessWidget {
       actions: [
         SizedBox(width: width / 24),
         InkWell(
-          onTap: () => navigateToConversationList(),
+          onTap: () => navigateToConversationScreen(),
           child: BadgeIcon(
             icon: CupertinoIcons.text_bubble,
             text: totalUnreadMessages.toString(),
@@ -135,7 +135,8 @@ class BadgeIcon extends StatelessWidget {
                   child: MyTextPoppines(
                     text: text,
                     fontSize: width / 42,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
                   ),
                 ),
               ),

@@ -16,6 +16,8 @@ import '../../error_screens.dart';
 import '../../features/auth/screens/otp_validate_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../resources/common/my_snake_bar.dart';
+import 'dart:io' show Platform;
+import 'package:device_info_plus/device_info_plus.dart';
 
 class AuthNotifier extends ChangeNotifier {
   AuthRepositorys repository = AuthRepositorys();
@@ -30,6 +32,7 @@ class AuthNotifier extends ChangeNotifier {
   User _user = User();
   bool _isAuthenticated = false;
   String accessToken = "";
+  String deviceName = "";
 
   // getters
   bool get isToggle => _isToggle;
@@ -81,6 +84,19 @@ class AuthNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String> getDeviceName() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      return androidInfo.model;
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      return iosInfo.model;
+    } else {
+      return "Fltter||Dart";
+    }
+  }
+
   void onErrorHandler(
     BuildContext context,
     Object? error,
@@ -100,7 +116,7 @@ class AuthNotifier extends ChangeNotifier {
       setUser(user);
       Navigator.pushNamed(context, HomeScreen.routeName);
     }).onError((error, stackTrace) {
-      onErrorHandler(context, error, stackTrace);
+      ("$error $stackTrace").log("Auth notifier");
     });
   }
 

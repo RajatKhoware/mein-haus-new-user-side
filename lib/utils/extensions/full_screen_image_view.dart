@@ -9,7 +9,7 @@ import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 
 class FullScreenImageView extends StatefulWidget {
-  final List<UploadedImgs> images;
+  final List images;
   final int currentIndex;
 
   const FullScreenImageView({

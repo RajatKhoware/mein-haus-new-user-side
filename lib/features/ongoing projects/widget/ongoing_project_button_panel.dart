@@ -20,10 +20,10 @@ import '../../additional work/widget/icon_button_with_text.dart';
 import '../../invoice/screens/progess_invoice_screen.dart';
 
 class OngoingJobsButtonsPanel extends StatelessWidget {
-  final Projects project;
+  final Projects projects;
   const OngoingJobsButtonsPanel({
     Key? key,
-    required this.project,
+    required this.projects,
   }) : super(key: key);
 
   @override
@@ -33,20 +33,21 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
 
     final supportNotifier = context.watch<SupportNotifier>();
     final estimateNotifer = context.read<EstimateNotifier>();
+    final project = estimateNotifer.projectDetails.services!;
     final isSupportActive = supportNotifier.supportStatus == 1;
-    final bookingId = estimateNotifer.projectDetails.services!.estimateNo;
-    final bool isNormalProject = project.normal!;
-    final String projectId = project.id.toString();
-    final bool isProjectCompleted = project.isCompleted ?? true;
+    final bookingId = project.estimateNo;
+    final isNormalProject = project.normal!;
+    final projectId = project.projectId.toString();
+    final isProjectCompleted = project.isCompleted!;
 
     // get invoice data
-    Future _getInvoiceHandler() async {
+    void _getInvoiceHandler() {
       final estimateNotifer = context.read<EstimateNotifier>();
-      await estimateNotifer.progressInvoice(
+      Navigator.of(context).pushScreen(ProgressInvoiceScreen());
+      estimateNotifer.progressInvoice(
         context: context,
         bookingId: bookingId!,
       );
-      Navigator.of(context).pushScreen(ProgressInvoiceScreen());
     }
 
     // Navigate to chatting screen
@@ -87,7 +88,7 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
                           ? Navigator.of(context).pushScreen(
                               ChattingScreen(
                                 isChatWithPro: false,
-                                estimateId: project.id.toString(),
+                                estimateId: project.projectId.toString(),
                               ),
                             )
                           : Navigator.of(context).pushNamed(
@@ -185,7 +186,7 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
             secondtButtonTextColor: const Color(0xFFB9B100),
             secondButtonImgUrl: "assets/icons/add-photo.png",
             secondButtonColor: const Color(0xFFF7F6E0),
-            secondButtonOnTap: isNormalProject
+            secondButtonOnTap: !isProjectCompleted
                 ? () {
                     Navigator.pushNamed(
                       context,

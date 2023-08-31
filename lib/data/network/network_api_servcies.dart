@@ -122,7 +122,7 @@ class NetworkApiServices {
       request.headers.addAll(header);
       http.StreamedResponse streamedResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamedResponse);
-      //print(response.body);
+     // (response.body).log();
       responseJson = errorHandling(response, allowUnauthorizedResponse);
       (response.statusCode).log(response.request!.url.path.toString());
       return responseJson;
@@ -240,7 +240,7 @@ class NetworkApiServices {
     dynamic responseJson =
         response.statusCode != 500 ? jsonDecode(response.body) : null;
     switch (response.statusCode) {
-      case 200 :
+      case 200:
         return responseJson;
       case 201:
         return responseJson;

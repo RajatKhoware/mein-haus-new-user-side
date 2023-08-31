@@ -50,9 +50,9 @@ class AdditionalWork {
     id = json['id'];
     title = json['title'];
     description = json['description'];
-    if (json['project_images'] != null) {
+    if (json['images'] != null) {
       images = <ProjectImages>[];
-      json['project_images'].forEach((v) {
+      json['images'].forEach((v) {
         images!.add(new ProjectImages.fromJson(v));
       });
     }
@@ -66,7 +66,7 @@ class AdditionalWork {
     data['title'] = this.title;
     data['description'] = this.description;
     if (this.images != null) {
-      data['project_images'] = this.images!.map((v) => v.toJson()).toList();
+      data['images'] = this.images!.map((v) => v.toJson()).toList();
     }
     data['amount'] = this.amount;
     data['status'] = this.status;

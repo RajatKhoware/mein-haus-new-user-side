@@ -80,7 +80,7 @@ class ChatCardWidget extends StatelessWidget {
     bool? isSend = true;
 
     if (userNotifier.userId == conv.toUserId) {
-      toUserId = conv.fromUserId;
+      conv.fromUserId = toUserId;
       isSend = false;
     }
 

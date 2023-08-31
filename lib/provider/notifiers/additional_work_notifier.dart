@@ -6,7 +6,6 @@ import 'package:new_user_side/repository/additional_work_repository.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../../error_screens.dart';
-import '../../features/additional work/screens/additional_work_from_pro_screen.dart';
 import '../../resources/common/my_snake_bar.dart';
 import '../../static components/dialogs/additional_work_added_dialog.dart';
 import '../../utils/extensions/get_images.dart';
@@ -28,7 +27,11 @@ class AdditionalWorkNotifier extends ChangeNotifier {
   //function
   void setLoadingState(bool state, bool notify) {
     _loading = state;
-    if (notify) notifyListeners();
+    if (notify) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
+    }
   }
 
   void setImagesInList(List<XFile> images) {
@@ -91,13 +94,10 @@ class AdditionalWorkNotifier extends ChangeNotifier {
       var data = AdditionalWorkModel.fromJson(response);
       setAdditionalWork(data);
       ('Fetched Addtional work succesfully ✅').log();
-      Navigator.pushNamed(
-        context,
-        AdditionalWorkProProvideScreen.routeName,
-      );
     }).onError((error, stackTrace) {
       setLoadingState(false, true);
-      onErrorHandler(context, error, stackTrace);
+      showSnakeBarr(context, "$error", SnackBarState.Error);
+      ("$error $stackTrace").log("Additional Work notifier");
     });
   }
 

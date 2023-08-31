@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_user_side/local%20db/user_prefrences.dart';
 import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/features/home/screens/home_screen.dart';
@@ -63,15 +64,9 @@ class _IntroScreenState extends State<IntroScreen>
 
   Future auth() async {
     final authNotifier = context.read<AuthNotifier>();
-    await authNotifier.authentication(context);
+    final token = await UserPrefrences().getToken();
+    if (token != '') await authNotifier.authentication(context);
   }
-
-  // Future authenticate() async {
-  //   bool isauth = await authServices.authenticate(context);
-  //   setState(() {
-  //     isAuth = isauth;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

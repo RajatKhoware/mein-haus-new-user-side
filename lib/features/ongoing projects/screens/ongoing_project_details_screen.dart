@@ -23,11 +23,11 @@ import '../widget/ongoing_project_photos_card_widget.dart';
 import '../widget/ongoing_project_button_panel.dart';
 
 class OngoingProjectDetailScreen extends StatefulWidget {
-  final Projects project;
+  final Projects projects;
   static const String routeName = '/ongoingProjectDeatils';
   const OngoingProjectDetailScreen({
     Key? key,
-    required this.project,
+    required this.projects,
   }) : super(key: key);
 
   @override
@@ -57,7 +57,7 @@ class _OngoingProjectDetailScreenState
   void dispose() {
     super.dispose();
     notifier.unsubscribe(
-        widget.project.id.toString()); // Unsubscribing Pusher Channel
+        widget.projects.id.toString()); // Unsubscribing Pusher Channel
   }
 
   // Subscribing Customer-Proffessinal Chat Channels
@@ -66,7 +66,7 @@ class _OngoingProjectDetailScreenState
     final userNotifier = context.read<AuthNotifier>().user;
     final userId = userNotifier.userId.toString();
     final channelName = [
-      "private-query.${widget.project.id}.$userId",
+      "private-query.${widget.projects.id}.$userId",
       "private-chat.$userId",
     ];
     await notifier.setupPusher(context, channelName);
@@ -77,14 +77,14 @@ class _OngoingProjectDetailScreenState
     final notifier = context.watch<EstimateNotifier>();
     final projectDetails = notifier.projectDetails;
     final services = projectDetails.services;
-    final String projectName = projectDetails.responseMessage.toString();
-    final bool isProjetCompleted = projectName == "Hourly Project";
 
     return services != null && notifier.proDetails.prodata != null
         ? ModalProgressHUD(
             inAsyncCall: notifier.loading,
             child: Scaffold(
-              appBar: MyAppBar(text: projectName),
+              appBar: MyAppBar(
+                text: services.normal! ? " Ongoing Job" : "Hourly Job",
+              ),
               body: Column(
                 children: [
                   DownloadPdfCard(workName: services.projectName.toString()),
@@ -107,7 +107,7 @@ class _OngoingProjectDetailScreenState
                               ),
                               20.hs,
                               MyTextPoppines(
-                                text: services.estimateNo.toString(),
+                                text: services.estimateNo ?? "",
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.yellow,
@@ -136,13 +136,13 @@ class _OngoingProjectDetailScreenState
                           20.vs,
                           Divider(thickness: 1.8.h),
                           // BUTTONS
-                          OngoingJobsButtonsPanel(project: widget.project),
+                          OngoingJobsButtonsPanel(projects: widget.projects),
                           Visibility(
-                            visible: isProjetCompleted,
+                            visible: services.isCompleted!,
                             child: Divider(thickness: 1.8.h),
                           ),
                           Visibility(
-                            visible: widget.project.isCompleted!,
+                            visible: widget.projects.isCompleted!,
                             child: ShowReviewCard(),
                           ),
                           Divider(thickness: 1.8.h),

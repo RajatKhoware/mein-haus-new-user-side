@@ -136,7 +136,7 @@ class OngoingWorkCard extends StatelessWidget {
           : {
               await _getProjectDetails(),
               Navigator.of(context).pushScreen(
-                OngoingProjectDetailScreen(project: project),
+                OngoingProjectDetailScreen(projects: project),
               ),
             };
       ("Project Id : $projectId || Pro Id : $proId").log();

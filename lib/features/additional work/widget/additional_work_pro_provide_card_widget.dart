@@ -1,10 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_user_side/data/models/generated_estimate_model.dart';
 import 'package:new_user_side/provider/notifiers/additional_work_notifier.dart';
+import 'package:new_user_side/resources/common/cached_network_img_error_widget.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
+import 'package:new_user_side/utils/extensions/full_screen_image_view.dart';
 import 'package:provider/provider.dart';
 import '../../../resources/common/my_text.dart';
 import 'icon_button_with_text.dart';
@@ -30,7 +34,7 @@ class _AdditionalWorkProProvideCardWidgetState
     final bool isWaitingCard = work.status == 0 && work.amount != null;
     final bool isApprovedCard = work.status == 1;
     final bool isPending = work.status == 0 && work.amount == null;
-    final isImgNull = work.images != null;
+    final isImgNull = work.images!.length != 0;
 
     return Container(
       decoration: BoxDecoration(
@@ -58,35 +62,48 @@ class _AdditionalWorkProProvideCardWidgetState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Images
-                isImgNull
-                    ? SizedBox(
-                        height: 100.h,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: work.images!.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: 110.w,
-                              height: 100.h,
-                              margin: EdgeInsets.symmetric(horizontal: 4.w),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(14.r),
-                              ),
-                              child: Image.network(
-                                work.images![index].thumbnailUrl!,
-                                errorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return Image.asset(
-                                    "assets/images/room/room_4.png",
-                                  );
-                                },
+                Visibility(
+                  visible: isImgNull,
+                  child: SizedBox(
+                    height: 100.h,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: work.images!.length,
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushScreen(
+                              FullScreenImageView(
+                                images: work.images!,
+                                currentIndex: index,
                               ),
                             );
                           },
-                        ),
-                      )
-                    : Image.asset("assets/images/image_not_found.png"),
-                const Divider(thickness: 1.0),
+                          child: Container(
+                            width: 110.w,
+                            height: 100.h,
+                            margin: EdgeInsets.symmetric(horizontal: 4.w),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14.r),
+                            ),
+                            child: CachedNetworkImage(
+                              imageUrl: work.images![index].thumbnailUrl!,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  CachedNetworkImgErrorWidget(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: isImgNull,
+                  child: const Divider(thickness: 1.0),
+                ),
                 5.vs,
                 MyTextPoppines(
                   text: "Description",
@@ -108,24 +125,23 @@ class _AdditionalWorkProProvideCardWidgetState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //Price
-                    Visibility(
-                      visible: work.amount != null,
-                      child: Row(
-                        children: [
-                          MyTextPoppines(
-                            text: "Price :   ",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                          ),
-                          MyTextPoppines(
-                            text: "\$${work.amount}",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14.sp,
-                            color: AppColors.yellow,
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        MyTextPoppines(
+                          text: "Price :   ",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                        ),
+                        MyTextPoppines(
+                          text:
+                              work.amount != null ? "\$${work.amount}" : "----",
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.sp,
+                          color: AppColors.yellow,
+                        ),
+                      ],
                     ),
+
                     isPending
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.end,

@@ -149,11 +149,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const SavedNotesScreen(),
       );
-    case ProgressInvoiceScreen.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => ProgressInvoiceScreen(),
-      );
+
     case OurServiceScreen.routeName:
       var index = routeSettings.arguments as int;
       return MaterialPageRoute(

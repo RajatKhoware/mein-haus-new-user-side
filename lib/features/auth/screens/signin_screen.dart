@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/features/auth/screens/forget_password.dart';
@@ -13,6 +14,7 @@ import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/extensions/validator.dart';
+import 'dart:io' show Platform;
 
 class SignInScreen extends StatefulWidget {
   static const String routeName = '/signin';
@@ -36,11 +38,26 @@ class _SignInScreenState extends State<SignInScreen> {
     _passwordController.dispose();
   }
 
+  Future<String> getDeviceName() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      return androidInfo.model;
+    } else if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      return iosInfo.model;
+    } else {
+      return "Fltter||Dart";
+    }
+  }
+
   Future login() async {
     final notifier = context.read<AuthNotifier>();
+    final deviceName = await getDeviceName();
     Map<String, String> data = {
       "email": _emailController.text,
       "password": _passwordController.text,
+      "device_name": deviceName,
     };
     if (_signInFormKey.currentState!.validate()) {
       notifier.login(data, context);

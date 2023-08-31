@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/constants/constant.dart';
@@ -19,10 +18,10 @@ class OngoingProjectPhotoCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
-    final EdgeInsets paddingH15 = EdgeInsets.symmetric(horizontal: 15.w);
-
     final notifier = context.watch<EstimateNotifier>();
     final services = notifier.projectDetails.services!;
+    final EdgeInsets paddingH15 = EdgeInsets.symmetric(horizontal: width / 26);
+
     return Padding(
       padding: paddingH15,
       child: Column(
@@ -45,54 +44,42 @@ class OngoingProjectPhotoCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 20.vs,
-                MyTextPoppines(
-                  text: "Uploaded Photos :",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14.sp,
-                ),
-                10.vs,
-                SizedBox(
-                  child: MasonryGridView.builder(
+                GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: services.projectImages!.length,
                     gridDelegate:
-                        const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                     ),
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: InkWell(
-                        onTap: () {
-                          final imgs = services.projectImages!;
-                          Navigator.of(context).pushScreen(
-                            FullScreenImageView(
-                              images: imgs,
-                              currentIndex: index,
-                            ),
-                          );
-                        },
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              services.projectImages![index].thumbnailUrl!,
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      final images = services.projectImages!;
+                      return Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushScreen(
+                              FullScreenImageView(
+                                images: images,
+                                currentIndex: index,
                               ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(width / 40),
+                            child: CachedNetworkImage(
+                              imageUrl: images[index].thumbnailUrl!,
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  CachedNetworkImgErrorWidget(),
                             ),
                           ),
-                          placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              CachedNetworkImgErrorWidget(),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
+                      );
+                    }),
                 6.vspacing(context),
               ],
             ),

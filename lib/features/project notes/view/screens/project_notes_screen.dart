@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../data/models/saved_notes_model.dart';
 import '../../../../resources/common/cached_network_img_error_widget.dart';
-import '../../../../static components/dialogs/projects_notes_dialog.dart';
 
 class SavedNotesScreen extends StatefulWidget {
   static const String routeName = '/savedNotes';
@@ -169,8 +168,6 @@ class NotesSavedByCustomer extends StatelessWidget {
 class _NoSavedNotesFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final project = context.read<EstimateNotifier>();
-    // final projectId = project.projectDetails.services!.;
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
     return Column(
@@ -180,6 +177,56 @@ class _NoSavedNotesFoundWidget extends StatelessWidget {
         SizedBox(height: height / 40),
         MyTextPoppines(
           text: "No Saved Notes found!",
+          fontSize: width / 26,
+          fontWeight: FontWeight.w600,
+        ),
+        SizedBox(height: height / 60),
+        InkWell(
+          onTap: () {},
+          child: Container(
+            width: width / 3.5,
+            height: height / 22,
+            decoration: BoxDecoration(
+              color: AppColors.buttonBlue.withOpacity(0.10),
+              borderRadius: BorderRadius.circular(width / 34),
+              border: Border.all(color: AppColors.buttonBlue),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                MyTextPoppines(
+                  text: "Add Note",
+                  fontSize: width / 34,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.buttonBlue,
+                ),
+                Icon(
+                  Icons.add_circle_outline_outlined,
+                  size: width / 24,
+                  color: AppColors.buttonBlue,
+                )
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+class _NoSavedNotesFoundForProWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
+    return Column(
+      children: [
+        SizedBox(height: height / 15),
+        SvgPicture.asset('assets/svgs/no_notes.svg'),
+        SizedBox(height: height / 40),
+        MyTextPoppines(
+          text: "No Notes Saved by Pro!",
           fontSize: width / 26,
           fontWeight: FontWeight.w600,
         ),

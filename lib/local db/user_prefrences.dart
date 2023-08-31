@@ -55,7 +55,11 @@ class UserPrefrences {
   Future<Map<String, String>> getHeader() async {
     prefs = await SharedPreferences.getInstance();
     final String token = await getToken();
-    final header = {'Authorization': 'Bearer $token'};
+    final header = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+      'referer': "https://meinhaus.ca",
+    };
     return header;
   }
 

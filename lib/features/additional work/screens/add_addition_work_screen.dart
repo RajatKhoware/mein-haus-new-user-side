@@ -17,6 +17,7 @@ import '../../../utils/constants/app_colors.dart';
 import '../../../utils/extensions/show_picked_images.dart';
 import '../../../utils/utils.dart';
 import '../../estimate/widget/download_pdf_card_widget.dart';
+import 'additional_work_from_pro_screen.dart';
 
 class AddAdditionalWorkScreen extends StatefulWidget {
   static const String routeName = '/addAddtionalWorkScreen';
@@ -39,6 +40,12 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
   FocusNode descNode = FocusNode();
 
   @override
+  void initState() {
+    _getAdditionalWorkHandler();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     titleController.dispose();
@@ -51,6 +58,7 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
     await GetImages().pickImages<AdditionalWorkNotifier>(context: context);
   }
 
+  // Requesting additional work
   _requestHandler() async {
     final notifier = context.read<AdditionalWorkNotifier>();
     final image = await Utils.collectImages(notifier.images);
@@ -70,6 +78,7 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
     }
   }
 
+  // Getting all the additional work requested by user
   _getAdditionalWorkHandler() async {
     final notifier = context.read<AdditionalWorkNotifier>();
     await notifier.getAdditonalWork(
@@ -80,9 +89,13 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
     final notifier = context.watch<AdditionalWorkNotifier>();
     final projectNotifer = context.read<EstimateNotifier>().projectDetails;
     final project = projectNotifer.services!;
+    final additionalWork = notifier.additionalWork.additionalWork;
+
     return ModalProgressHUD(
       inAsyncCall: notifier.loading,
       child: Scaffold(
@@ -167,49 +180,91 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
                       10.vs,
                       const Divider(thickness: 1.5),
                       10.vs,
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20.w, vertical: 15.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14.r),
-                          color: AppColors.yellow.withOpacity(0.2),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            MyTextPoppines(
-                              text:
-                                  "Tap here to view your all additional work details.",
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.sp,
-                              height: 1.3,
-                            ),
-                            InkWell(
-                              onTap: () => _getAdditionalWorkHandler(),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  border: Border.all(
-                                    width: 1.5.w,
-                                    color: AppColors.textBlue1E9BD0,
+                      notifier.loading
+                          ? SizedBox()
+                          : additionalWork!.isNotEmpty &&
+                                  additionalWork.length != 0
+                              ?
+                              // If there is any additional work to show
+                              Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 15.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(width / 28),
+                                    color: AppColors.yellow.withOpacity(0.2),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      MyTextPoppines(
+                                        text:
+                                            "Tap here to view your all additional work details.",
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width / 28,
+                                        height: 1.5,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).pushScreen(
+                                            AdditionalWorkProProvideScreen(),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30.r),
+                                            border: Border.all(
+                                              width: 1.5.w,
+                                              color: AppColors.textBlue1E9BD0,
+                                            ),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 12.w,
+                                            vertical: 7.h,
+                                          ),
+                                          child: MyTextPoppines(
+                                            text: "View Details",
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.buttonBlue,
+                                            fontSize: 10.sp,
+                                           
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              // If there is no additional work to show
+                              : Container(
+                                  width: width,
+                                  height: height / 10,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(width / 40),
+                                    color: AppColors.grey.withOpacity(0.2),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.info_outline,
+                                        size: width / 20,
+                                        color: Color.fromARGB(255, 0, 137, 196),
+                                      ),
+                                      SizedBox(width: width / 40),
+                                      MyTextPoppines(
+                                        text: "No Additional Work To Show",
+                                        fontSize: width / 28,
+                                        fontWeight: FontWeight.w600,
+                                      )
+                                    ],
                                   ),
                                 ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12.w,
-                                  vertical: 7.h,
-                                ),
-                                child: MyTextPoppines(
-                                  text: "View Details",
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.buttonBlue,
-                                  fontSize: 10.sp,
-                                  // height: 1.6,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+
+                      SizedBox(height: height / 90),
                     ],
                   ),
                 ),

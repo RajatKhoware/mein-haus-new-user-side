@@ -3,8 +3,11 @@ class OngoingProjectsModel {
   String? responseMessage;
   List<Projects>? projects;
 
-  OngoingProjectsModel(
-      {this.responseCode, this.responseMessage, this.projects});
+  OngoingProjectsModel({
+    this.responseCode,
+    this.responseMessage,
+    this.projects,
+  });
 
   OngoingProjectsModel.fromJson(Map<String, dynamic> json) {
     responseCode = json['response_code'];

@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_user_side/resources/common/cached_network_img_error_widget.dart';
 import 'package:provider/provider.dart';
 
 import 'package:new_user_side/resources/common/my_app_bar.dart';
@@ -222,8 +224,7 @@ class _MainCard extends StatelessWidget {
                     SizedBox(
                       width: width / 1.7,
                       child: MyTextPoppines(
-                        text:
-                            "Officia tempor ipsum in anim in consequat esse excepteur pariatur ex occaecat nulla do. Ipsum est irure qui laborum labore ex excepteur deserunt do fugiat est sint nostrud. Deserunt exercitation sunt excepteur ex exercitation aliqua irure. Aute ullamco labore officia amet eu qui eiusmod pariatur esse aliquip laborum. Sint non pariatur elit nostrud id enim id.",
+                        text: project.description.toString(),
                         fontSize: width / 40,
                         fontWeight: FontWeight.w600,
                         color: AppColors.black.withOpacity(0.4),
@@ -268,9 +269,18 @@ class _MainCard extends StatelessWidget {
                                   width: 1,
                                   color: AppColors.golden,
                                 ),
-                                image: DecorationImage(
-                                  image: NetworkImage(images.thumbnailUrl!),
-                                  fit: BoxFit.cover,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: CachedNetworkImage(
+                                  imageUrl: images.thumbnailUrl!,
+                                  placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      CachedNetworkImgErrorWidget(
+                                    textSize: 46,
+                                  ),
                                 ),
                               ),
                             );
@@ -445,7 +455,7 @@ class _ShowMiltipleServicesCard extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) {
                                 return OngoingProjectDetailScreen(
-                                  project: project,
+                                  projects: project,
                                 );
                               },
                             ),

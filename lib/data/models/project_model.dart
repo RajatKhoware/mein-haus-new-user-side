@@ -3,7 +3,7 @@ import 'package:new_user_side/data/models/generated_estimate_model.dart';
 class ProjectDetailsModel {
   String? responseCode;
   String? responseMessage;
-  Services? services;
+  Project? services;
 
   ProjectDetailsModel({this.responseCode, this.responseMessage, this.services});
 
@@ -11,7 +11,7 @@ class ProjectDetailsModel {
     responseCode = json['response_code'];
     responseMessage = json['response_message'];
     services = json['services'] != null
-        ? new Services.fromJson(json['services'])
+        ? new Project.fromJson(json['services'])
         : null;
   }
 
@@ -26,7 +26,7 @@ class ProjectDetailsModel {
   }
 }
 
-class Services {
+class Project {
   int? projectId;
   String? projectName;
   String? estimateNo;
@@ -39,22 +39,27 @@ class Services {
   int? proId;
   List<Reviews>? reviews;
   Query? query;
+  bool? normal;
+  bool? isCompleted;
 
-  Services(
-      {this.projectId,
-      this.projectName,
-      this.estimateNo,
-      this.projectStartDate,
-      this.projectCost,
-      this.discription,
-      this.address,
-      this.projectImages,
-      this.professionalWorkHistory,
-      this.proId,
-      this.reviews,
-      this.query});
+  Project({
+    this.projectId,
+    this.projectName,
+    this.estimateNo,
+    this.projectStartDate,
+    this.projectCost,
+    this.discription,
+    this.address,
+    this.projectImages,
+    this.professionalWorkHistory,
+    this.proId,
+    this.reviews,
+    this.query,
+    this.normal,
+    this.isCompleted,
+  });
 
-  Services.fromJson(Map<String, dynamic> json) {
+  Project.fromJson(Map<String, dynamic> json) {
     projectId = json['project_id'];
     projectName = json['project_name'];
     estimateNo = json['estimate_no'];
@@ -82,6 +87,8 @@ class Services {
       });
     }
     query = json['query'] != null ? new Query.fromJson(json['query']) : null;
+    normal = json['normal'];
+    isCompleted = json['is_completed'];
   }
 
   Map<String, dynamic> toJson() {
@@ -108,6 +115,8 @@ class Services {
     if (this.query != null) {
       data['query'] = this.query!.toJson();
     }
+    data['normal'] = this.normal;
+    data['is_completed'] = this.isCompleted;
     return data;
   }
 }

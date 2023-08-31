@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:new_user_side/features/check%20out/screens/checkout_screen.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/resources/common/my_app_bar.dart';
@@ -18,230 +19,236 @@ class ProgressInvoiceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = context.read<EstimateNotifier>();
+    final notifier = context.watch<EstimateNotifier>();
     final projectDetails = notifier.projectDetails.services!;
     final width = context.screenWidth;
     final height = context.screenHeight;
-    final invoice = notifier.progressInvoiceModel.data!;
-    final billFrom = invoice.meinhausAddress!;
-    final billTo = invoice.billTo!.address!;
-    final totalDueAmount = invoice.amountToBePaid!.totalAmountDue!.split(".");
-    final bool amountPaid = totalDueAmount[0] == "0";
+    final invoice = notifier.progressInvoiceModel.data;
+    final billFrom = invoice?.meinhausAddress!;
+    final billTo = invoice?.billTo!.address!;
+    final totalDueAmount = invoice?.amountToBePaid!.totalAmountDue!.split(".");
+    final bool amountPaid = totalDueAmount?[0] == "0";
 
-    return Scaffold(
-      appBar: MyAppBar(text: "Progess Invoice"),
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: width / 3.6,
-                height: height / 23,
-                child: Image.asset(
-                  "assets/logo/invoice_logo.png",
-                  fit: BoxFit.fill,
-                ),
-              ),
-              4.vspacing(context),
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+    return !notifier.loading
+        ? ModalProgressHUD(
+            inAsyncCall: notifier.loading,
+            child: Scaffold(
+              appBar: MyAppBar(text: "Progess Invoice"),
+              body: SafeArea(
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 10.h, horizontal: 15.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      1.vspacing(context),
-                      // Estimate
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          MyTextPoppines(
-                            text: "ESTIMATE",
-                            fontSize: width / 20,
-                            height: 1.5,
-                            textAlign: TextAlign.end,
-                            fontWeight: FontWeight.w700,
-                            color: const Color.fromARGB(255, 132, 5, 5),
-                          ),
-                          MyTextPoppines(
-                            text: "Estiamte Number : ${invoice.bookingId}",
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          MyTextPoppines(
-                            text: "Estiamte Date : ${invoice.createdAt}",
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          MyTextPoppines(
-                            text:
-                                "Grand Total (CAD) : \$${invoice.totalAmount}",
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
+                      SizedBox(
+                        width: width / 3.6,
+                        height: height / 23,
+                        child: Image.asset(
+                          "assets/logo/invoice_logo.png",
+                          fit: BoxFit.fill,
+                        ),
                       ),
-                      5.vspacing(context),
-                      // Bill from
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          MyTextPoppines(
-                            text: "Mein Haus",
-                            fontSize: width / 25,
-                            height: 1.5,
-                            textAlign: TextAlign.end,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 132, 5, 5),
+                      4.vspacing(context),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              1.vspacing(context),
+                              // Estimate
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MyTextPoppines(
+                                    text: "ESTIMATE",
+                                    fontSize: width / 20,
+                                    height: 1.5,
+                                    textAlign: TextAlign.end,
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color.fromARGB(255, 132, 5, 5),
+                                  ),
+                                  MyTextPoppines(
+                                    text:
+                                        "Estiamte Number : ${invoice?.bookingId}",
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  MyTextPoppines(
+                                    text:
+                                        "Estiamte Date : ${invoice!.createdAt}",
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  MyTextPoppines(
+                                    text:
+                                        "Grand Total (CAD) : \$${invoice.totalAmount}",
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              5.vspacing(context),
+                              // Bill from
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MyTextPoppines(
+                                    text: "Mein Haus",
+                                    fontSize: width / 25,
+                                    height: 1.5,
+                                    textAlign: TextAlign.end,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromARGB(255, 132, 5, 5),
+                                  ),
+                                  MyTextPoppines(
+                                    text: billFrom!.address1.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text:
+                                        "${billFrom.city}, ${billFrom.province} ${billFrom.postalCode}",
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: billFrom.country.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: billFrom.phone.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: billFrom.website.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                    color: AppColors.textBlue,
+                                  ),
+                                ],
+                              ),
+                              5.vspacing(context),
+                              // Bill to
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  MyTextPoppines(
+                                    text: "Bill To",
+                                    fontSize: width / 25,
+                                    height: 1.5,
+                                    textAlign: TextAlign.end,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color.fromARGB(255, 132, 5, 5),
+                                  ),
+                                  MyTextPoppines(
+                                    text: invoice.billTo!.name.toString(),
+                                    fontSize: width / 30,
+                                    height: 1.5,
+                                    fontWeight: FontWeight.w600,
+                                    textAlign: TextAlign.end,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: billTo!.address1.toString().trim(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: billTo.address2.toString().trim(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: billTo.city.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: "${billTo.state}, ${billTo.country}",
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: invoice.billTo!.phone.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  1.vspacing(context),
+                                  MyTextPoppines(
+                                    text: invoice.billTo!.email.toString(),
+                                    fontSize: width / 35,
+                                    height: 1.5,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                ],
+                              ),
+                              5.vspacing(context),
+                              _ShowTableView(),
+                              5.vspacing(context),
+                              _ShowInvoiceSummary(),
+                              5.vspacing(context),
+                              _ShowAmountToPaid(),
+                            ],
                           ),
-                          MyTextPoppines(
-                            text: billFrom.address1.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text:
-                                "${billFrom.city}, ${billFrom.province} ${billFrom.postalCode}",
-                            fontSize: width / 35,
-                            height: 1.5,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: billFrom.country.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: billFrom.phone.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: billFrom.website.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                            color: AppColors.textBlue,
-                          ),
-                        ],
+                        ),
                       ),
-                      5.vspacing(context),
-                      // Bill to
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          MyTextPoppines(
-                            text: "Bill To",
-                            fontSize: width / 25,
-                            height: 1.5,
-                            textAlign: TextAlign.end,
-                            fontWeight: FontWeight.w500,
-                            color: const Color.fromARGB(255, 132, 5, 5),
-                          ),
-                          MyTextPoppines(
-                            text: invoice.billTo!.name.toString(),
-                            fontSize: width / 30,
-                            height: 1.5,
-                            fontWeight: FontWeight.w600,
-                            textAlign: TextAlign.end,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: billTo.address1.toString().trim(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: billTo.address2.toString().trim(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: billTo.city.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: "${billTo.state}, ${billTo.country}",
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: invoice.billTo!.phone.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                          1.vspacing(context),
-                          MyTextPoppines(
-                            text: invoice.billTo!.email.toString(),
-                            fontSize: width / 35,
-                            height: 1.5,
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      ),
-                      5.vspacing(context),
-                      _ShowTableView(),
-                      5.vspacing(context),
-                      _ShowInvoiceSummary(),
-                      5.vspacing(context),
-                      _ShowAmountToPaid(),
                     ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: InkWell(
-        onTap: amountPaid
-            ? () {}
-            : () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CheckOutScreen(
-                        ProjectName: projectDetails.projectName.toString(),
-                        bookingId: invoice.bookingId.toString(),
-                        amountToPay:
-                            invoice.amountToBePaid!.totalAmountDue.toString(),
-                      );
-                    },
-                  ),
-                );
-              },
-        child: Container(
-          width: width / 1.5,
-          height: height / 18,
-          color: amountPaid ? AppColors.green : AppColors.golden,
-          child: Center(
-              child: MyTextPoppines(
-            text: amountPaid ? "Paid" : "Pay",
-            fontWeight: FontWeight.bold,
-            color: AppColors.white,
-          )),
-        ),
-      ),
-    );
+              bottomNavigationBar: InkWell(
+                onTap: amountPaid
+                    ? () {}
+                    : () {
+                        Navigator.of(context).pushScreen(
+                          CheckOutScreen(
+                            ProjectName: projectDetails.projectName.toString(),
+                            bookingId: invoice.bookingId.toString(),
+                            amountToPay: invoice.amountToBePaid!.totalAmountDue
+                                .toString(),
+                          ),
+                        );
+                      },
+                child: Container(
+                  width: width / 1.5,
+                  height: height / 18,
+                  color: amountPaid ? AppColors.green : AppColors.golden,
+                  child: Center(
+                      child: MyTextPoppines(
+                    text: amountPaid ? "Paid" : "Pay",
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.white,
+                  )),
+                ),
+              ),
+            ),
+          )
+        : ModalProgressHUD(
+            inAsyncCall: true,
+            child: Scaffold(),
+          );
   }
 }
 
