@@ -1,5 +1,9 @@
+import 'dart:io' show Platform;
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
 import 'package:new_user_side/data/models/UserModel.dart';
 import 'package:new_user_side/features/auth/screens/add_phone_number_screen.dart';
 import 'package:new_user_side/features/auth/screens/create_new_password_screen.dart';
@@ -16,8 +20,6 @@ import '../../error_screens.dart';
 import '../../features/auth/screens/otp_validate_screen.dart';
 import '../../features/home/screens/home_screen.dart';
 import '../../resources/common/my_snake_bar.dart';
-import 'dart:io' show Platform;
-import 'package:device_info_plus/device_info_plus.dart';
 
 class AuthNotifier extends ChangeNotifier {
   AuthRepositorys repository = AuthRepositorys();
@@ -104,7 +106,7 @@ class AuthNotifier extends ChangeNotifier {
   ) {
     showSnakeBarr(context, "$error", SnackBarState.Error);
     ("$error $stackTrace").log("Auth notifier");
-    Navigator.of(context).pushScreen(ShowError(error: error.toString()));
+    //Navigator.of(context).pushScreen(ShowError(error: error.toString()));
   }
 
 // Auth
@@ -120,46 +122,59 @@ class AuthNotifier extends ChangeNotifier {
     });
   }
 
+  // set sanctum
+  Future sanctum() async {
+    final response = await http.get(
+      Uri.parse("https://meinhaus.ca/sanctum/csrf-cookie"),
+    );
+    final xsrf = response.headers['set-cookie'];
+    await UserPrefrences().setXsrf(xsrf.toString());
+  }
+
 // Login
   Future login(MapSS data, BuildContext context) async {
     setLoadingState(true, true);
-    repository.login(data).then((response) async {
-      if (response['response_code'] == "401") {
-        showSnakeBarr(
-          context,
-          "Invalid Email or Password",
-          SnackBarState.Error,
-        );
-        setLoadingState(false, true);
-      } else {
-        User user = UserModel.fromJson(response).user!;
-        setUser(user);
-        await prefs.setToken(user.token!);
-        if (user.phoneVerified!) {
-          ("User Logged in Successfully ✨").log("Login Notifier");
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            HomeScreen.routeName,
-            (route) => false,
-          );
-        } else {
+    await sanctum().then((value) {
+      repository.login(data).then((response) async {
+        if (response['response_code'] == "401") {
           showSnakeBarr(
             context,
-            "Please verify you details first",
-            SnackBarState.Warning,
+            "Invalid Email or Password",
+            SnackBarState.Error,
           );
-          Navigator.of(context).pushScreen(
-            OtpValidateScreen(
-              userId: user.userId!,
-              contactNo: user.contact!,
-              isSkippAble: true,
-            ),
-          );
+          setLoadingState(false, true);
+        } else {
+          User user = UserModel.fromJson(response).user!;
+          setUser(user);
+          await prefs.setToken(user.token!);
+          if (user.phoneVerified!) {
+            ("User Logged in Successfully ✨").log("Login Notifier");
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              HomeScreen.routeName,
+              (route) => false,
+            );
+          } else {
+            showSnakeBarr(
+              context,
+              "Please verify you details first",
+              SnackBarState.Warning,
+            );
+            Navigator.of(context).pushScreen(
+              OtpValidateScreen(
+                userId: user.userId!,
+                contactNo: user.contact!,
+                isSkippAble: true,
+              ),
+            );
+          }
+          setLoadingState(false, true);
         }
+      }).onError((error, stackTrace) {
+        onErrorHandler(context, error, stackTrace);
         setLoadingState(false, true);
-      }
+      });
     }).onError((error, stackTrace) {
-      onErrorHandler(context, error, stackTrace);
-      setLoadingState(false, true);
+      ("$error $stackTrace").log("Xsrf Auth notifier");
     });
   }
 

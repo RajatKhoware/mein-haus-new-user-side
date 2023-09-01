@@ -77,11 +77,12 @@ class ChatCardWidget extends StatelessWidget {
     final w = context.screenWidth;
     final conv = conversations;
     int? toUserId = conv.toUserId;
-    bool? isSend = true;
+    bool? isSendByPro = true;
 
+// checking if message is from my side or from pro side
     if (userNotifier.userId == conv.toUserId) {
-      conv.fromUserId = toUserId;
-      isSend = false;
+      toUserId = conv.fromUserId;
+      isSendByPro = false;
     }
 
     void loadMessages() {
@@ -141,7 +142,7 @@ class ChatCardWidget extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        isSend
+                        isSendByPro
                             ? MyTextPoppines(
                                 text: "You :  ",
                                 fontSize: w / 40,
@@ -150,7 +151,7 @@ class ChatCardWidget extends StatelessWidget {
                               )
                             : const SizedBox(),
                         SizedBox(
-                          width: isSend ? w / 1.9 : w / 1.6,
+                          width: isSendByPro ? w / 1.9 : w / 1.6,
                           child: mType(
                             conv.lastMessageType!,
                             context,

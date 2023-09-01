@@ -33,6 +33,7 @@ class ChatNotifier extends ChangeNotifier {
   bool _loading = false;
   bool _loadMoreLoading = false;
   int _pageNo = 1;
+
   double _scrollPostion = 0;
   String _lastMessage = '';
   List<XFile> _images = [];

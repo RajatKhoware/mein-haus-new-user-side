@@ -7,6 +7,18 @@ class AuthRepositorys {
   NetworkApiServices services = NetworkApiServices();
   BaseApiServices _apiServices = OldNetworkApiServices();
 
+// Sanctum
+  Future<ResponseType> sanctum() async {
+    try {
+      return await services.sendHttpRequest(
+        url: Uri.parse("https://meinhaus.ca/sanctum/csrf-cookie"),
+        method: HttpMethod.get,
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
 // Login
   Future<ResponseType> login(MapSS body) async {
     try {

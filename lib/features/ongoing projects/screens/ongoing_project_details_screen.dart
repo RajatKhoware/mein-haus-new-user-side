@@ -83,7 +83,11 @@ class _OngoingProjectDetailScreenState
             inAsyncCall: notifier.loading,
             child: Scaffold(
               appBar: MyAppBar(
-                text: services.normal! ? " Ongoing Job" : "Hourly Job",
+                text: services.isCompleted!
+                    ? "Project History"
+                    : services.normal!
+                        ? " Ongoing Job"
+                        : "Hourly Job",
               ),
               body: Column(
                 children: [
