@@ -28,6 +28,7 @@ class _CheckOutBottomSnackBarState extends State<CheckOutBottomBar> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final notifier = context.watch<CheckOutNotifier>();
 
     _checkOutHandler() async {
       final notifer = context.read<CheckOutNotifier>();
@@ -95,6 +96,7 @@ class _CheckOutBottomSnackBarState extends State<CheckOutBottomBar> {
           Divider(thickness: 2, height: 5.h),
           10.vs,
           MyBlueButton(
+            isWaiting: notifier.loading,
             hPadding: 100.w,
             text: "Pay Now",
             fontSize: height > 800 ? 13.sp : 16.sp,

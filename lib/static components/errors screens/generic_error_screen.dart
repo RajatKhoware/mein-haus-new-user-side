@@ -66,7 +66,6 @@ class GenericErrorScreen extends StatelessWidget {
                 text: "BACK",
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pop();
                 },
               ),
               SizedBox(height: height / 50),

@@ -46,8 +46,8 @@ class EstimateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeImageFromList(XFile pickedFile) {
-    _images.remove(pickedFile);
+  void removeImageFromList() {
+    _images.clear();
     notifyListeners();
   }
 
@@ -114,7 +114,7 @@ class EstimateNotifier extends ChangeNotifier {
     estimateRepository.createStartingEstimate(data).then((response) {
       setLoadingState(false, true);
       ('Estimate Succesfully Created ✅').log("Estimate Creation");
-      setImagesInList([]);
+      removeImageFromList();
       Navigator.of(context).pushScreen(HomeScreen());
       showSnakeBarr(
         context,
@@ -137,7 +137,7 @@ class EstimateNotifier extends ChangeNotifier {
     estimateRepository.createEstimate(data).then((response) {
       setLoadingState(false, true);
       ('Estimate Succesfully Created ✅').log("Estimate Creation");
-      setImagesInList([]);
+      removeImageFromList();
       //Get.to(() => HomeScreen());
       Navigator.of(context).pushScreen(HomeScreen());
       showSnakeBarr(
@@ -174,10 +174,13 @@ class EstimateNotifier extends ChangeNotifier {
 
   // GET PROJECTS HISTORY
   Future getProjectsHistory(BuildContext context) async {
+    // setLoadingState(true, true);
     estimateRepository.getProjectsHistory().then((response) {
+      //setLoadingState(false, true);
       var data = OngoingProjectsModel.fromJson(response);
       setProjectsHistory(data);
     }).onError((error, stackTrace) {
+      // setLoadingState(false, true);
       onErrorHandler(context, error, stackTrace);
     });
   }
@@ -210,28 +213,25 @@ class EstimateNotifier extends ChangeNotifier {
   supportStatusChecker(Query? query, BuildContext context) {
     // Setting the inital values
     final supportNotifier = context.read<SupportNotifier>();
+    supportNotifier.setSupportStatus(0);
     supportNotifier.setShowClosingDialog(false);
     supportNotifier.setIsQuerySoved(false);
     supportNotifier.setIsQueryFlagged(false);
     // Support is not null && active and query is not solved yet.
-    // Support has flaged your query
-    if (query != null && query.flagged == "1") {
-      supportNotifier.setIsQueryFlagged(true);
-    }
-    if (query != null && query.status == "1" && query.resolved == "0") {
-      supportNotifier.setSupportStatus(1);
-      supportNotifier.setTicketId(query.ticket!);
-    }
-    // Support request to close the query
-    else if (query != null &&
-        query.status == "1" &&
-        query.endStatus == "1" &&
-        query.resolved == "0") {
-      supportNotifier.setShowClosingDialog(true);
-    }
-    // If no condition match we will set support status to inactive
-    else {
-      supportNotifier.setSupportStatus(0);
+    if (query != null) {
+      if (query.status == 1) {
+        supportNotifier.setSupportStatus(1);
+        supportNotifier.setTicketId(query.ticket!);
+        if (query.flagged == 1) {
+          supportNotifier.setIsQueryFlagged(true);
+        } else if (query.resolved == 0 && query.endStatus == 1) {
+          supportNotifier.setShowClosingDialog(true);
+        } else if (query.resolved == 1 && query.endStatus == 3) {
+          supportNotifier.setSupportStatus(0);
+        }
+      } else {
+        supportNotifier.setSupportStatus(0);
+      }
     }
   }
 
@@ -271,7 +271,10 @@ class EstimateNotifier extends ChangeNotifier {
   }) async {
     await estimateRepository.toggleServices(body).then((response) {
       showSnakeBarr(
-          context, response["response_message"], SnackBarState.Success);
+        context,
+        response["response_message"],
+        SnackBarState.Success,
+      );
       getEstimateWork(context);
     }).onError((error, stackTrace) {
       onErrorHandler(context, error, stackTrace);

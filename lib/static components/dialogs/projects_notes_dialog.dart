@@ -141,7 +141,7 @@ class _ProjectNotesDialogState extends State<ProjectNotesDialog> {
                   child: MyTextField(
                     text: "Enter Your Notes Below",
                     headingFontWeight: FontWeight.w500,
-                    maxLines: 4,
+                    maxLines: 6,
                     hintText: " Write Notes Here..",
                     isHs20: false,
                     controller: noteController,

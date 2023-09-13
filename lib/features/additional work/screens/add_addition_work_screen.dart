@@ -158,20 +158,23 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
                       ),
                       // Picking and Showing images
                       10.vs,
-                      if (notifier.images.length == 0)
-                        SelectFileButton(
-                          onTap: () => notifier.getImages(context),
+                      Visibility(
+                        visible: notifier.images.length == 0,
+                        child: SelectFileButton(
+                          onTap: () => notifier.getImagess(context),
                         ),
+                      ),
                       20.vs,
-                      if (notifier.images.length != 0)
-                        ShowPickedImages<AdditionalWorkNotifier>(),
+                      Visibility(
+                        visible: notifier.images.length != 0,
+                        child: ShowPickedImages<AdditionalWorkNotifier>(),
+                      ),
                       10.vs,
                       const Divider(thickness: 1.5),
                       10.vs,
                       Align(
                         alignment: Alignment.center,
                         child: MyBlueButton(
-                          // isWaiting: notifier.loading,
                           hPadding: 80.w,
                           text: "Request it",
                           onTap: () => _requestHandler(),
@@ -230,7 +233,6 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
                                             fontWeight: FontWeight.w600,
                                             color: AppColors.buttonBlue,
                                             fontSize: 10.sp,
-                                           
                                           ),
                                         ),
                                       ),
@@ -263,7 +265,6 @@ class _AddAdditionalWorkScreenState extends State<AddAdditionalWorkScreen> {
                                     ],
                                   ),
                                 ),
-
                       SizedBox(height: height / 90),
                     ],
                   ),

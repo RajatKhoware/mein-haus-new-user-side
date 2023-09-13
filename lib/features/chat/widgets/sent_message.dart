@@ -24,7 +24,7 @@ class SendMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     final h = context.screenHeight;
     final w = context.screenWidth;
-     final createdAt = message.createdAt.toString();
+    final createdAt = message.createdAt.toString();
     final messageTime = Utils.convertToRailwayTime(createdAt);
     return Container(
       margin: EdgeInsets.only(
@@ -89,9 +89,9 @@ class SendMessage extends StatelessWidget {
             maxLines: 20,
           ),
           Icon(
-            ChatHelper.setIcon(message.isSeen?? 0),
+            ChatHelper.setIcon(message.isSeen ?? 0),
             size: w / 25,
-            color: ChatHelper.setIconColor(message.isSeen ??0),
+            color: ChatHelper.setIconColor(message.isSeen ?? 0),
           )
         ],
       ),

@@ -133,15 +133,15 @@ class ProRecentProjectDialog extends StatelessWidget {
                       color: AppColors.black.withOpacity(0.6),
                       maxLines: 3,
                     ),
-                    _buildImgCard(
+                    _buildWorkImg(
                       context: context,
                       containerBgColor: Color(0xFFEDF5FD),
                       img: proRecentProject.beforeWorkImages!,
                     ),
-                    _buildImgCard(
+                    _buildWorkImg(
                       context: context,
-                      containerBgColor: Color(0xFFFEF8ED),
                       isBeforWorkCard: false,
+                      containerBgColor: Color(0xFFFEF8ED),
                       img: proRecentProject.afterWorkImages!,
                     ),
                   ],
@@ -154,7 +154,7 @@ class ProRecentProjectDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildImgCard({
+  Widget _buildWorkImg({
     required BuildContext context,
     required Color containerBgColor,
     bool isBeforWorkCard = true,
@@ -162,6 +162,7 @@ class ProRecentProjectDialog extends StatelessWidget {
   }) {
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10.h),
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
@@ -181,21 +182,40 @@ class ProRecentProjectDialog extends StatelessWidget {
           Divider(thickness: 1.0),
           SizedBox(
             height: height / 10,
-            child: ListView.builder(
-              itemCount: img.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: width / 28),
-                  child: ProjectImgCardWidget(
-                    width: width / 4.5,
-                    height: height / 20,
-                    imgPath: img[index],
-                    isNetworkImg: true,
+            child: img.length > 0
+                ? ListView.builder(
+                    itemCount: img.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(right: width / 28),
+                        child: InkWell(
+                          onTap: () {
+                            // Navigator.of(context).pushScreen(
+                            //   FullScreenImageView(
+                            //     images: img,
+                            //     currentIndex: index,
+                            //   ),
+                            // );
+                          },
+                          child: ProjectImgCardWidget(
+                            width: width / 4.5,
+                            height: height / 20,
+                            imgPath: img[index],
+                            isNetworkImg: true,
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Center(
+                    child: MyTextPoppines(
+                      text:
+                          "No ${isBeforWorkCard ? "Before" : "After"} Work Images is Uploaded by Pro",
+                      fontSize: width / 38,
+                      color: AppColors.grey,
+                    ),
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),

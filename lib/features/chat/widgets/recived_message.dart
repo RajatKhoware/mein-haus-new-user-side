@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:new_user_side/features/chat/widgets/sent_message.dart';
+import 'package:new_user_side/resources/common/cached_network_img_error_widget.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
+import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../../../data/models/message_model.dart';
@@ -28,8 +31,14 @@ class RecivedMessage extends StatelessWidget {
         // Sender Img
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
-          child: Image.network(
-            senderImg,
+          child: CachedNetworkImage(
+            imageUrl: senderImg,
+            progressIndicatorBuilder: (context, url, progress) => Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => Icon(
+              Icons.person,
+            ),
             height: h / 30,
             width: w / 15,
           ),

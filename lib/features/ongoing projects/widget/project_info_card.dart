@@ -47,7 +47,10 @@ class ProjectInfoCard extends StatelessWidget {
             )
           : {
               Navigator.of(context).pushScreen(
-                OngoingProjectDetailScreen(projects: project),
+                OngoingProjectDetailScreen(
+                  projects: project,
+                  serviceId: projectId,
+                ),
               ),
               _getProjectDetails(),
             };

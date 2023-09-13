@@ -9,7 +9,7 @@ import 'package:new_user_side/resources/common/my_snake_bar.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../resources/common/api_url/api_urls.dart';
- 
+
 class MakePayment {
   Map<String, dynamic>? paymentIntent;
   Future<bool> makePayment({
@@ -44,7 +44,7 @@ class MakePayment {
         headers: headers,
       );
       ("Status at Intent Creation : ${response.statusCode}")
-          .log("Payment Intent");
+          .log("Create Payment Intent");
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         if (kDebugMode) {
@@ -63,7 +63,7 @@ class MakePayment {
   Future<bool> displayPaymentSheet(BuildContext context) async {
     late bool isValueTrue;
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) {
+      await Stripe.instance.presentPaymentSheet().then((_) {
         paymentIntent = null;
         isValueTrue = true;
       }).onError((error, stackTrace) {

@@ -24,10 +24,11 @@ import '../widget/ongoing_project_button_panel.dart';
 
 class OngoingProjectDetailScreen extends StatefulWidget {
   final Projects projects;
+  final String serviceId;
   static const String routeName = '/ongoingProjectDeatils';
   const OngoingProjectDetailScreen({
     Key? key,
-    required this.projects,
+    required this.projects, required this.serviceId,
   }) : super(key: key);
 
   @override
@@ -55,9 +56,9 @@ class _OngoingProjectDetailScreenState
 
   @override
   void dispose() {
+    final serviceId = estimateNotifier.projectDetails.services!.projectId;
     super.dispose();
-    notifier.unsubscribe(
-        widget.projects.id.toString()); // Unsubscribing Pusher Channel
+    notifier.unsubscribe(serviceId.toString()); // Unsubscribing Pusher Channel
   }
 
   // Subscribing Customer-Proffessinal Chat Channels
@@ -66,7 +67,7 @@ class _OngoingProjectDetailScreenState
     final userNotifier = context.read<AuthNotifier>().user;
     final userId = userNotifier.userId.toString();
     final channelName = [
-      "private-query.${widget.projects.id}.$userId",
+      "private-query.${widget.serviceId}.$userId",
       "private-chat.$userId",
     ];
     await notifier.setupPusher(context, channelName);

@@ -93,6 +93,7 @@ class _EstimateGenerationScreenState extends State<EstimateGenerationScreen> {
     final estimateNotifer = context.watch<EstimateNotifier>();
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
+    final image = estimateNotifer.images;
     return ModalProgressHUD(
       inAsyncCall: estimateNotifer.loading,
       child: Scaffold(
@@ -155,54 +156,50 @@ class _EstimateGenerationScreenState extends State<EstimateGenerationScreen> {
                         child: SizedBox(
                           height: 90.h,
                           width: double.infinity,
-                          child: Consumer<EstimateNotifier>(
-                            builder: (context, images, child) {
-                              final image = images.images;
-                              return Row(
-                                children: [
-                                  image.isEmpty
-                                      ? Image.asset(
-                                          "assets/icons/imgs.png",
-                                          fit: BoxFit.fitWidth,
-                                          width: 260.w,
-                                        )
-                                      : Expanded(
-                                          child: ListView.builder(
-                                            itemCount: image.length,
-                                            scrollDirection: Axis.horizontal,
-                                            itemBuilder: (context, index) {
-                                              return InkWell(
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 10),
-                                                  child: Image.file(
-                                                    File(image[index].path)
-                                                        .absolute,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                  20.hs,
-                                  InkWell(
-                                    onTap: () => getImagess(),
-                                    child: Icon(
-                                      Icons.add_circle,
-                                      size: 35.sp,
-                                      color: AppColors.textBlue,
+                          child: Row(
+                            children: [
+                              image.isEmpty
+                                  ? Image.asset(
+                                      "assets/icons/imgs.png",
+                                      fit: BoxFit.fitWidth,
+                                      width: 260.w,
+                                    )
+                                  : Expanded(
+                                      child: ListView.builder(
+                                        itemCount: image.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 10),
+                                              child: Image.file(
+                                                File(image[index].path)
+                                                    .absolute,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  10.hs,
-                                ],
-                              );
-                            },
+                              20.hs,
+                              InkWell(
+                                onTap: () => getImagess(),
+                                child: Icon(
+                                  Icons.add_circle,
+                                  size: 35.sp,
+                                  color: AppColors.textBlue,
+                                ),
+                              ),
+                              10.hs,
+                            ],
                           ),
                         ),
                       )
                     ],
                   ),
                   20.vs,
+
                   const SavedAddressesWidget(),
                 ],
               ),

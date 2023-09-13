@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
-
 
 class ProChatAppBar extends StatelessWidget {
   const ProChatAppBar({
@@ -34,23 +34,20 @@ class ProChatAppBar extends StatelessWidget {
       elevation: 0.0,
       title: Row(
         children: [
-          Stack(
-            children: [
-              CircleAvatar(
-                radius: w / 22,
-                backgroundImage: senderImg.isEmpty
-                    ? AssetImage("assets/images/face/man_1.png")
-                    : NetworkImage(senderImg) as ImageProvider<Object>,
+          CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: w / 22,
+            child: CachedNetworkImage(
+              imageUrl: senderImg,
+              progressIndicatorBuilder: (context, url, progress) => Center(
+                child: CircularProgressIndicator(),
               ),
-              Positioned(
-                right: 0,
-                top: h / 300,
-                child: CircleAvatar(
-                  radius: w / 100,
-                  backgroundColor: AppColors.green,
-                ),
+              errorWidget: (context, url, error) => Icon(
+                Icons.person,
+                size: w / 10,
+                color: AppColors.black,
               ),
-            ],
+            ),
           ),
           SizedBox(width: w / 40),
           MyTextPoppines(

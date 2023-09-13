@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
+import 'package:new_user_side/utils/constants/constant.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/sizer.dart';
 import 'package:provider/provider.dart';
@@ -23,14 +24,7 @@ class MeinHouseProRatingCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         color: AppColors.white,
-        boxShadow: [
-          BoxShadow(
-            color: const Color.fromARGB(20, 0, 0, 0),
-            offset: const Offset(0, 0),
-            blurRadius: 10.r,
-            spreadRadius: 2.r,
-          ),
-        ],
+        boxShadow: boxShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +67,7 @@ class MeinHouseProRatingCard extends StatelessWidget {
                     ),
                     10.hs,
                     MyTextPoppines(
-                      text: "3.5 out of 5",
+                      text: "${pro.proRating!.avgRating} out of 5",
                       fontSize: context.screenHeight / MyFontSize.font13,
                       fontWeight: FontWeight.w500,
                     ),
@@ -91,30 +85,23 @@ class MeinHouseProRatingCard extends StatelessWidget {
           ),
           10.vs,
           Divider(thickness: 0.8),
-          10.vs,
-          RatingCardStatusContant(
-            size: size,
-            title: "Average rating",
-            valueNo: "(54)",
-            valueProgress: 0.9,
-          ),
           RatingCardStatusContant(
             size: size,
             title: "Responsive",
-            valueNo: "(22)",
-            valueProgress: 0.44,
+            // valueNo: "(22)",
+            valueProgress: pro.proRating!.responsiveness! * 0.01,
           ),
           RatingCardStatusContant(
             size: size,
-            title: "Reputation",
-            valueNo: "(10)",
-            valueProgress: 0.3,
+            title: "Punctuality",
+            //  valueNo: "(10)",
+            valueProgress: pro.proRating!.punctuality! * 0.01,
           ),
           RatingCardStatusContant(
             size: size,
-            title: "Great Work",
-            valueNo: "(54)",
-            valueProgress: 0.7,
+            title: "Quality",
+            //    valueNo: "(54)",
+            valueProgress: pro.proRating!.responsiveness! * 0.01,
           )
         ],
       ),
@@ -123,17 +110,18 @@ class MeinHouseProRatingCard extends StatelessWidget {
 }
 
 class RatingCardStatusContant extends StatelessWidget {
-  const RatingCardStatusContant(
-      {super.key,
-      required this.size,
-      required this.title,
-      required this.valueNo,
-      required this.valueProgress});
+  const RatingCardStatusContant({
+    super.key,
+    required this.size,
+    required this.title,
+    //  required this.valueNo,
+    required this.valueProgress,
+  });
 
   final Size size;
   final String title;
   final double valueProgress;
-  final String valueNo;
+  // final String valueNo;
 
   @override
   Widget build(BuildContext context) {
@@ -165,11 +153,11 @@ class RatingCardStatusContant extends StatelessWidget {
               ),
             ),
           ),
-          MyTextPoppines(
-            text: valueNo,
-            fontSize: size.height * 0.015,
-            fontWeight: FontWeight.w400,
-          ),
+          // MyTextPoppines(
+          //   text: valueNo,
+          //   fontSize: size.height * 0.015,
+          //   fontWeight: FontWeight.w400,
+          // ),
         ],
       ),
     );

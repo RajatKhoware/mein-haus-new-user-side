@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_user_side/repository/check_out_repo.dart';
 import 'package:new_user_side/resources/common/my_snake_bar.dart';
-import 'package:new_user_side/utils/extensions/extensions.dart';
-import 'package:new_user_side/utils/utils.dart';
-import '../../features/home/screens/home_screen.dart';
+
 import '../../data/payment_services.dart';
+import '../../features/home/screens/home_screen.dart';
 
 class CheckOutNotifier extends ChangeNotifier {
   CheckOutRepository repository = CheckOutRepository();
@@ -32,23 +31,25 @@ class CheckOutNotifier extends ChangeNotifier {
     required BuildContext context,
     required String bookingId,
   }) async {
+    setLoadingState(true);
     Map<String, String> data = {"booking_id": bookingId};
-    print("Work started");
-    final res = await MakePayment().makePayment(
-      context: context,
-      bookingId: bookingId,
-    );
-    print(res);
+    print("Payment processing");
+    final res = await MakePayment()
+        .makePayment(context: context, bookingId: bookingId)
+        .onError((error, stackTrace) {
+      print("Error in Check out notifier :: $error\n $stackTrace");
+      setLoadingState(false);
+      return false;
+    });
     if (res == true) {
       setLoadingState(true);
       await repository.checkOut(data).then((response) {
-        // Navigator.of(context).pushScreen(HomeScreen());
-        Get.to(() => HomeScreen());
         showSnakeBarr(
           context,
-          response['response_message'],
+          "Your project has been booked successfully",
           SnackBarState.Success,
         );
+        Get.to(() => HomeScreen());
         setLoadingState(false);
       }).onError((error, stackTrace) {
         print("Error in Check out notifier :: $error\n $stackTrace");

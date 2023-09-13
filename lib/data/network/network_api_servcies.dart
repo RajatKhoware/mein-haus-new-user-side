@@ -127,7 +127,7 @@ class NetworkApiServices {
 
       http.StreamedResponse streamedResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamedResponse);
-      //(response.headers).log();
+    //  (response.body).log();
       final xsrf = response.headers['set-cookie'];
       await UserPrefrences().setXsrf(xsrf.toString());
       responseJson = errorHandling(response, allowUnauthorizedResponse);
@@ -139,7 +139,7 @@ class NetworkApiServices {
   }
 
   // SEND HTTP REQUEST WITHOUT HEADER
-  Future sendHttpRequestWithoutHeader({
+  Future sendHttpRequestWithoutToken({
     required Uri url,
     required HttpMethod method,
     MapSS? body,
@@ -171,8 +171,10 @@ class NetworkApiServices {
           }
           break;
       }
+      request.headers.addAll({'Accept': 'application/json'});
       http.StreamedResponse streamedResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamedResponse);
+      // (response.body).log();
       responseJson = errorHandling(response, allowUnauthorizedResponse);
       (response.statusCode).log(response.request!.url.path.toString());
       return responseJson;
@@ -244,9 +246,11 @@ class NetworkApiServices {
 
   // ERROR HANDLING
   dynamic errorHandling(
-      http.Response response, bool? allowUnauthorizedResponse) {
-    dynamic responseJson =
-        response.statusCode != 500 ? jsonDecode(response.body) : null;
+    http.Response response,
+    bool? allowUnauthorizedResponse,
+  ) {
+    final code = response.statusCode;
+    dynamic responseJson = code != 500 ? jsonDecode(response.body) : null;
     switch (response.statusCode) {
       case 200:
         return responseJson;

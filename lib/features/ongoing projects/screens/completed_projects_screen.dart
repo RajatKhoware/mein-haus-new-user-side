@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:new_user_side/features/estimate/screens/estimate_generation_screen.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
-import 'package:new_user_side/resources/common/buttons/my_buttons.dart';
 import 'package:new_user_side/resources/common/my_app_bar.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
@@ -46,28 +44,28 @@ class _CompletedProjectsScreenState extends State<CompletedProjectsScreen> {
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
 
-    return Scaffold(
-      appBar: MyAppBar(text: "Project History"),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
-        child: Column(
-          children: [
-            3.vspacing(context),
-            Visibility(
-              visible: project?.length != 0,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14.w),
-                child: MyTextPoppines(
-                  text:
-                      "We have record of your last projects .Tap to view details.",
-                  fontSize: height / MyFontSize.font16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            4.vspacing(context),
-            project != null
-                ? Visibility(
+    return project != null
+        ? Scaffold(
+            appBar: MyAppBar(text: "Project History"),
+            body: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Column(
+                children: [
+                  3.vspacing(context),
+                  Visibility(
+                    visible: project.length != 0,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14.w),
+                      child: MyTextPoppines(
+                        text:
+                            "We have record of your last projects .Tap to view details.",
+                        fontSize: height / MyFontSize.font16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  4.vspacing(context),
+                  Visibility(
                     visible: project.length != 0,
                     child: Expanded(
                       child: ListView.builder(
@@ -82,21 +80,21 @@ class _CompletedProjectsScreenState extends State<CompletedProjectsScreen> {
                         },
                       ),
                     ),
-                  )
-                : Center(
-                    child: LoadingAnimationWidget.inkDrop(
-                        color: AppColors.buttonBlue,
-                        size: context.screenWidth / 40),
                   ),
-            Visibility(
-              visible: project!.length == 0,
-              child: EmptyProjectsStateWidget(
-                headline: "You Don’t have any completed\n projects here",
+                  Visibility(
+                    visible: project.length == 0,
+                    child: EmptyProjectsStateWidget(
+                      headline: "You Don’t have any completed\n projects here",
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ),
+          )
+        : Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
   }
 }

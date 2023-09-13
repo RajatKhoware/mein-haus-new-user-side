@@ -65,7 +65,7 @@ class Project {
     estimateNo = json['estimate_no'];
     projectStartDate = json['project_start_date'];
     projectCost = json['project_cost'];
-    discription = json['discription'];
+    discription = json['description'];
     address = json['address'];
     if (json['project_images'] != null) {
       projectImages = <UploadedImgs>[];
@@ -98,7 +98,7 @@ class Project {
     data['estimate_no'] = this.estimateNo;
     data['project_start_date'] = this.projectStartDate;
     data['project_cost'] = this.projectCost;
-    data['discription'] = this.discription;
+    data['description'] = this.discription;
     data['address'] = this.address;
     if (this.projectImages != null) {
       data['project_images'] =

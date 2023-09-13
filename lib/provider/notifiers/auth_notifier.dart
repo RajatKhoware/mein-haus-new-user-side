@@ -111,11 +111,13 @@ class AuthNotifier extends ChangeNotifier {
 
 // Auth
   Future authentication(BuildContext context) async {
+    final pref = await UserPrefrences();
     await repository.auth().then((response) {
       ("Token Verified!🔥").log("Auth-Auth_Notifier");
       prefs.printToken();
       final user = UserModel.fromJson(response).user!;
       setUser(user);
+      pref.setUserId(user.userId.toString());
       Navigator.pushNamed(context, HomeScreen.routeName);
     }).onError((error, stackTrace) {
       ("$error $stackTrace").log("Auth notifier");
@@ -134,48 +136,48 @@ class AuthNotifier extends ChangeNotifier {
 // Login
   Future login(MapSS data, BuildContext context) async {
     setLoadingState(true, true);
-    await sanctum().then((value) {
-      repository.login(data).then((response) async {
-        if (response['response_code'] == "401") {
+    // await sanctum().then((value) {
+    repository.login(data).then((response) async {
+      if (response['response_code'] == "401") {
+        showSnakeBarr(
+          context,
+          "Invalid Email or Password",
+          SnackBarState.Error,
+        );
+        setLoadingState(false, true);
+      } else {
+        User user = UserModel.fromJson(response).user!;
+        setUser(user);
+        await prefs.setToken(user.token!);
+        if (user.phoneVerified!) {
+          ("User Logged in Successfully ✨").log("Login Notifier");
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            HomeScreen.routeName,
+            (route) => false,
+          );
+        } else {
           showSnakeBarr(
             context,
-            "Invalid Email or Password",
-            SnackBarState.Error,
+            "Please verify you details first",
+            SnackBarState.Warning,
           );
-          setLoadingState(false, true);
-        } else {
-          User user = UserModel.fromJson(response).user!;
-          setUser(user);
-          await prefs.setToken(user.token!);
-          if (user.phoneVerified!) {
-            ("User Logged in Successfully ✨").log("Login Notifier");
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              HomeScreen.routeName,
-              (route) => false,
-            );
-          } else {
-            showSnakeBarr(
-              context,
-              "Please verify you details first",
-              SnackBarState.Warning,
-            );
-            Navigator.of(context).pushScreen(
-              OtpValidateScreen(
-                userId: user.userId!,
-                contactNo: user.contact!,
-                isSkippAble: true,
-              ),
-            );
-          }
-          setLoadingState(false, true);
+          Navigator.of(context).pushScreen(
+            OtpValidateScreen(
+              userId: user.userId!,
+              contactNo: user.contact!,
+              isSkippAble: true,
+            ),
+          );
         }
-      }).onError((error, stackTrace) {
-        onErrorHandler(context, error, stackTrace);
         setLoadingState(false, true);
-      });
+      }
     }).onError((error, stackTrace) {
-      ("$error $stackTrace").log("Xsrf Auth notifier");
+      onErrorHandler(context, error, stackTrace);
+      setLoadingState(false, true);
     });
+    // }).onError((error, stackTrace) {
+    //   ("$error $stackTrace").log("Xsrf Auth notifier");
+    // });
   }
 
 // Signup
@@ -260,9 +262,12 @@ class AuthNotifier extends ChangeNotifier {
     required MapSS body,
     required BuildContext context,
   }) async {
-    repository.resendOtp(body).then((response) {
+    await repository.resendOtp(body).then((response) {
       showSnakeBarr(
-          context, response['response_message'], SnackBarState.Success);
+        context,
+        response['response_message'],
+        SnackBarState.Success,
+      );
     }).onError((error, stackTrace) {
       onErrorHandler(context, error, stackTrace);
     });

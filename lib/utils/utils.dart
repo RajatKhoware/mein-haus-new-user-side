@@ -61,8 +61,7 @@ class Utils {
     return '$hour:$minute';
   }
 
-
-// This function matches the current time to given time and give results just like this 
+// This function matches the current time to given time and give results just like this
 // [ 2sec, 1 hours, 1 week, 1 year] ago
   static String getTimeAgo(String timestamp) {
     final DateTime now = DateTime.now();

@@ -34,7 +34,7 @@ class Queries {
   String? query;
   int? status;
   int? acceptedBy;
-  int? ticket;
+  String? ticket;
   int? endStatus;
   int? resolved;
   String? createdAt;

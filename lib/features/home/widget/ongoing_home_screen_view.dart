@@ -115,7 +115,7 @@ class OngoingWorkCard extends StatelessWidget {
     final notifier = context.read<EstimateNotifier>();
     final projects = notifier.ongoingProjects.projects!;
     final project = projects[index];
-    final isImgNull =
+    final isImgisNotNull =
         project.projectImages != null && project.projectImages!.isNotEmpty;
     final projectId = project.services![0].projectId.toString();
     final proId = project.services![0].proId.toString();
@@ -136,7 +136,10 @@ class OngoingWorkCard extends StatelessWidget {
           : {
               await _getProjectDetails(),
               Navigator.of(context).pushScreen(
-                OngoingProjectDetailScreen(projects: project),
+                OngoingProjectDetailScreen(
+                  projects: project,
+                  serviceId: projectId,
+                ),
               ),
             };
       ("Project Id : $projectId || Pro Id : $proId").log();
@@ -275,15 +278,15 @@ class OngoingWorkCard extends StatelessWidget {
                   bottomLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12),
                 ),
-                image: isImgNull
+                image: isImgisNotNull
                     ? DecorationImage(
-                        image: AssetImage("assets/images/room/2(1).png"),
-                        fit: BoxFit.cover,
-                      )
-                    : DecorationImage(
                         image: NetworkImage(
                           project.projectImages!.first.thumbnailUrl!,
                         ),
+                        fit: BoxFit.cover,
+                      )
+                    : DecorationImage(
+                        image: AssetImage("assets/images/room/2(1).png"),
                         fit: BoxFit.cover,
                       ),
               ),

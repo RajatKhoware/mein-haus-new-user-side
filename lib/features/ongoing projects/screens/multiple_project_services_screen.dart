@@ -261,7 +261,6 @@ class _MainCard extends StatelessWidget {
                             final images = project.projectImages![index];
                             return Container(
                               margin: EdgeInsets.only(right: width / 30),
-                              padding: EdgeInsets.all(4),
                               width: width / 4,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
@@ -281,6 +280,7 @@ class _MainCard extends StatelessWidget {
                                       CachedNetworkImgErrorWidget(
                                     textSize: 46,
                                   ),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             );
@@ -450,14 +450,10 @@ class _ShowMiltipleServicesCard extends StatelessWidget {
                 isProAssigned
                     ? InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return OngoingProjectDetailScreen(
-                                  projects: project,
-                                );
-                              },
+                          Navigator.of(context).pushScreen(
+                            OngoingProjectDetailScreen(
+                              projects: project,
+                              serviceId: projectId,
                             ),
                           );
                           _getProjectDetails();

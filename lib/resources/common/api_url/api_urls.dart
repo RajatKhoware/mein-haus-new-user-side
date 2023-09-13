@@ -1,13 +1,9 @@
 import 'package:flutter/foundation.dart' show immutable;
 
-extension SetUrls on String {
-  Uri setUrl() => Uri.parse(this + "https://meinhaus.ca/api/");
-}
-
 @immutable
 abstract class ApiUrls {
-  static String baseUrl = "https://meinhaus.ca/api/";
-  //static String baseUrl = "https://meinhaus.ca/meinhaus/api/";
+  static String _base = "https://quantumhostings.com/projects/meinhaus";
+  static String baseUrl = "$_base/api/";
 
   static Uri setUrls(String uri) {
     return Uri.parse(baseUrl + uri);
@@ -62,7 +58,7 @@ abstract class ApiUrls {
 
   // Saved notes
   static Uri savedNoteForMe = setUrls("add-project-notes-for-me");
-  static Uri savedNoteForMeAndPro = setUrls("add-project-notes-for-me-pro");
+  static Uri savedNoteForMeAndPro = setUrls("add-project-notes-for-me-other");
   static String getSavedNotes =
       "${baseUrl}get-saved-notes?estimate_service_id=";
 
@@ -82,7 +78,7 @@ abstract class ApiUrls {
   static String createIntent = baseUrl + "book-project?booking_id=";
 
   // Pusher-Chat
-  static Uri broadcastAuth = Uri.parse("https://meinhaus.ca/broadcasting/auth");
+  static Uri broadcastAuth = Uri.parse("$_base/broadcasting/auth");
   static Uri allConversation = setUrls("all-conversations");
   static Uri loadMessages = setUrls("load-messages");
   static Uri loadMoreMessages = setUrls("load-more");

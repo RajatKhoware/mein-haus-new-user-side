@@ -73,7 +73,7 @@ class SavedAddressesWidget extends StatelessWidget {
               }),
         ),
         Visibility(
-          visible: address == null && address!.isEmpty,
+          visible: address!.isEmpty,
           child: NoAddressFoundWidget(),
         ),
 

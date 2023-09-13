@@ -94,6 +94,7 @@ class EstimatedWorkCard extends StatelessWidget {
                   text: projectDetails.projectName.toString(),
                   fontWeight: FontWeight.w500,
                   fontSize: width / 30,
+                  maxLines: 1,
                 ),
                 Divider(thickness: 1.0, color: AppColors.grey.withOpacity(0.2)),
                 // ESTIMATE DATE

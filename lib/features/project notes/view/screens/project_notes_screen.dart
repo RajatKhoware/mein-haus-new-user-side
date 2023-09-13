@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../data/models/saved_notes_model.dart';
 import '../../../../resources/common/cached_network_img_error_widget.dart';
+import '../../../../static components/dialogs/projects_notes_dialog.dart';
 
 class SavedNotesScreen extends StatefulWidget {
   static const String routeName = '/savedNotes';
@@ -113,13 +114,14 @@ class _SavedNotesScreenState extends State<SavedNotesScreen>
                   ),
                   labelColor: Colors.white,
                   labelStyle: TextStyle(
-                      fontSize: h / 80,
-                      fontWeight: FontWeight.w500,
-                      overflow: TextOverflow.ellipsis),
+                    fontSize: w / 38,
+                    fontWeight: FontWeight.w600,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   unselectedLabelColor: Colors.black.withOpacity(0.6),
                   tabs: const [
-                    Tab(text: "Saved Notes for Me"),
-                    Tab(text: "Saved Notes from Pro"),
+                    Tab(text: "Notes Saved by Me"),
+                    Tab(text: "Notes Saved by Pro"),
                   ],
                 ),
               ),
@@ -144,20 +146,19 @@ class _SavedNotesScreenState extends State<SavedNotesScreen>
 
 class NotesSavedByCustomer extends StatelessWidget {
   const NotesSavedByCustomer({super.key});
-
   @override
   Widget build(BuildContext context) {
     final notifier = context.watch<SavedNotesNotifier>();
     final notes = notifier.savedNotes.notes!;
-
+    final customerNotes = notes.where((note) => note.type == true).toList();
     return notifier.loading
         ? Center(child: CircularProgressIndicator())
-        : notes.length != 0
+        : customerNotes.length != 0
             ? ListView.builder(
                 shrinkWrap: true,
-                itemCount: notes.length,
+                itemCount: customerNotes.length,
                 itemBuilder: (context, index) {
-                  final note = notes[index];
+                  final note = customerNotes[index];
                   return _ShowProjectNote(note: note);
                 },
               )
@@ -165,102 +166,25 @@ class NotesSavedByCustomer extends StatelessWidget {
   }
 }
 
-class _NoSavedNotesFoundWidget extends StatelessWidget {
+class NotesSavedByPro extends StatelessWidget {
+  const NotesSavedByPro({super.key});
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height;
-    final width = MediaQuery.sizeOf(context).width;
-    return Column(
-      children: [
-        SizedBox(height: height / 15),
-        SvgPicture.asset('assets/svgs/no_notes.svg'),
-        SizedBox(height: height / 40),
-        MyTextPoppines(
-          text: "No Saved Notes found!",
-          fontSize: width / 26,
-          fontWeight: FontWeight.w600,
-        ),
-        SizedBox(height: height / 60),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            width: width / 3.5,
-            height: height / 22,
-            decoration: BoxDecoration(
-              color: AppColors.buttonBlue.withOpacity(0.10),
-              borderRadius: BorderRadius.circular(width / 34),
-              border: Border.all(color: AppColors.buttonBlue),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                MyTextPoppines(
-                  text: "Add Note",
-                  fontSize: width / 34,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.buttonBlue,
-                ),
-                Icon(
-                  Icons.add_circle_outline_outlined,
-                  size: width / 24,
-                  color: AppColors.buttonBlue,
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
-class _NoSavedNotesFoundForProWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height;
-    final width = MediaQuery.sizeOf(context).width;
-    return Column(
-      children: [
-        SizedBox(height: height / 15),
-        SvgPicture.asset('assets/svgs/no_notes.svg'),
-        SizedBox(height: height / 40),
-        MyTextPoppines(
-          text: "No Notes Saved by Pro!",
-          fontSize: width / 26,
-          fontWeight: FontWeight.w600,
-        ),
-        SizedBox(height: height / 60),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            width: width / 3.5,
-            height: height / 22,
-            decoration: BoxDecoration(
-              color: AppColors.buttonBlue.withOpacity(0.10),
-              borderRadius: BorderRadius.circular(width / 34),
-              border: Border.all(color: AppColors.buttonBlue),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                MyTextPoppines(
-                  text: "Add Note",
-                  fontSize: width / 34,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.buttonBlue,
-                ),
-                Icon(
-                  Icons.add_circle_outline_outlined,
-                  size: width / 24,
-                  color: AppColors.buttonBlue,
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
+    final notifier = context.watch<SavedNotesNotifier>();
+    final notes = notifier.savedNotes.notes!;
+    final proNotes = notes.where((note) => note.type == false).toList();
+    return notifier.loading
+        ? Center(child: CircularProgressIndicator())
+        : proNotes.length != 0
+            ? ListView.builder(
+                shrinkWrap: true,
+                itemCount: proNotes.length,
+                itemBuilder: (context, index) {
+                  final note = proNotes[index];
+                  return _ShowProjectNote(note: note);
+                },
+              )
+            : _NoSavedNotesFoundWidget();
   }
 }
 
@@ -279,7 +203,7 @@ class _ShowProjectNote extends StatelessWidget {
         border: Border.all(
           color: AppColors.black.withOpacity(0.2),
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(w / 28),
       ),
       padding: EdgeInsets.symmetric(vertical: h / 90, horizontal: w / 60),
       margin: EdgeInsets.symmetric(vertical: h / 50, horizontal: w / 30),
@@ -287,32 +211,40 @@ class _ShowProjectNote extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Note Img
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              width: w / 3,
-              height: h / 10,
-              child: note.images!.length == 0
-                  ? Image.asset(
-                      "assets/images/image_not_found.png",
-                      fit: BoxFit.cover,
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: note.images!.first.thumbnailUrl!,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
+          InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => PreviewProjectNotes(note: note),
+              );
+            },
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: SizedBox(
+                width: w / 3,
+                height: h / 10,
+                child: note.images!.length == 0
+                    ? Image.asset(
+                        "assets/images/image_not_found.png",
+                        fit: BoxFit.cover,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: note.images!.first.thumbnailUrl!,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
+                        errorWidget: (context, url, error) =>
+                            CachedNetworkImgErrorWidget(textSize: 50),
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
-                      errorWidget: (context, url, error) =>
-                          CachedNetworkImgErrorWidget(textSize: 50),
-                      placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
+              ),
             ),
           ),
           10.hspacing(context),
@@ -368,102 +300,65 @@ class _ShowProjectNote extends StatelessWidget {
   }
 }
 
-class NotesSavedByPro extends StatelessWidget {
-  const NotesSavedByPro({super.key});
-
+class _NoSavedNotesFoundWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final h = context.screenHeight;
-    final w = context.screenWidth;
-    final notifier = context.watch<SavedNotesNotifier>();
-    final notes = notifier.savedNotes.notes!;
-
-    return !notifier.loading
-        ? ListView.builder(
-            shrinkWrap: true,
-            itemCount: 0,
-            itemBuilder: (context, index) {
-              final note = notes[index];
-              return Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.black.withOpacity(0.2),
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: h / 70,
-                  horizontal: w / 40,
-                ),
-                margin: EdgeInsets.symmetric(
-                  vertical: h / 50,
-                  horizontal: w / 30,
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: w / 3,
-                      height: h / 10,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/room/2(1).png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    10.hspacing(context),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: SizedBox(
-                            height: h / 14,
-                            width: w / 2.0,
-                            child: MyTextPoppines(
-                              text: "",
-                              fontSize: h / 80,
-                              fontWeight: FontWeight.w500,
-                              maxLines: 5,
-                              color: AppColors.black.withOpacity(0.8),
-                            ),
-                          ),
-                        ),
-                        2.vspacing(context),
-                        InkWell(
-                          onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return PreviewProjectNotes(note: note);
-                                });
-                          },
-                          child: Row(
-                            children: [
-                              MyTextPoppines(
-                                text: "View",
-                                fontSize: h / 75,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.buttonBlue,
-                                textAlign: TextAlign.left,
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: AppColors.buttonBlue,
-                                size: h / 70,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
+    final estimateNotifer = context.read<EstimateNotifier>();
+    final project = estimateNotifer.projectDetails.services!;
+    final projectId = project.projectId.toString();
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(height: height / 15),
+          SvgPicture.asset('assets/svgs/no_notes.svg'),
+          SizedBox(height: height / 40),
+          MyTextPoppines(
+            text: "No Saved Notes found!",
+            fontSize: width / 26,
+            fontWeight: FontWeight.w600,
+          ),
+          SizedBox(height: height / 60),
+          InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ProjectNotesDialog(
+                    serviceId: projectId,
+                  );
+                },
               );
             },
-          )
-        : Center(child: Center(child: CircularProgressIndicator()));
+            child: Container(
+              width: width / 3.5,
+              height: height / 22,
+              decoration: BoxDecoration(
+                color: AppColors.buttonBlue.withOpacity(0.10),
+                borderRadius: BorderRadius.circular(width / 34),
+                border: Border.all(color: AppColors.buttonBlue),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MyTextPoppines(
+                    text: "Add Note",
+                    fontSize: width / 34,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.buttonBlue,
+                  ),
+                  Icon(
+                    Icons.add_circle_outline_outlined,
+                    size: width / 24,
+                    color: AppColors.buttonBlue,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

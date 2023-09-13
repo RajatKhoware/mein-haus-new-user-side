@@ -31,7 +31,7 @@ class ChatWithProNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  // METHODS
+
   /// Fetches all conversations list based on the provided `body` data.
   Future allConversation(BuildContext context) async {
     setLoadingState(true, true);

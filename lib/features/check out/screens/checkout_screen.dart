@@ -30,34 +30,30 @@ class CheckOutScreen extends StatefulWidget {
 class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   Widget build(BuildContext context) {
-    final checkOutNotifier = context.watch<CheckOutNotifier>();
-    return ModalProgressHUD(
-      inAsyncCall: checkOutNotifier.loading,
-      child: Scaffold(
-        appBar: MyAppBar(text: "Checkout"),
-        body: SizedBox(
-          height: 550.h,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CheckOutSummaryCardWidget(totalAmount: widget.amountToPay),
-                  8.vspacing(context),
-                  const Divider(thickness: 1.0),
-                  8.vspacing(context),
-                  const SavedAddressesWidget(),
-                ],
-              ),
+    return Scaffold(
+      appBar: MyAppBar(text: "Checkout"),
+      body: SizedBox(
+        height: 550.h,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CheckOutSummaryCardWidget(totalAmount: widget.amountToPay),
+                8.vspacing(context),
+                const Divider(thickness: 1.0),
+                8.vspacing(context),
+                const SavedAddressesWidget(),
+              ],
             ),
           ),
         ),
-        bottomNavigationBar: CheckOutBottomBar(
-          projectName: widget.ProjectName,
-          totalAmount: widget.amountToPay,
-          bookingId: widget.bookingId,
-        ),
+      ),
+      bottomNavigationBar: CheckOutBottomBar(
+        projectName: widget.ProjectName,
+        totalAmount: widget.amountToPay,
+        bookingId: widget.bookingId,
       ),
     );
   }

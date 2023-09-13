@@ -181,7 +181,9 @@ class ChatNotifier extends ChangeNotifier {
   /// Send Messages [ Texts/Images ]
   Future sendMessage({required BuildContext context}) async {
     // if message is type of img we dont set a dummmy message on ui
-    image.path.isEmpty ? sendDummyMessage(context) : setLastMessage("");
+    image.path.isEmpty && messageController.text != ""
+        ? sendDummyMessage(context)
+        : setLastMessage("");
     // getting img if there is any
     final imgPath = await Utils.convertToMultipartFile(image);
     final body = {
@@ -189,13 +191,14 @@ class ChatNotifier extends ChangeNotifier {
       "conversation_id": _message.conversationId.toString(),
       "files[]": imgPath,
     };
-    await repo.sendMessage(body).then((response) {
-      final data = MessageModel.fromJson(response);
-      updateOrAddNewMessage(data.messages!.first);
-      setImage(XFile(""));
-    }).onError((error, stackTrace) {
-      onErrorHandler(context, error, stackTrace);
-    });
+    if (_lastMessage != "" || image.path.isNotEmpty)
+      await repo.sendMessage(body).then((response) {
+        final data = MessageModel.fromJson(response);
+        updateOrAddNewMessage(data.messages!.first);
+        setImage(XFile(""));
+      }).onError((error, stackTrace) {
+        onErrorHandler(context, error, stackTrace);
+      });
   }
 
   /// Send Pdf
@@ -271,7 +274,7 @@ class ChatNotifier extends ChangeNotifier {
   Future readMessage(MapSS body) async {
     if (myMessaage.messages != null && myMessaage.messages!.isNotEmpty)
       repo.readMessage(body).then((value) {
-        print("messages readed by sender");
+        print("messages readed my sender");
       }).onError((error, stackTrace) {
         ("Erorr in Read Message --> $error").log("Pro-Chat Notifier");
       });

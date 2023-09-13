@@ -35,6 +35,7 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
     final estimateNotifer = context.read<EstimateNotifier>();
     final project = estimateNotifer.projectDetails.services!;
     final isSupportActive = supportNotifier.supportStatus == 1;
+    // print(supportNotifier.supportStatus);
     final bookingId = project.estimateNo;
     final isNormalProject = project.normal!;
     final projectId = project.projectId.toString();

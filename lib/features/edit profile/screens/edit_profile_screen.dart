@@ -106,6 +106,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final notifier = context.watch<EditProfileNotifier>();
     String userName = "${user.firstname} ${user.lastname}";
     final img = notifier.image;
+    
 
     return ModalProgressHUD(
       inAsyncCall: notifier.loading,

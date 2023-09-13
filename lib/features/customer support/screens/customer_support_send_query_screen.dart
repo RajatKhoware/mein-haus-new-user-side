@@ -58,16 +58,9 @@ class _SendQueryScreenState extends State<SendQueryScreen> {
       "query_text": _controller.text,
       "query_files[]": image,
     };
-    if (notifier.images.length > 0) {
-      if (_queryFormKey.currentState!.validate()) {
-        await notifier.sendQuery(context: context, body: body);
-      }
-    } else {
-      showSnakeBarr(
-        context,
-        "Please selecte an image to make request",
-        SnackBarState.Warning,
-      );
+
+    if (_queryFormKey.currentState!.validate()) {
+      await notifier.sendQuery(context: context, body: body);
     }
   }
 

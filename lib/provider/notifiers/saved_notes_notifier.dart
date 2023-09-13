@@ -82,6 +82,7 @@ class SavedNotesNotifier extends ChangeNotifier {
       ('Saved Notes For me ✅').log();
       Navigator.pop(context);
       showSnakeBar(context, "Saved Notes For me ✅");
+      getSavedNotes(context: context, id: body['estimate_service_id']);
     }).onError((error, stackTrace) {
       setLoadingForMe(false, true);
       onErrorHandler(context, error, stackTrace);
@@ -100,6 +101,7 @@ class SavedNotesNotifier extends ChangeNotifier {
       ('Saved Notes For me and pro ✅').log();
       Navigator.pop(context);
       showSnakeBar(context, "Saved Notes For me and pro ✅");
+      getSavedNotes(context: context, id: body['estimate_service_id']);
     }).onError((error, stackTrace) {
       setLoadingForMeAndPro(false, true);
       onErrorHandler(context, error, stackTrace);

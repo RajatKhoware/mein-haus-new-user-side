@@ -22,7 +22,7 @@ class AuthRepositorys {
 // Login
   Future<ResponseType> login(MapSS body) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.login,
         method: HttpMethod.post,
         body: body,
@@ -48,7 +48,7 @@ class AuthRepositorys {
 // SignUp
   Future<ResponseType> signUp(MapSS data) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.register,
         method: HttpMethod.post,
         body: data,
@@ -61,7 +61,7 @@ class AuthRepositorys {
 // Verify Mobile Number
   Future<ResponseType> verifyPhone(MapSS data) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.verifyMobile,
         method: HttpMethod.post,
         body: data,
@@ -99,7 +99,7 @@ class AuthRepositorys {
   // Resend Otp
   Future<ResponseType> resendOtp(MapSS data) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.resendOtp,
         method: HttpMethod.post,
         body: data,
@@ -125,7 +125,7 @@ class AuthRepositorys {
 // User Details
   Future<ResponseType> userDetails(MapSS data) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.userDetails,
         method: HttpMethod.post,
         body: data,
@@ -138,7 +138,7 @@ class AuthRepositorys {
   // Social Login
   Future<ResponseType> googleLogin(MapSS data) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.google,
         method: HttpMethod.post,
         body: data,
@@ -151,7 +151,7 @@ class AuthRepositorys {
   // Forget Password
   Future<ResponseType> forgetPassword(MapSS body) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.forgetPassword,
         method: HttpMethod.post,
         body: body,
@@ -164,7 +164,7 @@ class AuthRepositorys {
   // Verify Forget Password OTP
   Future<ResponseType> verifyForgetPassOTP(MapSS body) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.verifyForgetPasswordOTP,
         method: HttpMethod.post,
         body: body,
@@ -177,7 +177,7 @@ class AuthRepositorys {
   // Create New password via Forget Password
   Future<ResponseType> createNewPasswordViaFP(MapSS body) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.createNewPasswordViaFP,
         method: HttpMethod.post,
         body: body,
@@ -190,7 +190,7 @@ class AuthRepositorys {
   // Resend Forget Password OTP
   Future<ResponseType> resendFOrgetPassOTP(MapSS body) async {
     try {
-      return await services.sendHttpRequestWithoutHeader(
+      return await services.sendHttpRequestWithoutToken(
         url: ApiUrls.resendForgetPasswordOTP,
         method: HttpMethod.post,
         body: body,

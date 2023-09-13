@@ -46,11 +46,11 @@ List drawerList = [
     "Messages",
     AllConversationScreen.routeName,
   ],
-  [
-    Icons.contact_support_outlined,
-    "Support",
-    HomeScreen.routeName,
-  ],
+  // [
+  //   Icons.contact_support_outlined,
+  //   "Support",
+  //   HomeScreen.routeName,
+  // ],
 ];
 
 // User Details

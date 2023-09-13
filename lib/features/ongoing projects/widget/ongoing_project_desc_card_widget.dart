@@ -17,6 +17,7 @@ class OngoingProjectDescCardWidget extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final notifier = context.watch<EstimateNotifier>();
     final services = notifier.projectDetails.services!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -29,14 +30,19 @@ class OngoingProjectDescCardWidget extends StatelessWidget {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(left: width / 20, bottom: height / 90),
+          padding: EdgeInsets.only(
+            left: width / 20,
+            bottom: height / 90,
+            right: width / 15,
+          ),
           child: MyTextPoppines(
             text: services.discription ??
                 'No project description found. This area usually provides details about the project.',
-            fontSize: 12.sp,
+            fontSize: width / 34,
             fontWeight: FontWeight.w500,
-            height: 1.4,
+            height: 1.6,
             color: AppColors.black.withOpacity(0.6),
+            maxLines: 100,
           ),
         ),
       ],

@@ -144,9 +144,9 @@ class SupportNotifier extends ChangeNotifier {
   // Keep open support chat
   Future keepOpen(BuildContext context) async {
     final chatNotifier = context.read<ChatNotifier>();
-    final project = context.read<EstimateNotifier>().projectDetails;
+    final supportNotifier = context.read<SupportNotifier>();
     final conversationId = chatNotifier.myMessaage.conversationId;
-    final ticketId = project.services!.query!.ticket!;
+    final ticketId = supportNotifier.ticketId;
     MapSS body = {
       "conversation_id": conversationId.toString(),
       "ticket_id": ticketId,
@@ -159,6 +159,8 @@ class SupportNotifier extends ChangeNotifier {
       for (var message in data.messages!) {
         chatNotifier.updateOrAddNewMessage(message);
       }
+      setIsQuerySoved(false);
+      setShowClosingDialog(false);
       Navigator.pop(context);
     }).onError((error, stackTrace) {
       showSnakeBarr(context, error.toString(), SnackBarState.Error);
@@ -170,9 +172,8 @@ class SupportNotifier extends ChangeNotifier {
   // Accept and close support chat
   Future acceptAndClose(BuildContext context) async {
     final chatNotifier = context.read<ChatNotifier>();
-    final project = context.read<EstimateNotifier>().projectDetails;
     final conversationId = chatNotifier.myMessaage.conversationId;
-    final ticketId = project.services!.query!.ticket!;
+   
     MapSS body = {
       "conversation_id": conversationId.toString(),
       "ticket_id": ticketId,

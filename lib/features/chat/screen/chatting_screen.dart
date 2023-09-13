@@ -85,7 +85,10 @@ class _ChattingScreenState extends State<ChattingScreen> {
 // load messages
   Future loadMessages() async {
     final notifier = context.read<ChatNotifier>();
+    // final project = context.read<EstimateNotifier>().projectDetails;
+    // final ticketId = project.services!.query!.ticket!;
     final ticketId = context.read<SupportNotifier>().ticketId;
+    //final ticketId = context.read<SupportNotifier>().ticketId;
     MapSS body = widget.isChatWithPro
         ? {
             "to_user_id": widget.sendUserId.toString(),
@@ -200,8 +203,11 @@ class _ChattingScreenState extends State<ChattingScreen> {
                                               userNotifier.userId) {
                                         return RecivedMessage(
                                           message: message,
-                                          senderImg: widget
-                                              .conversations!.profilePicture!,
+                                          senderImg:
+                                              widget.conversations != null
+                                                  ? widget.conversations!
+                                                      .profilePicture!
+                                                  : "",
                                         );
                                       } else {
                                         return SendMessage(
@@ -233,9 +239,13 @@ class _ChattingScreenState extends State<ChattingScreen> {
                     alignment: Alignment.bottomCenter,
                     child: supportNotifier.isQueryFlagged
                         ? ShowQueryIsFlagged()
-                        : supportNotifier.isQuerySolved
-                            ? CustomerEndConvoBottomSheet()
-                            : ChatTextField(),
+                        : (!widget.isChatWithPro &&
+                                supportNotifier.showClosingDialog &&
+                                !supportNotifier.isQuerySolved)
+                            ? null
+                            : supportNotifier.isQuerySolved
+                                ? CustomerEndConvoBottomSheet()
+                                : ChatTextField(),
                   ),
                 ],
               ),

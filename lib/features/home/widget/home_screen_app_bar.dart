@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_user_side/features/all%20conversation/screens/all_conversation_screen.dart';
+import 'package:new_user_side/features/home/screens/home_screen.dart';
 import 'package:new_user_side/provider/notifiers/notification_notifier.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
+import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/notifiers/chat_with_pro_notifier.dart';
@@ -58,12 +60,15 @@ class HomeScreenAppBar extends StatelessWidget {
             ),
           ),
           SizedBox(width: width / 28),
-          Image.asset(
-            "assets/logo/home.png",
-            scale: 1.8,
-            width: width / 10,
-            height: height / 25,
-            fit: BoxFit.cover,
+          InkWell(
+            onTap: () => Navigator.of(context).pushScreen(HomeScreen()),
+            child: Image.asset(
+              "assets/logo/home.png",
+              scale: 1.8,
+              width: width / 10,
+              height: height / 25,
+              fit: BoxFit.cover,
+            ),
           ),
         ],
       ),

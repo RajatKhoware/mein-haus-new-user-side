@@ -49,7 +49,7 @@ class AdditionalWorkNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getImages(BuildContext context) async {
+  Future getImagess(BuildContext context) async {
     await GetImages().pickImages<AdditionalWorkNotifier>(context: context);
   }
 
@@ -77,6 +77,12 @@ class AdditionalWorkNotifier extends ChangeNotifier {
         builder: (context) {
           return const AdditionalWorkAddedDialog();
         },
+      );
+      // After requesting an additional work we need 
+      // to refresh the additional work
+      getAdditonalWork(
+        context: context,
+        projectId: body['estimate_service_id'],
       );
     }).onError((error, stackTrace) {
       onErrorHandler(context, error, stackTrace);

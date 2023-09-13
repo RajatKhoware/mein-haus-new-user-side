@@ -41,8 +41,8 @@ class _ChatTextFieldState extends State<ChatTextField> {
   // Send Img as Message
   Future sendImgMessage() async {
     final notifier = context.read<ChatNotifier>();
-    await notifier.sendMessage(context: context);
     Navigator.pop(context);
+    await notifier.sendMessage(context: context);
   }
 
   // Pick Files function

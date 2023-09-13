@@ -52,7 +52,7 @@ class EditProfileServices {
           editProfileNotifier.setProfileImg(XFile(''));
           showSnakeBarr(
             context,
-            "Profile Updation done",
+            "Profile Update Complete",
             SnackBarState.Success,
           );
           print("Profile Updated");
