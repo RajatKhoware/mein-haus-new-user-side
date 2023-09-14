@@ -115,8 +115,6 @@ class _ProfileCard extends StatelessWidget {
     final h = context.screenHeight;
     final w = context.screenWidth;
     final user = context.watch<AuthNotifier>().user;
-    final placeholderImg =
-        "https://as1.ftcdn.net/v2/jpg/02/30/60/82/1000_F_230608264_fhoqBuEyiCPwT0h9RtnsuNAId3hWungP.jpg";
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: w / 40),
@@ -169,14 +167,23 @@ class _ProfileCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              CircleAvatar(
-                radius: w / 14,
-                backgroundImage: NetworkImage(
-                  user.profilePic!.length > 0
-                      ? user.profilePic!
-                      : placeholderImg,
-                ),
-              ),
+              user.profilePic!.isNotEmpty
+                  ? CircleAvatar(
+                      radius: w / 14,
+                      backgroundImage: NetworkImage(user.profilePic!),
+                    )
+                  : CircleAvatar(
+                      radius: w / 14,
+                      backgroundColor: AppColors.buttonBlue,
+                      child: Center(
+                          child: MyTextPoppines(
+                        text: user.firstname!.toUpperCase()[0] +
+                            user.lastname!.toUpperCase()[0],
+                        fontSize: w / 16,
+                        color: AppColors.white,
+                        fontWeight: FontWeight.w600,
+                      )),
+                    ),
               SizedBox(height: h / 80),
               Container(
                 width: w / 3.5,

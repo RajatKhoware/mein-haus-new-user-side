@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/resources/common/my_app_bar.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
-import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/sizer.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +33,7 @@ class _CompletedProjectsScreenState extends State<CompletedProjectsScreen> {
     final notifer = context.read<EstimateNotifier>();
     await notifer.getProjectsHistory(context);
   }
+
 
   @override
   Widget build(BuildContext context) {

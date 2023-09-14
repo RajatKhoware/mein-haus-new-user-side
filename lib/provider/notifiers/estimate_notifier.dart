@@ -22,6 +22,7 @@ class EstimateNotifier extends ChangeNotifier {
   // variables
   List<XFile> _images = [];
   bool _loading = false;
+  bool _toggleLoading = false;
   bool _reviewLoading = false;
   OngoingProjectsModel _ongoingProjects = OngoingProjectsModel();
   OngoingProjectsModel _projectsHistory = OngoingProjectsModel();
@@ -32,6 +33,7 @@ class EstimateNotifier extends ChangeNotifier {
 
   // getters
   bool get loading => _loading;
+  bool get toggleLoading => _toggleLoading;
   bool get reviewLoading => _reviewLoading;
   List<XFile> get images => _images;
   OngoingProjectsModel get ongoingProjects => _ongoingProjects;
@@ -53,6 +55,11 @@ class EstimateNotifier extends ChangeNotifier {
 
   void setLoadingState(bool state, bool notify) {
     _loading = state;
+    if (notify) notifyListeners();
+  }
+
+  void setToggleLoadingState(bool state, bool notify) {
+    _toggleLoading = state;
     if (notify) notifyListeners();
   }
 
@@ -269,14 +276,12 @@ class EstimateNotifier extends ChangeNotifier {
     required BuildContext context,
     required MapSS body,
   }) async {
-    await estimateRepository.toggleServices(body).then((response) {
-      showSnakeBarr(
-        context,
-        response["response_message"],
-        SnackBarState.Success,
-      );
+    setToggleLoadingState(true, true);
+    await estimateRepository.toggleServices(body).then((_) {
       getEstimateWork(context);
+      setToggleLoadingState(false, true);
     }).onError((error, stackTrace) {
+      setToggleLoadingState(true, true);
       onErrorHandler(context, error, stackTrace);
     });
   }
@@ -289,7 +294,11 @@ class EstimateNotifier extends ChangeNotifier {
     setReviewLoadingState(true, true);
     await estimateRepository.writeReview(body).then((response) {
       showSnakeBarr(
-          context, response["response_message"], SnackBarState.Success);
+        context,
+        response["response_message"],
+        SnackBarState.Success,
+      );
+      getProjectsHistory(context);
       Navigator.pop(context);
       setReviewLoadingState(false, true);
     }).onError((error, stackTrace) {

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_user_side/local%20db/user_prefrences.dart';
+import 'package:new_user_side/provider/notifiers/check_out_notifier.dart';
 import 'package:new_user_side/resources/common/my_snake_bar.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
+import 'package:provider/provider.dart';
 
 import '../resources/common/api_url/api_urls.dart';
 
@@ -61,12 +63,14 @@ class MakePayment {
   }
 
   Future<bool> displayPaymentSheet(BuildContext context) async {
+    final notifier = context.read<CheckOutNotifier>();
     late bool isValueTrue;
     try {
       await Stripe.instance.presentPaymentSheet().then((_) {
         paymentIntent = null;
         isValueTrue = true;
       }).onError((error, stackTrace) {
+        notifier.setLoadingState(false);
         showSnakeBarr(context, "Transcation Declined", SnackBarState.Info);
         isValueTrue = false;
         throw Exception("$error $stackTrace");

@@ -3,9 +3,9 @@ import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 
-class PreviewChatImages extends StatelessWidget {
+class PreviewSingleImage extends StatelessWidget {
   final String imgPath;
-  const PreviewChatImages({
+  const PreviewSingleImage({
     Key? key,
     required this.imgPath,
   }) : super(key: key);

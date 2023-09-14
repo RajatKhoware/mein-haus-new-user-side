@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:new_user_side/resources/common/cached_network_img_error_widget.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/static%20components/dialogs/view_pro_recent_project_dialog.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
@@ -58,9 +60,12 @@ class ProRecentProjectsCardWidget extends StatelessWidget {
               mainAxisSpacing: height / 39,
             ),
             itemBuilder: (context, index) {
+              final pros = pro[index];
+              final isImgNull = pros.beforeWorkImages!.length == 0;
+              final catalogueImg = pros.beforeWorkImages!.first;
               return _buildRecentProjectCard(
                 projectTitle: pro[index].projectName.toString(),
-                projectImg: "assets/images/room/room_4.png",
+                projectImg: isImgNull ? "https://rb.gy/n775j" : catalogueImg,
                 onTap: () {
                   showDialog(
                     context: context,
@@ -116,19 +121,28 @@ class ProRecentProjectsCardWidget extends StatelessWidget {
             ),
           ),
           2.vspacing(context),
-          Container(
+          SizedBox(
             width: widthh / 2.50,
             height: height / 8.67,
-            decoration: BoxDecoration(
-              borderRadius: borderRadius,
-              color: AppColors.white,
-              image: DecorationImage(
-                image: AssetImage(projectImg),
-                fit: BoxFit.cover,
-              ),
-            ),
             child: Stack(
               children: [
+                // Catalog Img of Project
+                ClipRRect(
+                  borderRadius: borderRadius,
+                  child: CachedNetworkImage(
+                    imageUrl: projectImg,
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        CachedNetworkImgErrorWidget(
+                      textSize: 45,
+                    ),
+                    fit: BoxFit.cover,
+                    width: widthh / 2.50,
+                  ),
+                ),
+                // View Details Button
                 Positioned(
                   bottom: 0,
                   child: ClipRRect(

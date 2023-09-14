@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:new_user_side/data/network/network_api_servcies.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
@@ -11,9 +12,9 @@ import 'package:provider/provider.dart';
 import '../../../data/models/generated_estimate_model.dart';
 import '../../../provider/notifiers/estimate_notifier.dart';
 
-class ProjectEstimatedCardWidget extends StatelessWidget {
+class EstimateServiceCardWidget extends StatelessWidget {
   final EstimatedWorks project;
-  const ProjectEstimatedCardWidget({
+  const EstimateServiceCardWidget({
     Key? key,
     required this.project,
   }) : super(key: key);
@@ -162,6 +163,7 @@ class __BuildButtonState extends State<_BuildButton> {
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
+    final notifier = context.watch<EstimateNotifier>();
     final service = widget.service;
     int status = service.status!;
     int projectId = service.projectId!;
@@ -174,25 +176,38 @@ class __BuildButtonState extends State<_BuildButton> {
           fontWeight: FontWeight.w600,
         ),
         SizedBox(width: width / 22),
-        InkWell(
-          onTap: () => _handleTapAction(status, projectId),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: width / 22),
-            padding: EdgeInsets.symmetric(
-                horizontal: width / 22, vertical: height / 120),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              color: _getStatusColor(status),
-              boxShadow: buttonShadow,
-            ),
-            child: MyTextPoppines(
-              text: _getStatusText(status),
-              fontWeight: FontWeight.w600,
-              color: AppColors.white,
-              fontSize: width / 32,
-            ),
-          ),
-        )
+        notifier.toggleLoading
+            ? Container(
+                width: width / 3.5,
+                height: height / 36,
+                child: Center(
+                  child: LoadingAnimationWidget.inkDrop(
+                    color: AppColors.black,
+                    size: width / 30,
+                  ),
+                ),
+              )
+            : InkWell(
+                onTap: () => _handleTapAction(status, projectId),
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: width / 22),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: width / 22,
+                    vertical: height / 120,
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: _getStatusColor(status),
+                    boxShadow: buttonShadow,
+                  ),
+                  child: MyTextPoppines(
+                    text: _getStatusText(status),
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
+                    fontSize: width / 32,
+                  ),
+                ),
+              )
       ],
     );
   }

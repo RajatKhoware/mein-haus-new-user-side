@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:new_user_side/features/chat/widgets/preview_single_images.dart';
 import 'package:new_user_side/features/home/widget/project_img_card_widget.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
@@ -191,12 +192,9 @@ class ProRecentProjectDialog extends StatelessWidget {
                         padding: EdgeInsets.only(right: width / 28),
                         child: InkWell(
                           onTap: () {
-                            // Navigator.of(context).pushScreen(
-                            //   FullScreenImageView(
-                            //     images: img,
-                            //     currentIndex: index,
-                            //   ),
-                            // );
+                            Navigator.of(context).pushScreen(
+                              PreviewSingleImage(imgPath: img[index]),
+                            );
                           },
                           child: ProjectImgCardWidget(
                             width: width / 4.5,

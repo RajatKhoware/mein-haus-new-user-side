@@ -8,7 +8,7 @@ import 'package:new_user_side/utils/extensions/extensions.dart';
 
 import '../../../utils/download_files/download_file.dart';
 import '../../../utils/utils.dart';
-import 'preview_chat_images.dart';
+import 'preview_single_images.dart';
 
 // SEND MESSAGES
 class SendMessage extends StatelessWidget {
@@ -123,7 +123,7 @@ class ChatHelper {
       width: w / 1.9,
       child: InkWell(
         onTap: () => Navigator.of(context).pushScreen(
-          PreviewChatImages(imgPath: message),
+          PreviewSingleImage(imgPath: message),
         ),
         child: Hero(
           tag: message,

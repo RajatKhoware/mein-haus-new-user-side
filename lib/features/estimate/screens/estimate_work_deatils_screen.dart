@@ -16,7 +16,7 @@ import '../widget/estimated_work_bill_card_widget.dart';
 import '../widget/project_billing_card_widget.dart';
 import '../widget/project_estimated_card_widget.dart';
 
-class EstimatedWorkDetailScreen extends StatelessWidget {
+class EstimatedWorkDetailScreen extends StatefulWidget {
   static const String routeName = '/estimatedwork';
   const EstimatedWorkDetailScreen({
     Key? key,
@@ -25,12 +25,19 @@ class EstimatedWorkDetailScreen extends StatelessWidget {
   final int index;
 
   @override
+  State<EstimatedWorkDetailScreen> createState() =>
+      _EstimatedWorkDetailScreenState();
+}
+
+class _EstimatedWorkDetailScreenState extends State<EstimatedWorkDetailScreen> {
+  @override
   Widget build(BuildContext context) {
     final h = context.screenHeight;
     final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
-    final getEstProvider = context.read<EstimateNotifier>();
-    final projectDetails = getEstProvider.estimated.estimatedWorks![index];
+    final getEstProvider = context.watch<EstimateNotifier>();
+    final projectDetails =
+        getEstProvider.estimated.estimatedWorks![widget.index];
     final bookingId = projectDetails.estimateId;
     final amountToPay = projectDetails.projectBilling!.totalDepositAmount;
     final bool isImgPresent = projectDetails.uploadedImgs!.length > 0;
@@ -71,7 +78,7 @@ class EstimatedWorkDetailScreen extends StatelessWidget {
                   Divider(thickness: 1.8),
                   SizedBox(height: height / 90),
                   // BILL DETAILS
-                  EstimatedWorkBillCardWidget(index: index),
+                  EstimatedWorkBillCardWidget(index: widget.index),
                   SizedBox(height: height / 40),
                   Divider(thickness: 1.8),
                   SizedBox(height: height / 40),
@@ -80,7 +87,7 @@ class EstimatedWorkDetailScreen extends StatelessWidget {
                     context: context,
                     subHeadline: "Project Estimate :",
                   ),
-                  ProjectEstimatedCardWidget(project: projectDetails),
+                  EstimateServiceCardWidget(project: projectDetails),
                   SizedBox(height: height / 90),
                   // PROJECT IMAGES
                   Visibility(
@@ -90,12 +97,16 @@ class EstimatedWorkDetailScreen extends StatelessWidget {
                       subHeadline: "Uploaded Photos :",
                     ),
                   ),
-                  SizedBox(height: height / 40),
                   Visibility(
                     visible: isImgPresent,
-                    child: EstimateCarouselImg(index: index),
+                    child: Column(
+                      children: [
+                        SizedBox(height: height / 40),
+                        EstimateCarouselImg(index: widget.index),
+                        SizedBox(height: h / 30),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: h / 30),
                   // UPLOAD MORE IMAGES OPTION
                   ShowImgUploadOption(bookingId: bookingId!),
                   SizedBox(height: height / 40),
@@ -104,7 +115,7 @@ class EstimatedWorkDetailScreen extends StatelessWidget {
                     subHeadline: "Project Billing :",
                   ),
                   // PROJECT BILL CARD
-                  ProjectBillingCardWidget(index: index)
+                  ProjectBillingCardWidget(index: widget.index)
                 ],
               ),
             ),

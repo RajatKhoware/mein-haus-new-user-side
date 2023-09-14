@@ -7,6 +7,7 @@ import 'package:new_user_side/provider/notifiers/auth_notifier.dart';
 import 'package:new_user_side/provider/notifiers/chat_with_pro_notifier.dart';
 import 'package:new_user_side/resources/common/my_app_bar.dart';
 import 'package:new_user_side/resources/common/my_text.dart';
+import 'package:new_user_side/static%20components/empty%20states/no_message_found.dart';
 import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:new_user_side/utils/utils.dart';
@@ -45,16 +46,20 @@ class _AllConversationScreenState extends State<AllConversationScreen> {
         appBar: MyAppBar(text: "Messages"),
         body: Column(
           children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: conversations!.length,
-                itemBuilder: (context, index) {
-                  return ChatCardWidget(
-                    conversations: conversations[index],
-                  );
-                },
-              ),
-            )
+            conversations?.length != 0
+                ? Expanded(
+                    child: ListView.builder(
+                      itemCount: conversations!.length,
+                      itemBuilder: (context, index) {
+                        return ChatCardWidget(
+                          conversations: conversations[index],
+                        );
+                      },
+                    ),
+                  )
+                : Center(
+                    child: NoMessageFound(),
+                  ),
           ],
         ),
       ),

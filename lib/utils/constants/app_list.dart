@@ -17,6 +17,11 @@ List drawerList = [
     HomeScreen.routeName,
   ],
   [
+    Icons.feed_outlined,
+    "Create new estimate",
+    EstimateGenerationScreen.routeName,
+  ],
+  [
     CupertinoIcons.square_favorites_fill,
     "Estimated Work",
     AllEstimatedWorkScreen.routeName,
@@ -27,16 +32,6 @@ List drawerList = [
     AllOngoingProjects.routeName,
   ],
   [
-    Icons.feed_outlined,
-    "Create new estimate",
-    EstimateGenerationScreen.routeName,
-  ],
-  [
-    Icons.settings,
-    "Settings",
-    SettingScreen.routeName,
-  ],
-  [
     Icons.history,
     "Project History",
     CompletedProjectsScreen.routeName,
@@ -45,6 +40,11 @@ List drawerList = [
     Icons.message,
     "Messages",
     AllConversationScreen.routeName,
+  ],
+  [
+    Icons.settings,
+    "Settings",
+    SettingScreen.routeName,
   ],
   // [
   //   Icons.contact_support_outlined,

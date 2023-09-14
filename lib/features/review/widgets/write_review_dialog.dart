@@ -104,7 +104,7 @@ class _WriteReviewDialogState extends State<WriteReviewDialog> {
                       text: "Review",
                       isHs20: false,
                       hintText: "Write you review here",
-                      maxLines: height > 750 ? 6 : 3,
+                      maxLines: 5,
                       headingFontWeight: FontWeight.w500,
                       controller: _reviewController,
                       validator: Validator().nullValidator,

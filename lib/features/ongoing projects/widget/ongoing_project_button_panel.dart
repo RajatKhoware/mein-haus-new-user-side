@@ -5,6 +5,7 @@ import 'package:new_user_side/data/models/conversation_list_model.dart';
 import 'package:new_user_side/data/models/ongoing_project_model.dart';
 import 'package:new_user_side/features/chat/screen/chatting_screen.dart';
 import 'package:new_user_side/features/customer%20support/screens/customer_support_send_query_screen.dart';
+import 'package:new_user_side/features/project%20notes/view/screens/project_notes_screen.dart';
 
 import 'package:new_user_side/provider/notifiers/estimate_notifier.dart';
 import 'package:new_user_side/provider/notifiers/support_notifier.dart';
@@ -14,28 +15,27 @@ import 'package:new_user_side/utils/constants/app_colors.dart';
 import 'package:new_user_side/utils/extensions/extensions.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/notifiers/additional_work_notifier.dart';
+import '../../../provider/notifiers/saved_notes_notifier.dart';
 import '../../../resources/common/my_text.dart';
 import '../../additional work/screens/add_addition_work_screen.dart';
+import '../../additional work/screens/additional_work_from_pro_screen.dart';
 import '../../additional work/widget/icon_button_with_text.dart';
 import '../../invoice/screens/progess_invoice_screen.dart';
 
 class OngoingJobsButtonsPanel extends StatelessWidget {
-  final Projects projects;
   const OngoingJobsButtonsPanel({
     Key? key,
-    required this.projects,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final h = context.screenHeight;
     final w = context.screenWidth;
-
     final supportNotifier = context.watch<SupportNotifier>();
     final estimateNotifer = context.read<EstimateNotifier>();
     final project = estimateNotifer.projectDetails.services!;
     final isSupportActive = supportNotifier.supportStatus == 1;
-    // print(supportNotifier.supportStatus);
     final bookingId = project.estimateNo;
     final isNormalProject = project.normal!;
     final projectId = project.projectId.toString();
@@ -49,6 +49,50 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
         context: context,
         bookingId: bookingId!,
       );
+    }
+
+    // Getting all the additional work requested by user
+    _getAdditionalWorkHandler() async {
+      final notifier = context.read<AdditionalWorkNotifier>();
+      await notifier.getAdditonalWork(
+        context: context,
+        projectId: projectId,
+      );
+    }
+
+    // To get all the saved notes
+    _getSavedNotesHandler() async {
+      final notifer = context.read<SavedNotesNotifier>();
+      await notifer.getSavedNotes(context: context, id: projectId);
+      Navigator.of(context).pushScreen(SavedNotesScreen());
+    }
+
+    // onTap Customer Button
+    _onTapCustomerButton() {
+      isSupportActive
+          ? Navigator.of(context).pushScreen(
+              ChattingScreen(
+                isChatWithPro: false,
+                estimateId: project.projectId.toString(),
+              ),
+            )
+          : Navigator.of(context).pushNamed(
+              SendQueryScreen.routeName,
+            );
+    }
+
+    // onTap Project Notes
+    _onTapProjectNotesButton() {
+      isProjectCompleted
+          ? _getSavedNotesHandler()
+          : showDialog(
+              context: context,
+              builder: (context) {
+                return ProjectNotesDialog(
+                  serviceId: projectId,
+                );
+              },
+            );
     }
 
     // Navigate to chatting screen
@@ -84,18 +128,7 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
               Stack(
                 children: [
                   InkWell(
-                    onTap: () {
-                      isSupportActive
-                          ? Navigator.of(context).pushScreen(
-                              ChattingScreen(
-                                isChatWithPro: false,
-                                estimateId: project.projectId.toString(),
-                              ),
-                            )
-                          : Navigator.of(context).pushNamed(
-                              SendQueryScreen.routeName,
-                            );
-                    },
+                    onTap: _onTapCustomerButton,
                     child: Container(
                       width: w / 2.15,
                       decoration: BoxDecoration(
@@ -136,16 +169,7 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
               ),
               // Project Notes Button
               InkWell(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return ProjectNotesDialog(
-                        serviceId: projectId,
-                      );
-                    },
-                  );
-                },
+                onTap: _onTapProjectNotesButton,
                 child: Container(
                   width: w / 2.5,
                   height: h / 16,
@@ -197,7 +221,11 @@ class OngoingJobsButtonsPanel extends StatelessWidget {
                     print("Project id For additonal work : $projectId");
                   }
                 : () {
-                    // Show only requested works
+                    // Show history of all the requested additional work
+                    _getAdditionalWorkHandler();
+                    Navigator.of(context).pushScreen(
+                      AdditionalWorkProProvideScreen(),
+                    );
                   },
           ),
           15.vs,

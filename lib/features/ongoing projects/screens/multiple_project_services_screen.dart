@@ -452,7 +452,6 @@ class _ShowMiltipleServicesCard extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).pushScreen(
                             OngoingProjectDetailScreen(
-                              projects: project,
                               serviceId: projectId,
                             ),
                           );

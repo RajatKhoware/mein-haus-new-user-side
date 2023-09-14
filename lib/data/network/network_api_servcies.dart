@@ -127,7 +127,7 @@ class NetworkApiServices {
 
       http.StreamedResponse streamedResponse = await request.send();
       http.Response response = await http.Response.fromStream(streamedResponse);
-    //  (response.body).log();
+      //  (response.body).log();
       final xsrf = response.headers['set-cookie'];
       await UserPrefrences().setXsrf(xsrf.toString());
       responseJson = errorHandling(response, allowUnauthorizedResponse);
@@ -257,22 +257,19 @@ class NetworkApiServices {
       case 201:
         return responseJson;
       case 400:
-        throw FetchDataException(
-            " ${responseJson['response_message']} ${response.statusCode}");
+        throw FetchDataException(responseJson['response_message']);
       case 401:
         if (allowUnauthorizedResponse!) {
           return responseJson;
         } else {
-          throw UnauthorizedException(
-              " ${responseJson['response_message']} ${response.statusCode}");
+          throw UnauthorizedException();
         }
       case 404:
-        throw FetchDataException(
-            " ${responseJson['response_message']} ${response.statusCode}");
+        throw FetchDataException(responseJson['response_message']);
       case 500:
         throw InternalSeverException("");
       default:
-        throw FetchDataException(" with status code : ${response.statusCode}");
+        throw FetchDataException("with status code : ${response.statusCode}");
     }
   }
 }

@@ -106,7 +106,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final notifier = context.watch<EditProfileNotifier>();
     String userName = "${user.firstname} ${user.lastname}";
     final img = notifier.image;
-    
 
     return ModalProgressHUD(
       inAsyncCall: notifier.loading,
@@ -137,24 +136,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Row(
               children: [
                 30.hs,
-                Container(
-                  width: width / 4.5,
-                  height: height / 9,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.transparent,
-                    image: DecorationImage(
-                      image: _showProfileImage(
-                        notifierImg: img.path,
-                        newtworkImg: user.profilePic!,
+                user.profilePic!.isNotEmpty
+                    ? Container(
+                        width: width / 4.5,
+                        height: height / 9,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                          image: DecorationImage(
+                            image: _showProfileImage(
+                              notifierImg: img.path,
+                              newtworkImg: user.profilePic!,
+                            ),
+                          ),
+                          border: Border.all(
+                            color: AppColors.black,
+                            width: width / 200,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: width / 4.5,
+                        height: height / 9,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.buttonBlue,
+                        ),
+                        child: Center(
+                            child: MyTextPoppines(
+                          text: user.firstname!.toUpperCase()[0] +
+                              user.lastname!.toUpperCase()[0],
+                          fontSize: width / 10,
+                          color: AppColors.white,
+                          fontWeight: FontWeight.w600,
+                        )),
                       ),
-                    ),
-                    border: Border.all(
-                      color: AppColors.black,
-                      width: width / 200,
-                    ),
-                  ),
-                ),
                 20.hs,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
