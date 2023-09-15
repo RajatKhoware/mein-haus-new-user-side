@@ -27,7 +27,9 @@ class UploadImgNotifier extends ChangeNotifier {
   }
 
   void setImagesInList(List<XFile> images) {
-    _images = images;
+    // _images = images;
+    if(images.isEmpty) _images = images;
+    else  for(XFile image in images)  _images.add(image);
     notifyListeners();
   }
 
