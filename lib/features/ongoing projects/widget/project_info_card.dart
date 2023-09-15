@@ -198,7 +198,8 @@ class ProjectInfoCard extends StatelessWidget {
                     SizedBox(
                       height: height / 13,
                       width: width / 1.4,
-                      child: ListView.builder(
+                      child: 
+                      ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.zero,

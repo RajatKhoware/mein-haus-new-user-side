@@ -69,6 +69,7 @@ class LoadingScreen {
                       const CircularProgressIndicator(),
                       const SizedBox(height: 20.0),
                       StreamBuilder<String>(
+                        stream: null,
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return Text(
