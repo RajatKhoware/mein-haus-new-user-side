@@ -138,7 +138,10 @@ class _OngoingProjectDetailScreenState
                           ),
                           SizedBox(height: height / 30),
                           // UPLOAD MORE IMAGES OPTION
-                          ShowImgUploadOption(bookingId: services.estimateNo!),
+                          Visibility(
+                              visible: !services.isCompleted!,
+                              child: ShowImgUploadOption(
+                                  bookingId: services.estimateNo!)),
                           SizedBox(height: height / 100),
                           Divider(thickness: height * 0.003),
                           // BUTTONS

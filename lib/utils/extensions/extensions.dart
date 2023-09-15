@@ -2,11 +2,6 @@ import 'dart:developer' as dev show log;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// This extension show all the logs on console
-// Use it like this -> response.log();
-extension Log on Object {
-  void log([String tag = 'Log']) => dev.log(toString(), name: tag);
-}
 
 extension CustomPadding on num {
   SizedBox get vs => SizedBox(height: toDouble().h);
@@ -37,6 +32,15 @@ extension ScreenHeightExtension on BuildContext {
   double get screenHeight => MediaQuery.of(this).size.height;
   double get screenWidth => MediaQuery.of(this).size.width;
 }
+
+
+
+// This extension show all the logs on console
+// Use it like this -> response.log();
+extension Log on Object {
+  void log([String tag = 'Log']) => dev.log(toString(), name: tag);
+}
+
 
 extension NavigationExtension on NavigatorState {
   Future pushScreen(Widget screen) async {

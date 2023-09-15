@@ -22,7 +22,7 @@ class MakePayment {
       paymentIntent = await createPaymentIntent(bookingId);
       final clientSecret = (paymentIntent!['payment_intent']['client_secret']);
       final customerId = (paymentIntent!['payment_intent']['customer']);
-      final ephemeralKey = (paymentIntent!['ephemeralKey']['secret']);
+      final ephemeralKey = (paymentIntent!['ephemeralKey']['secret']); 
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: clientSecret,
@@ -64,15 +64,15 @@ class MakePayment {
 
   Future<bool> displayPaymentSheet(BuildContext context) async {
     final notifier = context.read<CheckOutNotifier>();
-    late bool isValueTrue;
+    late bool isPaymentDone;
     try {
       await Stripe.instance.presentPaymentSheet().then((_) {
         paymentIntent = null;
-        isValueTrue = true;
+        isPaymentDone = true;
       }).onError((error, stackTrace) {
         notifier.setLoadingState(false);
         showSnakeBarr(context, "Transcation Declined", SnackBarState.Info);
-        isValueTrue = false;
+        isPaymentDone = false;
         throw Exception("$error $stackTrace");
       });
     } on StripeException catch (e) {
@@ -93,11 +93,11 @@ class MakePayment {
           ],
         ),
       );
-      isValueTrue = false;
+      isPaymentDone = false;
     } catch (e) {
       print('Error Caught in payment sheet ->>> $e');
-      isValueTrue = false;
+      isPaymentDone = false;
     }
-    return isValueTrue;
+    return isPaymentDone;
   }
 }
