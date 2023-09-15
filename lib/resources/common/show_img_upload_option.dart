@@ -29,9 +29,7 @@ class ShowImgUploadOption extends StatelessWidget {
     GetImages getImages = GetImages();
 
     Future getImagess() async {
-
       await getImages.pickImages<UploadImgNotifier>(context: context);
-
     }
 
     Future uploadImages() async {
@@ -47,8 +45,7 @@ class ShowImgUploadOption extends StatelessWidget {
         children: [
           isImgPresent
               ? ShowPickedImages<UploadImgNotifier>()
-              : 
-              DottedBorder(
+              : DottedBorder(
                   dashPattern: const [4, 8],
                   strokeCap: StrokeCap.round,
                   borderType: BorderType.RRect,
@@ -85,8 +82,8 @@ class ShowImgUploadOption extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 InkWell(
-                   onTap: () => notifier.setImagesInList([]),
-                    child: Container(
+                  onTap: () => notifier.setImagesInList([]),
+                  child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
                       color: Colors.red,
@@ -104,10 +101,8 @@ class ShowImgUploadOption extends StatelessWidget {
                   ),
                 ),
                 10.hspacing(context),
-
                 InkWell(
-                   onTap: () => uploadImages(),
-
+                  onTap: () => uploadImages(),
                   child: Container(
                     width: width / 5.4,
                     height: height / 30,
@@ -115,11 +110,8 @@ class ShowImgUploadOption extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                       color: AppColors.buttonBlue,
                     ),
-
                     child: notifier.loading
-                    
-                        ? 
-                        LoadingAnimationWidget.inkDrop(
+                        ? LoadingAnimationWidget.inkDrop(
                             color: Colors.white,
                             size: width / 30,
                           )
