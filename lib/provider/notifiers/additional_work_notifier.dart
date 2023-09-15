@@ -38,6 +38,7 @@ class AdditionalWorkNotifier extends ChangeNotifier {
     _images = images;
     notifyListeners();
   }
+
   void setAdditionalWork(AdditionalWorkModel work) {
     _additionalWork = work;
     notifyListeners();

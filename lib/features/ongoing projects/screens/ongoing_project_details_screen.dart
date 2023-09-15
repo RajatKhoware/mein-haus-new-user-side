@@ -133,7 +133,6 @@ class _OngoingProjectDetailScreenState
                               children: [
                                 SizedBox(height: height / 90),
                                 const OngoingProjectPhotoCardWidget(),
-                                
                               ],
                             ),
                           ),
