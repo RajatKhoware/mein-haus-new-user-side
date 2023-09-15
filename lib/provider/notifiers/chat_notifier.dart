@@ -233,7 +233,7 @@ class ChatNotifier extends ChangeNotifier {
       }
     }
     final message = Messages(
-      id: largestId + 1,
+      id: largestId == 0 ? largestId : largestId + 1,
       senderId: userId,
       isSeen: 0,
       forwarded: 0,
@@ -242,6 +242,7 @@ class ChatNotifier extends ChangeNotifier {
       type: "text",
     );
     updateOrAddNewMessage(message);
+    // doing this bcaus we need to clear our textfield
     setLastMessage(messageController.text);
     messageController.clear();
   }

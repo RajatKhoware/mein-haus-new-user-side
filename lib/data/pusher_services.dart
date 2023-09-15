@@ -123,14 +123,12 @@ class PusherService {
           "to_user_id": data["message_data"]["sender_id"].toString(),
           "message_id": data["message_data"]["id"].toString(),
         };
-        if (notifier.myMessaage.messages!.isNotEmpty) {
-          if (notifier.myMessaage.conversationId == data['conversation_id']) {
-            // Add or Update message in mymessages list
-            notifier.updateOrAddNewMessage(message);
-            // Whenever we see the message we will mark
-            //it as-read if all the conditions using this API
-            notifier.readMessage(body);
-          }
+        if (notifier.myMessaage.messages!.isNotEmpty &&
+            notifier.myMessaage.conversationId == data['conversation_id']) {
+          notifier.updateOrAddNewMessage(message);
+          // Whenever we see the message we will mark
+          // it as-read if all the conditions using this API
+          notifier.readMessage(body);
         }
       }
 
