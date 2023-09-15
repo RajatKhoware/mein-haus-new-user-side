@@ -99,7 +99,7 @@ class _ShowImg extends StatelessWidget {
             child: Icon(
               Icons.add_circle,
               size: width / 10,
-              color: AppColors.textBlue, 
+              color: AppColors.textBlue,
             ),
           ),
         ],
