@@ -237,15 +237,17 @@ class _ChattingScreenState extends State<ChattingScreen> {
                   // message text field
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: supportNotifier.isQueryFlagged
-                        ? ShowQueryIsFlagged()
-                        : (!widget.isChatWithPro &&
-                                supportNotifier.showClosingDialog &&
-                                !supportNotifier.isQuerySolved)
-                            ? null
-                            : supportNotifier.isQuerySolved
-                                ? CustomerEndConvoBottomSheet()
-                                : ChatTextField(),
+                    child:
+                        !widget.isChatWithPro && supportNotifier.isQueryFlagged
+                            ? ShowQueryIsFlagged()
+                            : (!widget.isChatWithPro &&
+                                    supportNotifier.showClosingDialog &&
+                                    !supportNotifier.isQuerySolved)
+                                ? null
+                                : !widget.isChatWithPro &&
+                                        supportNotifier.isQuerySolved
+                                    ? CustomerEndConvoBottomSheet()
+                                    : ChatTextField(),
                   ),
                 ],
               ),
