@@ -222,7 +222,7 @@ class ChatNotifier extends ChangeNotifier {
 
   /// Send Dummy Message Before calling the api and getting the response
   sendDummyMessage(BuildContext context) {
-    // Add a new message
+    /// Add a new message
     final userNotifier = context.read<AuthNotifier>().user;
     final userId = userNotifier.userId;
     int largestId = 0;
