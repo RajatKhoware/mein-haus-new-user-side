@@ -58,29 +58,29 @@ class PusherService {
         await pusher.subscribe(channelName: channelName);
       }
     } catch (e) {
-      print("ERROR: $e");
+      print("pusher ERROR: $e");
     }
   }
 
   void onConnectionStateChange(dynamic currentState, dynamic previousState) {
-    print("Connection: $currentState");
+    print("pusher Connection: $currentState");
   }
 
   void onError(String message, int? code, dynamic e) {
-    print("onError: $message code: $code exception: $e");
+    print("pusher onError: $message code: $code exception: $e");
   }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
-    print("onSubscriptionSucceeded: $channelName data: $data");
+    print("pusher onSubscriptionSucceeded: $channelName data: $data");
   }
 
   void onSubscriptionError(String message, dynamic e) {
-    print("onSubscriptionError: $message Exception: $e");
+    print("pusher onSubscriptionError: $message Exception: $e");
   }
 
   void onSubscriptionCount(String channelName, int subscriptionCount) {
     print(
-        "onSubscriptionCount : $channelName subscriptionCount: $subscriptionCount");
+        "pusher onSubscriptionCount : $channelName subscriptionCount: $subscriptionCount");
   }
 
   Future<dynamic> onAuthorizer(

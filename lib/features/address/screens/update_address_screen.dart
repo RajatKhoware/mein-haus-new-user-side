@@ -57,7 +57,7 @@ class _UpdateAdressScreenState extends State<UpdateAdressScreen> {
     var addresses = await Utils.getCordinates(addressController.text);
     var first = addresses.first;
      var address2 = await Utils.getAddress(first.latitude, first.longitude);
-    var first2 = address2.first;
+    var first2 = address2.first; 
     final MapSS body = {
       "address_id": widget.addressId,
       "address": selectedAddres,
@@ -68,7 +68,7 @@ class _UpdateAdressScreenState extends State<UpdateAdressScreen> {
         'city': first2.locality.toString(),
         'state': first2.administrativeArea.toString(),
         'country': first2.country.toString(),
-        'zip': first2.postalCode.toString(),
+        'postal_code': first2.postalCode.toString(),
     };
     await notifier.updateAddress(context: context, body: body);
   }
@@ -117,7 +117,7 @@ class _UpdateAdressScreenState extends State<UpdateAdressScreen> {
                     onTap: () {
                       addressController.text = address;
                       selectedAddres = address;
-                      print(selectedAddres);
+                      print("selectedAddres : $selectedAddres");
                     },
                     address: address,
                   );

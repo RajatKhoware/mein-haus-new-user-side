@@ -142,7 +142,7 @@ class SavedAddress {
   String? city;
   String? state;
   String? country;
-  String? zip;
+  String? postal_code;
   String? phone;
   String? type;
   int? isDefault;
@@ -151,7 +151,7 @@ class SavedAddress {
   String? createdAt;
   String? updatedAt;
   Null deletedAt;
-
+// postal_code
   SavedAddress(
       {this.id,
       this.userId,
@@ -160,7 +160,7 @@ class SavedAddress {
       this.city,
       this.state,
       this.country,
-      this.zip,
+      this.postal_code,
       this.phone,
       this.type,
       this.isDefault,
@@ -178,7 +178,7 @@ class SavedAddress {
     city = json['city'];
     state = json['state'];
     country = json['country'];
-    zip = json['zip'];
+    postal_code = json['postal_code'];
     phone = json['phone'];
     type = json['type'];
     isDefault = json['is_default'];
@@ -198,7 +198,7 @@ class SavedAddress {
     data['city'] = this.city;
     data['state'] = this.state;
     data['country'] = this.country;
-    data['zip'] = this.zip;
+    data['postal_code'] = this.postal_code;
     data['phone'] = this.phone;
     data['type'] = this.type;
     data['is_default'] = this.isDefault;
@@ -218,7 +218,7 @@ class SavedAddress {
     String? city,
     String? state,
     String? country,
-    String? zip,
+    String? postal_code,
     String? phone,
     String? type,
     int? isDefault,
@@ -236,7 +236,7 @@ class SavedAddress {
       city: city ?? this.city,
       state: state ?? this.state,
       country: country ?? this.country,
-      zip: zip ?? this.zip,
+      postal_code: postal_code ?? this.postal_code,
       phone: phone ?? this.phone,
       type: type ?? this.type,
       isDefault: isDefault ?? this.isDefault,

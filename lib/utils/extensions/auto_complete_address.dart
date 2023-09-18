@@ -12,6 +12,7 @@ class AddressAutocomplete {
     var response = await http.get(Uri.parse(request));
     var data = jsonDecode(response.body);
     if (response.statusCode == 200) {
+   //   print("addresprint :  $data");
       return data['predictions'];
     } else {
       throw Exception("Failed to load suggestions");

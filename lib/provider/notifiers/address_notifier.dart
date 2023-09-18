@@ -49,6 +49,7 @@ class AddressNotifier extends ChangeNotifier {
   }
 
   // Auto Adreess Suggestions Only for Canada
+
   Future<List> getAddressSuggestions(String input) async {
     sessionToken();
     _addressList = await AddressAutocomplete.getSuggestions(
@@ -81,7 +82,9 @@ class AddressNotifier extends ChangeNotifier {
       // Need testing Done WOrking fine
       // userProvider.user.savedAddress!.insert(0, data.savedAddress![0]);
       // userProvider.updateUser();
-      User user = userProvider.user.copyWith(savedAddress: data.savedAddress);
+      // User user = userProvider.user.copyWith(savedAddress: data.savedAddress);
+     User user = userProvider.user.copyWith(savedAddress: data.savedAddress);
+
       userProvider.setUser(user);
       showSnakeBarr(
           context, response['response_message'], SnackBarState.Success);
