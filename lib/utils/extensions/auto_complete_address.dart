@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class AddressAutocomplete {
   static Future<List<dynamic>> getSuggestions(
     String input,
-    String sessionToken,
+    String sessionToken
   ) async {
     String request =
         '$googleAddresUrl?input=$input&key=$kPLACES_API_KEY&sessiontoken=$sessionToken&components=country:ca';
